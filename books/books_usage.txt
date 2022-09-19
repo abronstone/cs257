@@ -16,4 +16,4 @@ Optinal arguments:
 	Searches for and prints a list of books whose publication year lies between the year1 and year2 arguments.
 	Sorted by publication year ascending.
 -u, --usage
-	Prints usage statement above
+	Prints usage statement above.
