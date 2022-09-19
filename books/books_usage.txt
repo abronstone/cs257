@@ -1,6 +1,10 @@
-A book/author/year database navigator.
+NAME:
 
-usage: bookDatabaseNaviagor.py [-h] [-u] [ts string] [-as string] [-yrs year1 year2]
+	boks.py: a book/author/publication database navigator
+
+SYNOPSIS:
+
+	usage: python3 books.py [-h] [-u] [ts string] [-as string] [-yrs year1 year2]
 
 Optinal arguments:
 
