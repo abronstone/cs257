@@ -19,7 +19,7 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(authors[0] == Author('Pratchett', 'Terry'))
 
     def test_length(self):
-        books = self.booksdatasource.books('The')
+        books = self.booksdatasource.books()
         self.assertTrue(len(books)<=len(self.data_source))
 
     def test_book_titles(self, name, order):
@@ -31,7 +31,7 @@ class BooksDataSourceTester(unittest.TestCase):
         if order in ['-y','--year']:
             self.assertEqual(books.sort(key=publication_year),books)
         self.assertEqual(books(name),books(name.upper()))
-            
+        self.assertEqual(books(name),books(name.lower()))
             
     def test_authors(self, name):
         authors = self.booksdatasource.authors(name)
