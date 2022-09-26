@@ -18,9 +18,16 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(len(authors) == 1)
         self.assertTrue(authors[0] == Author('Pratchett', 'Terry'))
 
-    def test_length(self):
-        books = self.booksdatasource.books()
-        self.assertTrue(len(books)<=len(self.data_source))
+    def test_tiny_length(self):
+        tiny_data_source = BooksDataSource('tiny_books.csv')
+        tiny_books_none = tiny_data_source.books('wajwndjandjasjfuif')
+        tiny_books_all = tiny_data_source.books()
+        tiny_authors_none = tiny_data_source.authors('Aaron Bronstone')
+        tiny_authors_all = tiny_data_source.authors()
+        tiny_years_none = tiny_data_source.books_between_years(3000,3001)
+        tiny_years_all = tiny_data_source.books_between_years(0000,3000)
+        self.assertTrue(len(tiny_books_none)==0 and len(tiny_authors_none)==0 and len(tiny_years_none)==0)
+        self.assertTrue(len(tiny_books_all)==5 and len(tiny_authors_all)==5 and len(tiny_years_all)==5)
 
     def test_book_titles(self, name, order):
         books = self.data_source.books(name)

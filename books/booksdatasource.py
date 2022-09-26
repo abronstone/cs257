@@ -8,6 +8,10 @@
 '''
 
 import csv
+import sys
+
+#print('Arguments',str(sys.argv))
+#data = BooksDataSource('books.csv')
 
 class Author:
     def __init__(self, surname='', given_name='', birth_year=None, death_year=None):
@@ -21,7 +25,7 @@ class Author:
         return self.surname == other.surname and self.given_name == other.given_name
 
 class Book:
-    def __init__(self, title='', publication_year=None, authors=[]):
+    def __init__(self, title, publication_year, authors):
         ''' Note that the self.authors instance variable is a list of
             references to Author objects. '''
         self.title = title
@@ -35,6 +39,7 @@ class Book:
         return self.title == other.title
 
 class BooksDataSource:
+    global bookList
     def __init__(self, books_csv_file_name):
         ''' The books CSV file format looks like this:
 
@@ -49,6 +54,20 @@ class BooksDataSource:
             suitable instance variables for the BooksDataSource object containing
             a collection of Author objects and a collection of Book objects.
         '''
+        self.books_csv_file_name = books_csv_file_name
+        print('Hellar')
+        bookList = []
+        authorList = []
+        with open (books_csv_file_name) as csvfile:
+            reader = csv.reader(csvfile,delimiter=',',quotechar='"')
+            for row in reader:
+                print(row)
+                authorName = row[2].split('(',1)
+                book = Book(row[0],row[1],row[2])
+                bookList.append(Book(row[0],row[1],row[2]))
+                print('Book title: ',book.title)
+                print('Book year: ',book.publication_year)
+                print('Book author: ',book.authors)
         pass
 
     def authors(self, search_text=None):
@@ -71,6 +90,7 @@ class BooksDataSource:
                 default -- same as 'title' (that is, if sort_by is anything other than 'year'
                             or 'title', just do the same thing you would do for 'title')
         '''
+        print(bookList)
         return []
 
     def books_between_years(self, start_year=None, end_year=None):
@@ -85,4 +105,14 @@ class BooksDataSource:
             should be included.
         '''
         return []
+
+print('Hello from bottom')
+data = BooksDataSource(sys.argv[1])
+user = input('BOOKS user input: ')
+args = user.split(' ',1)
+data.books(args[0],args[1])
+
+
+
+
 
