@@ -30,7 +30,7 @@ class Book:
         ''' Note that the self.authors instance variable is a list of
             references to Author objects. '''
         self.title = title
-        self.publication_year = publication_year
+        self.publication_year = int(publication_year)
         self.authors = authors
 
     def __eq__(self, other):
@@ -55,19 +55,30 @@ class BooksDataSource:
             a collection of Author objects and a collection of Book objects.
         '''
         self.books_csv_file_name = books_csv_file_name
-        print('Hellar')
+        #print('Hellar')
         self.bookList=[]
         self.authorList = []
         with open (books_csv_file_name) as csvfile:
             reader = csv.reader(csvfile,delimiter=',',quotechar='"')
             for row in reader:
                 #print(row)
-                authorName = row[2].split('(',1)
-                book = Book(row[0],row[1],row[2])
+                book = Book(row[0],int(row[1]),row[2])
                 self.bookList.append(Book(row[0],row[1],row[2]))
                 #print('Book title: ',book.title)
                 #print('Book year: ',book.publication_year)
                 #print('Book author: ',book.authors)
+                splitDescription = row[2].split('(',1)
+                splitYear = splitDescription[1].split('-',1)
+                #print(splitYear[0],' ',splitYear[1])
+                death=None
+                if splitYear[1][0]!=')':
+                    #length = len(splitYear[1])
+                    death=splitYear[1][0:-1]
+
+                givenName = splitDescription[0].split(' ',1)
+                author=Author(givenName[1],givenName[0],splitYear[0],death)
+                self.authorList.append(author)
+                #print('FIRST: ',author.given_name,' LAST: ',author.surname,' BIRTH: ',author.birth_year,' DEATH: ',author.death_year)
         #print(self.bookList)
         pass
 
@@ -77,7 +88,19 @@ class BooksDataSource:
             returns all of the Author objects. In either case, the returned list is sorted
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
-        return []
+        results=[]
+        for author in self.authorList:
+            fullName = author.given_name + ' ' + author.surname
+            if search_text.lower() in fullName.lower() and author not in results:
+                results.append(author)
+        #for author in results:
+            #print(author.given_name,' ',author.surname)        
+        results.sort(key=lambda author: author.surname + author.given_name)
+
+        print('---------------------------------------')
+        for author in results:
+            print(author.given_name,' ',author.surname)
+        return results
 
     def books(self, search_text=None, sort_by='title'):
         ''' Returns a list of all the Book objects in this data source whose
@@ -93,9 +116,22 @@ class BooksDataSource:
         '''
         #print('books test')
         #print(self.bookList)
+        results = []
+
         for book in self.bookList:
+            if search_text.lower() in book.title.lower():
+                results.append(book)
+        if sort_by == 'year':
+            results.sort(key=lambda book: book.publication_year)
+        else:
+            results.sort(key=lambda book: book.publication_year)
+            results.sort(key=lambda book: book.title)
+        print('RESULTS:')
+        for book in results:
             print(book.title)
-        return []
+
+        
+        return results
 
     def books_between_years(self, start_year=None, end_year=None):
         ''' Returns a list of all the Book objects in this data source whose publication
@@ -108,13 +144,29 @@ class BooksDataSource:
             during start_year should be included. If both are None, then all books
             should be included.
         '''
-        return []
+        results = []
+
+        for book in self.bookList:
+
+            if book.publication_year>=start_year and book.publication_year<=end_year:
+                results.append(book)
+        results.sort(key=lambda book: book.title)
+        results.sort(key=lambda book: book.publication_year)
+        print('RESULTS:')
+        for book in results:
+            print(book.title)
+
+        
+        return results
 
 #print('Hello from bottom')
 data = BooksDataSource('books.csv')
 #user = input('BOOKS user input: ')
 #args = user.split(' ',1)
-data.books('when','title')
+#data.books('the','title')
+#data.authors('')
+#data.books('the','year')
+data.books_between_years(1800,1900)
 
 
 
