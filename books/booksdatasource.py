@@ -14,11 +14,12 @@ import sys
 #data = BooksDataSource('books.csv')
 
 class Author:
-    def __init__(self, surname='', given_name='', birth_year=None, death_year=None):
+    def __init__(self, surname='', given_name='', birth_year=None, death_year=None,books=[]):
         self.surname = surname
         self.given_name = given_name
         self.birth_year = birth_year
         self.death_year = death_year
+        books=[]
 
     def __eq__(self, other):
         ''' For simplicity, we're going to assume that no two authors have the same name. '''
@@ -39,7 +40,6 @@ class Book:
         return self.title == other.title
 
 class BooksDataSource:
-    global bookList
     def __init__(self, books_csv_file_name):
         ''' The books CSV file format looks like this:
 
@@ -56,18 +56,19 @@ class BooksDataSource:
         '''
         self.books_csv_file_name = books_csv_file_name
         print('Hellar')
-        bookList = []
-        authorList = []
+        self.bookList=[]
+        self.authorList = []
         with open (books_csv_file_name) as csvfile:
             reader = csv.reader(csvfile,delimiter=',',quotechar='"')
             for row in reader:
-                print(row)
+                #print(row)
                 authorName = row[2].split('(',1)
                 book = Book(row[0],row[1],row[2])
-                bookList.append(Book(row[0],row[1],row[2]))
-                print('Book title: ',book.title)
-                print('Book year: ',book.publication_year)
-                print('Book author: ',book.authors)
+                self.bookList.append(Book(row[0],row[1],row[2]))
+                #print('Book title: ',book.title)
+                #print('Book year: ',book.publication_year)
+                #print('Book author: ',book.authors)
+        #print(self.bookList)
         pass
 
     def authors(self, search_text=None):
@@ -90,7 +91,10 @@ class BooksDataSource:
                 default -- same as 'title' (that is, if sort_by is anything other than 'year'
                             or 'title', just do the same thing you would do for 'title')
         '''
-        print(bookList)
+        #print('books test')
+        #print(self.bookList)
+        for book in self.bookList:
+            print(book.title)
         return []
 
     def books_between_years(self, start_year=None, end_year=None):
@@ -106,11 +110,11 @@ class BooksDataSource:
         '''
         return []
 
-print('Hello from bottom')
-data = BooksDataSource(sys.argv[1])
-user = input('BOOKS user input: ')
-args = user.split(' ',1)
-data.books(args[0],args[1])
+#print('Hello from bottom')
+data = BooksDataSource('books.csv')
+#user = input('BOOKS user input: ')
+#args = user.split(' ',1)
+data.books('when','title')
 
 
 
