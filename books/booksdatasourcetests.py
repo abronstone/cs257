@@ -15,7 +15,11 @@ class BooksDataSourceTester(unittest.TestCase):
 
     def test_unique_author(self):
         authors = self.data_source.authors('Pratchett')
+        #print('UNIQUE AUTHOR TEST')
         self.assertTrue(len(authors) == 1)
+        #print('AUTHORS[0]:||',authors[0].given_name,'||',authors[0].surname,'||',authors[0].birth_year,'||',type(authors[0].death_year))
+        terry = Author('Pratchett', 'Terry')
+        #print('TERRY:',terry.given_name,'||',terry.surname,'||',type(terry.birth_year),'||',type(terry.death_year))
         self.assertTrue(authors[0] == Author('Pratchett', 'Terry'))
     '''
     def test_tiny_length(self):
@@ -39,9 +43,12 @@ class BooksDataSourceTester(unittest.TestCase):
             self.assertTrue('the' in book.title.lower())
             
     def test_authors(self):
-        authors1 = self.data_source.authors('nn')
-        for author in authors1:
-            self.assertTrue('nn' in author.given_name.lower() or 'nn' in author.surname.lower())
+        authors = self.data_source.authors()
+        #print('test_authors_TESTING:')
+        for i in range(len(authors)-1):
+            #print('Current author: ',authors[i].surname,' ',authors[i].given_name)
+            #print('Next author: ',authors[i+1].surname,' ',authors[i+1].given_name)
+            self.assertTrue(authors[i].surname<=authors[i+1].surname or authors[i].given_name<=authors[i+1].surname)   
 
         name='lL'
         authorsLower = self.data_source.authors('lL')
@@ -50,14 +57,16 @@ class BooksDataSourceTester(unittest.TestCase):
         for author in authorsLower:
             self.assertEqual(author,authorsUpper[counter])
             counter+=1
-        self.assertEqual(authors1.sort(key=lambda author1: authors1.given_name),authors1)
 
 
     def test_years(self):
-        self.assertTrue(start<=end)
-        years = self.data_source.books_between_years('1800','1900')
-        self.assertEqual(years, [And_Then_There_Were_None,Murder_on_the_Orient_Express,The_Code_of_the_Woosters])
-        self.assertEqual(years.sort(key=publication_year),years)
+        #self.assertTrue(start<=end)
+        years = self.data_source.books_between_years(1800,1900)
+        correctTitles = ['Pride and Prejudice','Sense and Sensibility','Emma','Jane Eyre','Omoo','Wuthering Heights','The Tenant of Wildfell Hall','Moby Dick','Villette']
+        counter = 0
+        for year in years:
+            self.assertEqual(year.title, correctTitles[counter])
+            counter+=1
 
         
 

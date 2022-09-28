@@ -1,10 +1,11 @@
-NAME:
-
-	boks.py: a book/author/publication database navigator
-
+---------------------------------------------------------------------------------------
 SYNOPSIS:
 
-	usage: python3 books.py [-h] [-u] [ts string] [-as string] [-yrs year1 year2]
+	books.py: a book/author/publication database navigator
+
+USAGE:
+
+	python3 books.py [-h] [-u] [ts string] [-as string] [-yrs year1 year2]
 
 Optinal arguments:
 
@@ -21,3 +22,4 @@ Optinal arguments:
 	Sorted by publication year ascending.
 -u, --usage
 	Prints usage statement above.
+---------------------------------------------------------------------------------------
