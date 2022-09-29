@@ -5,21 +5,21 @@ SYNOPSIS:
 
 USAGE:
 
-	python3 books.py [-h] [-u] [ts string] [-as string] [-yrs year1 year2]
+	python3 books.py [-h] [-u] [-ts string] [-as string] [-yrs year1 year2]
 
 Optinal arguments:
 
--h, --help
+[-h||--help]
 	Shows this help message
--ts string [year] [publication], --titlesearch string [year] [title]
+[-ts,--titlesearch] [search_text] [-y||--year||-t||--title]
 	Searches for and prints a list of books whose titles contain the string argument, case insensitive. May be
-	sorted by publication year or by title
--as string, --authorsearch string
+	sorted by publication year or by title [default]
+[-as||--authorsearch] [search_text]
 	Searches for and prints a list of books whose authors contain the string argument, case insensitive. Sorted
 	alphabetically by surname
--yrs year1 year2, --yearsearch year1 year2
+[-ys,--yearsearch] [year1||none] [year2||none]
 	Searches for and prints a list of books whose publication year lies between the year1 and year2 arguments.
-	Sorted by publication year ascending.
--u, --usage
+	Sorted by publication year ascending. Type 'none'
+[-u||--usage]
 	Prints usage statement above.
 ---------------------------------------------------------------------------------------

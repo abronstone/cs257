@@ -1,16 +1,26 @@
-#book.py: parses command line arguments
+'''
+    books.py
+    Aaron Bronstone and Tom Pree, September 30th 2020
+'''
 
 from booksdatasource import Author, Book, BooksDataSource
 import sys
 #Displays the usage message and exits the program
 def print_usage():
-    print('usage: python3 books.py [-h] [-u] [-ts \'search_text\' \'sorting_order\'] [-as \'search_text\'] [-yrs year1 year2]')
+    print('USAGE: python3 books.py [-h] [-u] [-ts \'search_text\' \'sorting_order\'] [-as \'search_text\'] [-yrs year1 year2]')
+    print()
+    print()
     exit()
 
 #Displays an error message, refers to the usage command line argument, and exits the program
 def print_error():
     print('Invalid command line syntax, please refer to usage statement for proper syntax: [python3 books.py -u]')
+    print()
+    print()
     exit()
+
+print()
+print()
 
 data_source = BooksDataSource('books.csv')
 arguments = sys.argv
@@ -51,11 +61,13 @@ elif first in ['-ts','--titlesearch']:
         print_error()
     if len(arguments) > 2:
         search_text = arguments[2]
+        if search_text in ['-y','--year']:
+            search_text = None
+            order_by = arguments[2]
         if len(arguments) == 4:
             order_by = arguments[3]
-            if(order_by not in ['title','year']):
+            if(order_by not in ['-t','--title','-y','--year']):
                 print_error()
-                exit()
     books = data_source.books(search_text,order_by)
     for book in books:
         print(book.title,'(',book.publication_year,') by ',book.authors)
@@ -99,17 +111,18 @@ elif first in ['-ys','--yearsearch']:
         if year1.isnumeric():
             year1 = int(year1)
         else:
-            print_error()
+            year1=None
     if len(arguments)==4:
         year2 = arguments[3].strip()
         if year2.isnumeric():
             year2 = int(year2)
         else:
-            print_error()
-    print('START: ',year1)
-    print('END: ',year2)
+            year2=None
     books_between_years = data_source.books_between_years(year1,year2)
     for book in books_between_years:
         print(book.title,'(',book.publication_year,') by ',book.authors)
 else:
     print_error()
+
+print()
+print()

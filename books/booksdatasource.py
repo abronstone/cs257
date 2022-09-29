@@ -74,6 +74,7 @@ class BooksDataSource:
                 surname = full_name[1][0:-1]
                 author=Author(surname,given_name,birth,death)
                 self.authorList.append(author)
+        #books_csv_file_name.close()
         pass
 
     def authors(self, search_text=None):
@@ -107,7 +108,8 @@ class BooksDataSource:
         for book in self.bookList:
             if search_text==None or search_text.lower() in book.title.lower():
                 results.append(book)
-        if sort_by == 'year':
+        if sort_by in ['-y','--year']:
+            results.sort(key=lambda book: book.title)
             results.sort(key=lambda book: book.publication_year)
         else:
             results.sort(key=lambda book: book.publication_year)
@@ -126,8 +128,6 @@ class BooksDataSource:
             should be included.
         '''
         results = []
-        print(type(start_year))
-        print(type(end_year))
         for book in self.bookList:
             if (start_year==None or book.publication_year>=start_year) and (end_year == None or book.publication_year<=end_year):
                 results.append(book)

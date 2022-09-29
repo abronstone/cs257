@@ -15,11 +15,7 @@ class BooksDataSourceTester(unittest.TestCase):
 
     def test_unique_author(self):
         authors = self.data_source.authors('Pratchett')
-        #print('UNIQUE AUTHOR TEST')
         self.assertTrue(len(authors) == 1)
-        #print('AUTHORS[0]:||',authors[0].given_name,'||',authors[0].surname,'||',authors[0].birth_year,'||',type(authors[0].death_year))
-        terry = Author('Pratchett', 'Terry')
-        #print('TERRY:',terry.given_name,'||',terry.surname,'||',type(terry.birth_year),'||',type(terry.death_year))
         self.assertTrue(authors[0] == Author('Pratchett', 'Terry'))
     '''
     def test_tiny_length(self):
@@ -36,20 +32,25 @@ class BooksDataSourceTester(unittest.TestCase):
     def test_book_titles(self):
         name = 'the'
         #books = self.data_source.books(name)
-        defaultTest = self.data_source.books('the')
-        titleTest = self.data_source.books('the','title')
-        yearTest = self.data_source.books('the','year')
+        defaultTest = self.data_source.books('oo')
+        titleTest = self.data_source.books('oo','--title')
+        yearTest = self.data_source.books('oo','--year')
         for book in defaultTest:
-            self.assertTrue('the' in book.title.lower())
+            self.assertTrue('oo' in book.title.lower())
+        
+        correct_title_list = [Book('Good Omens',1990,'Neil Gaiman (1960-) and Terry Pratchett (1948-2015)'),Book('Omoo',1847,'Herman Melville (1819-1891)'),Book('Schoolgirls',1994,'Peggy Orenstein (1961-)'),Book('The Code of the Woosters',1938,'Pelham Grenville Wodehouse (1881-1975)')]
+        correct_year_list = [Book('Omoo',1847,'Herman Melville (1819-1891)'),Book('The Code of the Woosters',1938,'Pelham Grenville Wodehouse (1881-1975)'),Book('Good Omens',1990,'Neil Gaiman (1960-) and Terry Pratchett (1948-2015)'),Book('Schoolgirls',1994,'Peggy Orenstein (1961-)')]
+        self.assertEqual(yearTest,correct_year_list)
+        self.assertEqual(defaultTest,correct_title_list)
+        
             
     def test_authors(self):
+        #TEST 1: All author names
         authors = self.data_source.authors()
-        #print('test_authors_TESTING:')
         for i in range(len(authors)-1):
-            #print('Current author: ',authors[i].surname,' ',authors[i].given_name)
-            #print('Next author: ',authors[i+1].surname,' ',authors[i+1].given_name)
             self.assertTrue(authors[i].surname<=authors[i+1].surname or authors[i].given_name<=authors[i+1].surname)   
-
+        
+        #TEST 2: Case sensitivity
         name='lL'
         authorsLower = self.data_source.authors('lL')
         authorsUpper = self.data_source.authors('LL')
@@ -58,15 +59,25 @@ class BooksDataSourceTester(unittest.TestCase):
             self.assertEqual(author,authorsUpper[counter])
             counter+=1
 
+        #TEST 3: Ordered by surname
+        author_test = self.data_source.authors('st')
+        correct_author_test = [Author('Austen','Jane',1775,1817),Author('Christie','Agatha',1890,1976),Author('McMaster Bujold','Lois',1949),Author('Orenstein','Peggy',1961),Author('Sterne','Laurence',1713,1768)]
+        self.assertEqual(author_test,correct_author_test)
+        
+
 
     def test_years(self):
-        #self.assertTrue(start<=end)
+        #TEST 1: Ordered by year
         years = self.data_source.books_between_years(1800,1900)
         correctTitles = ['Pride and Prejudice','Sense and Sensibility','Emma','Jane Eyre','Omoo','Wuthering Heights','The Tenant of Wildfell Hall','Moby Dick','Villette']
         counter = 0
         for year in years:
             self.assertEqual(year.title, correctTitles[counter])
             counter+=1
+        
+        #TEST 2: end>start year
+        wrong_years = self.data_source.books_between_years(1900,1899)
+        self.assertEqual(wrong_years,[])
 
         
 
