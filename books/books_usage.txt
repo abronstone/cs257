@@ -2,24 +2,25 @@
 SYNOPSIS:
 
 	books.py: a book/author/publication database navigator
+Authors: Aaron Bronstone & Tom Pree
 
 USAGE:
 
-	python3 books.py [-h] [-u] [-ts string] [-as string] [-yrs year1 year2]
+	python3 books.py [-h] [-u] [-t|--title string ] [-a|--author string] [-y|--years year1 year2]
 
 Optinal arguments:
 
-[-h||--help]
+[-h|--help]
 	Shows this help message
-[-ts,--titlesearch] [search_text] [-y||--year||-t||--title]
+[-t|--titles] [search_text] [-y||--year]
 	Searches for and prints a list of books whose titles contain the string argument, case insensitive. May be
 	sorted by publication year or by title [default]
-[-as||--authorsearch] [search_text]
+[-as|--authorsearch] [search_text]
 	Searches for and prints a list of books whose authors contain the string argument, case insensitive. Sorted
 	alphabetically by surname
-[-ys,--yearsearch] [year1||none] [year2||none]
+[-y|--years] [year1||none] [year2||none]
 	Searches for and prints a list of books whose publication year lies between the year1 and year2 arguments.
 	Sorted by publication year ascending. Type 'none'
-[-u||--usage]
+[-u|--usage]
 	Prints usage statement above.
 ---------------------------------------------------------------------------------------
