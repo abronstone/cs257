@@ -52,28 +52,28 @@ class BooksDataSource:
             a collection of Author objects and a collection of Book objects.
         '''
         self.books_csv_file_name = books_csv_file_name
-        self.bookList=[]
-        self.authorList = []
+        self.book_list=[]
+        self.author_list = []
         with open (books_csv_file_name) as csvfile:
             reader = csv.reader(csvfile,delimiter=',',quotechar='"')
             for row in reader:
                 book = Book(row[0],int(row[1]),row[2])
-                self.bookList.append(Book(row[0],row[1],row[2]))
+                self.book_list.append(Book(row[0],row[1],row[2]))
 
                 death=None
                 birth=None
-                splitYear=None
+                split_year=None
                 split_author_description = row[2].split('(',1)
                 if split_author_description[0]!=row[2]:
-                    splitYear = split_author_description[1].split('-',1)
-                    birth=splitYear[0]
-                    if splitYear[1][0]!=')':
-                        death=splitYear[1][0:-1]
+                    split_year = split_author_description[1].split('-',1)
+                    birth=split_year[0]
+                    if split_year[1][0]!=')':
+                        death=split_year[1][0:-1]
                 full_name = split_author_description[0].split(' ',1)
                 given_name = full_name[0]
                 surname = full_name[1][0:-1]
                 author=Author(surname,given_name,birth,death)
-                self.authorList.append(author)
+                self.author_list.append(author)
         #books_csv_file_name.close()
         pass
 
@@ -83,8 +83,8 @@ class BooksDataSource:
             returns all of the Author objects. In either case, the returned list is sorted
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
-        results=[]    
-        for author in self.authorList:
+        results=[]
+        for author in self.author_list:
             if author not in results:
                 full_name = author.given_name + ' ' + author.surname
                 if search_text==None or search_text.lower() in full_name.lower():
@@ -105,10 +105,10 @@ class BooksDataSource:
                             or 'title', just do the same thing you would do for 'title')
         '''
         results = []
-        for book in self.bookList:
+        for book in self.book_list:
             if search_text==None or search_text.lower() in book.title.lower():
                 results.append(book)
-        if sort_by in ['-y','--year']:
+        if sort_by=='year':
             results.sort(key=lambda book: book.title)
             results.sort(key=lambda book: book.publication_year)
         else:
@@ -128,7 +128,7 @@ class BooksDataSource:
             should be included.
         '''
         results = []
-        for book in self.bookList:
+        for book in self.book_list:
             if (start_year==None or book.publication_year>=start_year) and (end_year == None or book.publication_year<=end_year):
                 results.append(book)
         results.sort(key=lambda book: book.title)

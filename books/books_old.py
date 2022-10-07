@@ -5,7 +5,6 @@
 
 from booksdatasource import Author, Book, BooksDataSource
 import sys
-import argparse
 #Displays the usage message and exits the program
 def print_usage():
     print('USAGE: python3 books.py [-h] [-u] [-ts \'search_text\' \'sorting_order\'] [-as \'search_text\'] [-yrs year1 year2]')
@@ -20,64 +19,9 @@ def print_error():
     print()
     exit()
 
-def print_space():
-    print()
-    print()
-data_source = BooksDataSource('books.csv')
+print()
+print()
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-t","--titles", help="Displays book titles that contain the inputted search text, case insensitive",type=str)
-parser.add_argument("-a","--authors",help="Displays authors whose names contain the inputted search texg, case insensitive",type=str)
-parser.add_argument("-y","--years",nargs=2,action='store',help="Displays book titles whose publication dates fall within the range of the inputted years, inclusive",type=str,default=None)
-parser.add_argument("-s","--sort",help="FOR TITLE SEARCH",type=str)
-args=parser.parse_args()
-#print(args.titles)
-#print(args.authors)
-#print(args.years)
-#print(type(args.years))
-print('-------------------------------------------------------')
-print_space()
-if args.titles:
-    search_text = args.titles
-    order_by = None
-    if args.sort:
-        order_by=args.sort.lower()
-        #print(order_by)
-        if order_by!='title' and order_by!='year':
-            raise Exception('Invalid sort type: '+order_by)
-    books = data_source.books(search_text,order_by)
-    for book in books:
-        print('-',book.title,'(',book.publication_year,') by ',book.authors)
-elif args.authors:
-    search_text = args.authors
-    authors=data_source.authors(search_text)
-    for author in authors:
-        print('-',author.surname,', ',author.given_name,' (',author.birth_year,'-',author.death_year,')')
-elif args.years:
-    year1 = None
-    year2 = None
-    if args.years[0].isnumeric():
-        year1=int(args.years[0])
-    if args.years[1].isnumeric():
-        year2=int(args.years[1])
-    books_between_years = data_source.books_between_years(year1,year2)
-    for book in books_between_years:
-        print('-',book.title,'(',book.publication_year,') by ',book.authors)
-else:
-    search_text=None
-    order_by=None
-    if args.sort:
-        order_by=args.sort
-    all=data_source.books(search_text,order_by)
-    for book in all:
-        print('-',book.title,'(',book.publication_year,') by ',book.authors)
-#print('Here')
-print_space()
-print('-------------------------------------------------------')
-exit()
-
-
-##################################################################################################################################################################
 data_source = BooksDataSource('books.csv')
 arguments = sys.argv
 counter = 0
