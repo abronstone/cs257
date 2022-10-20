@@ -31,16 +31,16 @@ def main():
     #cursor = connection.cursor()
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-a","--athletesnoc",default=None,help="Displays all athletes from the specified NOC",type=str)
-    parser.add_argument("-n","--nocgolds",action='store_true',default=None,help="Lists all the NOC's and the number of gold medals each has won, in decreasing order of gold medals")
-    parser.add_argument("-t","--toptwentyyear",default=None,help="Shows the top twenty athletes based on number of gold medals earned for a specific year",type=str)
+    parser.add_argument("-aa","--allathletes",default=None,help="Displays all athletes from the specified three-lettered NOC, case insensitive",type=str)
+    parser.add_argument("-ng","--nocgolds",action='store_true',default=None,help="Lists all the NOC's and the number of gold medals each has won, in decreasing order of gold medals")
+    parser.add_argument("-tt","--toptwenty",default=None,help="Shows the top twenty athletes based on number of gold medals earned for a specific year",type=str)
     args=parser.parse_args()
     #rint(args)
     #print()
     #print('------------------')
 
-    if args.athletesnoc:
-        noc = args.athletesnoc
+    if args.allathletes:
+        noc = args.allathletes.lower()
         athletes = get_athletes_in_noc(noc)
         for a in athletes:
             print(a)
@@ -50,8 +50,8 @@ def main():
         for key in golds:
             print(str(key)+": "+str(golds[key]))
             
-    elif args.toptwentyyear:
-        year = args.toptwentyyear
+    elif args.toptwenty:
+        year = args.toptwenty
         tty = get_top_twenty(year)
         for key in tty:
             print(key+": "+str(tty[key]))
@@ -84,9 +84,9 @@ def get_athletes_in_noc(search_text):
 
 def get_number_of_golds():
     noc_golds = {}
-    print(3)
+    #print(3)
     try:
-        query = '''SELECT athletes.noc,count(medal) AS golds FROM athletes,results WHERE athletes.id=results.athlete_id AND medal='Gold' GROUP BY athletes.noc ORDER BY golds asc'''
+        query = '''SELECT athletes.noc,count(medal) AS golds FROM athletes,results WHERE athletes.id=results.athlete_id AND medal='Gold' GROUP BY athletes.noc ORDER BY golds desc'''
         connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query)
