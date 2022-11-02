@@ -1,0 +1,48 @@
+MOVIES
+
+In this web application, the user will be able to:
+
+1.) Search for specific movies (released prior to July 2017) via the following criteria: 
+   Title, collection, director, cast/crew, genre, keyword, production company, production country, release date, adult, status and language
+2.) Organize certain variables by average popularity:
+	Movies, actors, directors, genre, production company, production country, language, etc.
+3.) Get the description of a specific movie (searching for title) and the link to the movie
+4.) Compare two movies based off of common competitive data (budget, popularity, revenue)
+
+As a cinema and media studies student, someone wants to know what movies were released in the late 1940’s so they can make a solid essay thesis on the style of cinema in post World War II.
+
+As a cinema and media studies professor, I want to know what movies were produced in Italy in the 1950’s.
+
+As a parent, I want to know what movies are not adult movies so I don’t accidently show my children any mature content.
+
+As a bored student, I want to search for exciting movies using specific keywords.
+
+As a bored person, I want to just browse movies by genre.
+
+As a film critic, I want to know how the general public has rated this film so I can gauge whether my criticism is controversial or not.
+
+As a 10 year old, I want to find all movies that are produced by Marvel Studios.
+
+As the owner of a cinema, I want to know what movies were just released so I can feature them.
+
+As a person who has a partner, I want to search for highly rated movies from a certain director that my partner likes.
+
+As a cinema and media studies student, I want to search for specific films directed by a specific person so I can gather more knowledge on this director’s stylistic choices to write in an essay.
+
+As a caster for a very small film production company, I want to search for the main cast in films that are highly rated, but not overly popular or high budget.
+
+As a substitute teacher, I want to find a science fiction movie that has a maximum of an hour and a half run time so I can keep the students entertained for the class.
+
+As a browser, I want to access the link to a specific movie so I can watch it.
+
+As an argumentive person, I want to easily pull up a comparison between two movies to see which one is more popular.
+
+As a producer looking for a director, I want to see a list of directors by their average box office success.
+
+USER STORIES:
+
+Someone wants to find a movie based on certain variables, as listed above.
+Solution: we could implement a filter section where the user can add multiple filters. The filters available will be available in a drop down menu.
+
+Someone wants to compare two movies based on certain competitive variables.
+Solution: we can implement
