@@ -4,34 +4,34 @@
 <head>
     <meta charset="UFT-8">
     <title>InfoVideo</title>
+    <link rel="stylesheet" href="webapp.css" type="text/css" />
+    <link rel="icon" href="img/favicon.ico" type="image/png">
 </head>
-
-<style>
-    body {background-color:lightcyan}
-    p {
-        background-color:gray;
-        color:white;
-        border:2px solid black;
-        margin: 20px;
-        padding: 20px;
-    }
-
-    h1{
-        background-color:bisque;
-        color:black;
-        border:4px solid black;
-        margin:20px;
-        padding:5px;
-    }
-</style>
 
 <body>
     <h1>
-        Welcome to InfoVideo!
+        <a class='main_button' href="http://localhost:5000">NAME!</a>
+        <!--This is how to make a Stylized Drop Down List.-->
+        <div class="dropdown">
+            <button class="dropbtn">USE!</button>
+            <div class="dropdown-content">
+                <a href="#">SEARCH</a>
+                <a href="#">MOST POPULAR</a>
+                <a href="#">OVERVIEWS</a>
+                <a href="#">COMPARISON</a>
+            </div>
+        </div>
     </h1>
     <p>This is a web application designed by Jack Owens and Aaron Bronstone in CS257: Software Design at Carleton College. This application allows you to do the following:<br><br>
     1.) Search for movies based on a number of criteria, including title, director, genre, cast, production company, etc.<br>
     2.) 
+    </p>
+
+    <p>
+        <button class="button function_button">SEARCH</button>
+        <button class="button function_button">MOST<br>POPULAR</button>
+        <button class="button function_button">OVERVIEWS</button>
+        <button class="button function_button">COMPARISON</button>
     </p>
 
     

@@ -12,7 +12,7 @@ def get_help():
 
 @app.route('/')
 def html():
-    return render_template('cheat_sheet.html')
+    return render_template('webapp.html')
 
 if __name__=='__main__':
     host = 'localhost'
