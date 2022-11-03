@@ -5,6 +5,7 @@
     <meta charset="UFT-8">
     <title>InfoVideo</title>
     <link rel="stylesheet" href="webapp.css" type="text/css" />
+    <link rel="stylesheet" href="static/webapp.css" type="text/css" />
     <link rel="icon" href="img/favicon.ico" type="image/png">
 </head>
 
@@ -25,12 +26,19 @@
         -->
     </h1>
     <div id="main_buttons">
-        <button id="button1" class="function_button">SEARCH</button>
-        <button id="button2" class="function_button">COMPARISON</button>
-        <button id="button3" class="function_button">OVERVIEWS</button>
-        <button id="button4" class="function_button">MOST POPULAR</button>
+        <form action="http://localhost:5000/search">
+            <button type='submit' id="button1" class="function_button">SEARCH</button>
+        </form>
+        <form action="http://localhost:5000/comparison">
+            <button type='submit' id="button2" class="function_button">COMPARISON</button>
+        </form>
+        <form action="http://localhost:5000/overviews">
+            <button type='submit' id="button3" class="function_button">OVERVIEWS</button>
+        </form>
+        <form action="http://localhost:5000/popularity">
+            <button type='submit' id="button4" class="function_button">MOST POPULAR</button>
+        </form> 
     </div>
-    
     <p>This is a web application designed by Jack Owens and Aaron Bronstone in CS257: Software Design at Carleton College. This application allows you to do the following:<br><br>
     1.) Search for movies based on a number of criteria, including title, director, genre, cast, production company, etc.<br>
     2.) 

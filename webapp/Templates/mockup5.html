@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web App: Compare</title>
+    <link rel="stylesheet" href="webapp.css" type="text/css" />
+    <link rel="stylesheet" href="static/webapp.css" type="text/css" />
+    <link rel="icon" href="img/favicon.ico" type="image/png">
+</head>
+<body>
+    <h1>
+        <a class='main_button' href="http://localhost:5000">VIDEO APP!</a>
+    </h1>
+
+    <p>
+        MOVIE COMPARISON
+    </p>
+    <form class="filter" action="/action_page.php">
+        <label for="movie1">Movie #1:</label>
+        <input type="text" name="movie1" id=""><br>
+        <label for="movie2">Movie #2:</label>
+        <input type="text" name="movie2" id=""><br><br><br>
+
+        <label for="">Include:</label><br><br>
+        <label for="popularity">Popularity</label>
+        <input type="checkbox" name="popularity" id=""><br><br>
+        <label for="budget">Budget</label>
+        <input type="checkbox" name="budget" id=""><br><br>
+        <label for="">Revenue</label>
+        <input type="checkbox" name="" id=""><br><br>
+        
+        <input type="submit" Value="Submit">
+    </form>
+
+    <p>
+        RESULTS:
+    </p>
+    <table>
+        <tr>
+            <th></th>
+            <th>Movie 1</th>
+            <th>Movie 2</th>
+        </tr>
+        <tr>
+            <th>Criteria 1</th>
+            <td>...</td>
+            <td>...</td>
+        </tr>
+        <tr>
+            <th>Criteria 2</th>
+            <td>...</td>
+            <td>...</td>
+        </tr>
+        <tr>
+            <th>Criteria 3</th>
+            <td>...</td>
+            <td>...</td>
+        </tr>
+    </table>
+
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebApp-Search</title>
+    <link rel="stylesheet" href="webapp.css" type="text/css" />
+    <link rel="stylesheet" href="static/webapp.css" type="text/css" />
+    <link rel="icon" href="img/favicon.ico" type="image/png">
+</head>
+<body>
+    <h1>
+        <a class='main_button' href="http://localhost:5000/">VIDEO APP!</a>
+    </h1>
+
+    <p>
+        SEARCH FOR MOVIES:
+    </p>
+        <form class='filter' action="/action_page.php">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title"><br><br>
+
+            <label for="director">Director</label>
+            <input type="text" id="director" name="director"><br><br>
+
+            <label for="keyword">Keyword</label>
+            <input type="text" name="keyword" id="keyword"><br><br>
+
+            <label for="collection">Collection</label>
+            <input type="text" name="collection" id="collection"><br><br>
+
+            <label for="cast">Cast</label>
+            <input type="text" name="cast" id="cast"><br><br>
+
+            <label for="crew">Crew</label>
+            <input type="text" name="crew" id="crew"><br><br>
+
+            <label for="genre">Genre</label>
+            <select name="genre" id="genre">
+                <option value="">Romance</option>
+                <option value="">Science Fiction</option>
+                <option value="">Historical Fiction</option>
+                <option value="">Film Noir</option>
+                <option value="">.</option>
+                <option value="">.</option>
+                <option value="">.</option>
+                <option value="">.</option>
+                <option value="">.</option>
+                <option value="">.</option>
+            </select><br><br>
+
+            <label for="language">Language</label>
+            <input type="text" name="language" id="language"><br><br>
+
+            <label for="releasedate">Release Date</label>
+            <input type="date" name="releasedate" id="releasedate" value="2022-01-01" min="1900-01-01" max="2025-01-01"><br><br>
+
+            <label for="released">Released</label>
+            <input type="checkbox" name="released" id="released"><br><br>
+
+            <label for="adult">Adult</label>
+            <input type="checkbox" name="adult" id="adult"><br><br>
+
+            <input type="submit" value="Submit"><br>
+        </form>
+    <p>
+        RESULTS:
+    </p>
+    <div class="results">
+        <ul>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, fuga?</li>
+            <li>Molestiae recusandae eius autem reprehenderit provident id nostrum! Illo, est.</li>
+            <li>Laudantium, blanditiis? Debitis vel in deleniti praesentium quam voluptas nemo?</li>
+            <li>Nihil ducimus ad quos autem neque, consectetur quasi ipsum provident?</li>
+            <li>Eaque earum reprehenderit quos maxime, unde maiores officiis necessitatibus incidunt?</li>
+            <li>Ducimus officiis, dicta quidem est quisquam animi soluta quo! Ut!</li>
+            <li>Accusantium porro quod iusto ducimus modi quibusdam laudantium unde eos?</li>
+            <li>Aliquam consectetur nam velit ducimus, corporis odio nesciunt culpa at!</li>
+            <li>Accusantium cumque maiores ipsum voluptates dignissimos commodi inventore, vitae suscipit.</li>
+            <li>Rem impedit ab eius neque soluta nemo aliquid accusamus iusto.</li>
+            <li>Eveniet consequatur ratione harum nobis dicta optio perspiciatis, voluptatum enim!</li>
+            <li>Repellendus, at suscipit! Harum est illo quia, dolorum delectus aut.</li>
+            <li>Reiciendis, dolores at iste mollitia quis maiores itaque consequuntur aspernatur.</li>
+            <li>Voluptatibus ab placeat, quos quam nam quasi sunt debitis quisquam!</li>
+            <li>Assumenda quisquam, officiis quas vero accusamus ex nihil voluptate pariatur?</li>
+            <li>Ad asperiores perspiciatis aperiam dicta, suscipit quae architecto maxime maiores.</li>
+            <li>Reiciendis tempora facilis soluta accusamus quos enim cum ut reprehenderit!</li>
+            <li>Explicabo doloribus impedit iure atque facilis commodi, corrupti soluta unde!</li>
+            <li>Commodi iste illum sed quam hic tenetur ad dolorum cum!</li>
+            <li>Porro facilis dolor dicta, fugit consectetur id? Ad, quam provident.</li>
+        </ul>
+    </div>
+    <br>
+    <br>
+</body>
+</html>
