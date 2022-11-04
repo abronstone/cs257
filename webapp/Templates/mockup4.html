@@ -14,11 +14,11 @@
         <a class='main_button' href="http://127.0.0.1:5000">VIDEO APP!</a>
     </h1>
 
-    <p>
+    <h2>
         POPULARITY:
-    </p>
+    </h2>
 
-    <form class="filter" action="/action_page.php">
+    <form class="filter" style="margin:20px" action="/action_page.php">
         <label for="criteria">Sort...</label>
         <select name="criteria">
             <option value="movies">Movies</option>
@@ -29,23 +29,25 @@
             <option value="production_countries">Production Countries</option>
             <option value="language">Language</option>
             <option value="">etc.</option>
-        </select><br><br>
-        <label for="value">by...</label>
+        </select>
+        <label for="value"> by...</label>
         <select name="value">
             <option value="popularity">Popularity</option>
             <option value="average_rating">Average Rating</option>
             <option value="revenue">Revenue</option>
             <option value="budget">Budget</option>
             <option value="">etc.</option>
-        </select><br><br>
+        </select><br>
+        <label for="quantity">Get first...</label>
+        <input type="number" name="quantity" min="1" max="100">values<br>
         <label for="Descending?">Descending?</label>
         <input type="checkbox" class="" id=""><br><br>
         <input type="submit" Value="Submit"><br>
     </form>
-    <p>
+    <h3>
         RESULTS:
-    </p>
-    <div class="results">
+    </h3>
+    <div class="results" style="margin:20px">
         <ul>
             <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, fuga?</li>
             <li>Molestiae recusandae eius autem reprehenderit provident id nostrum! Illo, est.</li>
