@@ -118,7 +118,7 @@ label{
     border:2px solid black;
 }
 
-.results{
+#results{
     color: black;
     background-color:rgb(194, 242, 250);
     border:6px solid black;

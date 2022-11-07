@@ -1,0 +1,102 @@
+REQUEST: /search
+
+GET parameters:
+	-title (Optional, default='') -- returns movies whose title contains input, case insensitive
+	-director (Optional, default='') -- returns movies whose director contains input, case insensitive
+	-keyword (Optional, default='') -- returns movies whose keywords contain the input, case insensitive
+	-collection (Optional, default='') -- returns movies whose collection contains input, case insensitive
+	-cast (Optional, default='') -- returns movies whose cast contains input, case insensitive
+	-crew (Optional, default='') -- returns movies whose crew contains input, case insensitive
+	-production_company (Optional, default='') -- returns movies whose production company contains input, case insensitive
+	-genre (Optional, default='') -- returns movies whose genre contains input, case insensitive
+	-language (Optional, default='') -- returns movies whose original language contains input, case insensitive
+	-country_of_origin (Optional, default='') -- returns movies whose country of origin contains input, case insensitive
+	-rating (Optional?, default=3) -- returns movies whose rating contains input, case insensitive
+	-release_date (Optinal, default='') -- returns movies whose release date matches input, case insensitive
+	-show_unreleased (Optional,default=false) -- shows unreleased as well as released movies
+	-filter_adult (Optional,default=false) -- shows adult movies as well as non-adult movies
+
+RESPONSE: 
+	a JSON list of dictionaries, each representing a movie, each with the following fields:
+	-id number
+	-Movie title
+	-Director
+	-IMDB link
+
+EXAMPLES:
+	/authors?title=Man&genre=action&keyword=superhero
+
+	[{},{},...]	
+
+------------------------
+REQUEST: /overview
+
+GET parameter:
+	-Title (Required) -- returns all movie data for the inputted movie title
+
+RESPONSE:
+	-JSON dictionary with all movie metadata:
+		-movie id
+		-movie title
+		-overview
+		-genre
+		-director
+		-rating
+		-popularity
+		-language
+		-etc...
+
+EXAMPLE:
+	-http://videoapp/overview/Toy-Story
+
+	{False,"{'id': 10194, 'name': 'Toy Story Collection', 'poster_path': '/7G9915LfUQ2lVfwMEEhDsn3kT4B.jpg', 'backdrop_path': '/9FBwqcd9IRruEDUrTdcaafOMKUq.jpg'}",30000000,"[{'id': 16, 'name': 'Animation'}, {'id': 35, 'name': 'Comedy'}, {'id': 10751, 'name': 'Family'}]",http://toystory.disney.com/toy-story,862,tt0114709,en,Toy Story,"Led by Woody, Andy's toys live happily in his room until Andy's birthday brings Buzz Lightyear onto the scene. Afraid of losing his place in Andy's heart, Woody plots against Buzz. But when circumstances separate Buzz and Woody from their owner, the duo eventually learns to put aside their differences.",21.946943,/rhIRbceoE9lR4veEXuwCC2wARtG.jpg,"[{'name': 'Pixar Animation Studios', 'id': 3}]","[{'iso_3166_1': 'US', 'name': 'United States of America'}]",1995-10-30,373554033,81.0,"[{'iso_639_1': 'en', 'name': 'English'}]",Released,,Toy Story,False,7.7,5415}
+
+------------------------
+REQUEST: /popularity
+
+GET parameters:
+	-Object [movies,directors,actors,etc] (Required,default='movies')
+	-Sorting value [revenue,budget,popularity,average rating] (Required,default='popularity')
+	-First __ Values (Optional,default='10')
+	-Descending (Optional,default='true')
+
+RESPONSE:
+	A JSON list of dictionaries, containing the input object and the sorting value
+
+EXAMPLE: /popularity?object=movies&value=popularity
+
+	[
+		{"title":"Minions","popularity":547.48},
+		{"title":"Wonder Woman","popularity":294.36},
+		{"title":"Beauty and the Beast","popularity":287.03},
+		{"title":"Baby Driver","popularity":228}
+		...
+	]
+
+------------------------
+REQUEST: /comparison
+
+GET parameters:
+	-Movie 1 (Required)
+	-Movie 2 (Required)
+	-Include metadata (Optional,default=false)
+
+RESPONSE:
+	Two JSON dictionaries, containing the valued metadata for both movies (popularity,revenue,budget,rating). If the 'include metadata' box is checked, then all the other data for the movies will be included.
+
+EXAMPLE: /comparison/movie1=Toy Story
+
+
+RESPONSE:
+
+------------------------
+REQUEST:
+
+RESPONSE:
+
+------------------------
+REQUEST:
+
+RESPONSE:
+
+------------------------

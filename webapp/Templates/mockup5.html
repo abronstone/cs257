@@ -17,21 +17,16 @@
     <h2>
         MOVIE COMPARISON
     </h2>
-    <form class="filter" action="/action_page.php">
+    <div id="filter">
         <label for="movie1">Movie #1:</label>
         <input type="text" name="movie1" id="">
         <input style="float:right;" type="text" name="movie2" id="">
-        <label style="margin-top:6px;float:right;" for="movie2">Movie #2:</label><br><br>
-        <label for="">Include:</label><br><br>
-        <label for="popularity">Popularity</label>
-        <input type="checkbox" name="popularity" id="">&nbsp &nbsp
-        <label for="budget">Budget</label>
-        <input type="checkbox" name="budget" id="budget"><br><br>
-        <label for="">Revenue</label>
-        <input type="checkbox" name="" id=""><br><br>
+        <label style="margin-top:6px;float:right;" for="movie2">Movie #2:</label><br>
+        <label for="">Include movie metadata:</label>
+        <input type="checkbox" name="popularity" id=""><br><br>
 
-        <input type="submit" Value="Submit">
-    </form>
+        <button id="submission">Submit</button> 
+    </div>
 
     <h3>
         RESULTS:
