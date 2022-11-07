@@ -26,7 +26,7 @@ RESPONSE:
 EXAMPLES:
 	/authors?title=Man&genre=action&keyword=superhero
 
-	[{},{},...]	
+	[{'id'=___,'title'=superman'},{},...]	
 
 ------------------------
 REQUEST: /overview
@@ -35,7 +35,7 @@ GET parameter:
 	-Title (Required) -- returns all movie data for the inputted movie title
 
 RESPONSE:
-	-JSON dictionary with all movie metadata:
+	-JSON dictionary with ALL movie metadata:
 		-movie id
 		-movie title
 		-overview
@@ -84,7 +84,7 @@ GET parameters:
 RESPONSE:
 	Two JSON dictionaries, containing the valued metadata for both movies (popularity,revenue,budget,rating). If the 'include metadata' box is checked, then all the other data for the movies will be included.
 
-EXAMPLE: /comparison/movie1=Toy Story
+EXAMPLE: /comparison?movie1=toy-story&movie2=minions
 
 
 RESPONSE:
