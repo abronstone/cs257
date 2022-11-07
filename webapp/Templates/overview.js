@@ -17,7 +17,7 @@
         var filter = document.getElementById("filter");
         var randomizer = document.getElementById("random_checkbox");
         if(randomizer.checked==true){
-            filter.innerHTML='<label for="object">Get me a random movie with...</label><br><select id="selector"><option>Genre</option><option>Director</option></select><input type="text" id="random_input">';
+            filter.innerHTML='<label for="object">Get me a random movie with...</label><br><select id="selector"><option></option><option>Genre</option><option>Director</option></select><input type="text" id="random_input">';
             var random_input = document.getElementById("random_input");
             var inputType = "";
             if(random_input.value=="Director"){
