@@ -2,9 +2,12 @@
 
 import json
 import sys
+import api
+
 from flask import Flask,render_template
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='static',template_folder='templates')
+app.register_blueprint(api.api, url_prefix='/api')
 
 @app.route('/index')
 def index():
