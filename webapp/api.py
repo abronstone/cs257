@@ -26,7 +26,7 @@ def get_connection():
         print(e, file=sys.stderr)
         exit()
 
-@api.route('/searchresults/')
+@api.route('/searchresults?')
 def get_search():
     query='''SELECT id,title from movies_metadata;'''
     movie_list=[]
