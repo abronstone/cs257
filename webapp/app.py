@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+'''
+    app.py for Vidinfo
+    Jack Owens and Aaron Bronstone
+'''
+
 import json
 import sys
 import api

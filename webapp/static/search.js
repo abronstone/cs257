@@ -32,7 +32,7 @@ function onSubmitPress() {
 
     var title = document.getElementById('title')
 
-    let url = getAPIBaseURL() + '/searchresults?' + title.value;
+    let url = getAPIBaseURL() + '/searchresults/';
 
     fetch(url,{method:'get'})
     .then((response) => response.json())

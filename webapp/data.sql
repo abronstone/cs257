@@ -66,10 +66,7 @@ CREATE TABLE public.crew (
 
 CREATE TABLE public.directors (
     id integer,
-    name text,
-    number_of_movies integer,
-    average_popularity numeric,
-    average_rating numeric
+    name text
 );
 
 
@@ -172,7 +169,6 @@ CREATE TABLE public.production_companies (
 --
 
 CREATE TABLE public.ratings (
-    user_id integer,
     movie_id integer,
     rating numeric
 );
@@ -290,7 +286,7 @@ COPY public.production_companies (id, name) FROM stdin;
 -- Data for Name: ratings; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.ratings (user_id, movie_id, rating) FROM stdin;
+COPY public.ratings (movie_id, rating) FROM stdin;
 \.
 
 
