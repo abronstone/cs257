@@ -1,71 +1,111 @@
-CREATE TABLE movie_metadata(
+CREATE TABLE movies(
     id INTEGER,
     title TEXT,
-    original_title TEXT,
+    imdb_link TEXT,
+    homepage TEXT,
     collection_id INTEGER,
-    genres INTEGER[],
-    language_id INTEGER,
     release_date DATE,
-    runtime INTEGER);
-
-CREATE TABLE movie_credits(
-    id INTEGER,
-    production_company_ids INTEGER[],
-    director_id INTEGER,
-    actors INTEGER[],
-    crew INTEGER[]);
-
-CREATE TABLE movie_social(
-    id INTEGER,
+    runtime DECIMAL,
     popularity DECIMAL,
-    revenue DECIMAL,
-    budget DECIMAL,
-    keywords INTEGER[]);
+    revenue INTEGER
+    budget INTEGER
+    released TEXT);
+
+CREATE TABLE movie_directors(
+    movie_id INTEGER,
+    director_id INTEGER
+);
+
+CREATE TABLE directors(
+    id INTEGER,
+    name TEXT
+);
+
+CREATE TABLE movie_actors(
+    movie_id INTEGER,
+    actor_id INTEGER
+);
+
+CREATE TABLE actors(
+    id INTEGER,
+    name TEXT,
+    character TEXT
+);
+
+CREATE TABLE movie_crew(
+    movie_id INTEGER,
+    crew_id INTEGER
+);
+
+CREATE TABLE crew(
+    id INTEGER,
+    name TEXT,
+    role TEXT
+);
+
+CREATE TABLE movie_genres(
+    movie_id INTEGER,
+    genre_id INTEGER
+);
+
+CREATE TABLE genres(
+    id INTEGER,
+    name TEXT
+);
+
+CREATE TABLE movie_languages(
+    movie_id INTEGER,
+    language_id INTEGER
+)
+
+CREATE TABLE languages(
+    id INTEGER,
+    name TEXT
+);
+
+CREATE TABLE movie_companies(
+    movie_id INTEGER,
+    production_company_id INTEGER
+);
+
+CREATE TABLE production_companies(
+    id INTEGER,
+    name TEXT
+);
+
+CREATE TABLE movie_countries(
+    movie_id INTEGER,
+    country_id INTEGER
+);
+
+CREATE TABLE countries(
+    id INTEGER,
+    abrev TEXT,
+    name TEXT
+);
+
+CREATE TABLE ratings(
+    movie_id INTEGER,
+    rating DECIMAL
+);
+
+CREATE TABLE movie_keywords(
+    movie_id INTEGER,
+    keyword_id INTEGER
+);
+
+CREATE TABLE keywords(
+    id INTEGER,
+    name TEXT
+);
 
 CREATE TABLE collections(
-    id INTEGER,
-    name TEXT);
+    collection_id INTEGER,
+    name TEXT
+);
 
 CREATE TABLE overviews(
     movie_id INTEGER,
     tagline TEXT,
-    overview TEXT);
-
-CREATE TABLE ratings(
-    movie_id INTEGER,
-    rating DECIMAL);
-
-CREATE TABLE keywords(
-    id INTEGER,
-    word TEXT);
-
-CREATE TABLE directors(
-    id INTEGER,
-    name TEXT,
-    number_of_movies INTEGER,
-    average_popularity DECIMAL,
-    average_rating DECIMAL);
-
-CREATE TABLE actors(
-    id INTEGER,
-    name TEXT);
-
-CREATE TABLE crew(
-    id INTEGER,
-    name TEXT);
-
-CREATE TABLE genres(
-    id INTEGER,
-    name TEXT);
-
-CREATE TABLE languages(
-    id INTEGER,
-    name TEXT);
-
-CREATE TABLE production_companies(
-    id INTEGER,
-    name TEXT);
-
-CREATE TABLE countries(
-    id INTEGER,
-    name TEXT);
+    overview TEXT
+);

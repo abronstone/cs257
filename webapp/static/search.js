@@ -15,24 +15,43 @@ function getAPIBaseURL(){
 function onSubmitPress() {
     const criteria = ["title","director","keyword","collection","cast","crew","productioncompany","genre","language","rating","country","releasedate"];
     var results = document.getElementById("result-list");
+    let url = getAPIBaseURL() + '/searchresults/';
     //var first = document.getElementById(criteria[0]);
     //results.innerHTML=criteria[1];
     results.innerHTML='';
+    url+='?';
     for(let i=0; i<criteria.length; i++){
         var current = document.getElementById(criteria[i]);
-        var name = current.getAttribute("name");
+        /*var name = current.getAttribute("name");
         if(current.value!=""){
             results.innerHTML+='<li>'+name+": "+current.value+'</li>\n';
         }
+        */
+        url+=criteria[i]+'=';
+        if(current){
+            url+=current.value;
+        }
+        url+='&';
     }
     var released = document.querySelector('#released');
-    results.innerHTML+='<li>Released: '+released.checked+"</li>";
+    //results.innerHTML+='<li>Released: '+released.checked+"</li>";
+    if(released){
+        url+='released='+released.value+'&';
+    }
     var adult = document.querySelector("#adult");
-    results.innerHTML+='<li>Adult: '+adult.checked+"</li>";
+    if(adult){
+        url+='adult='+adult.value;
+    }
+    //results.innerHTML+='<li>Adult: '+adult.checked+"</li>";
 
-    var title = document.getElementById('title')
 
-    let url = getAPIBaseURL() + '/searchresults/';
+
+    /*var title = document.getElementById('title')
+    if(title){
+        url+='?title='+title.value;
+    }
+    */
+   results.innerHTML='Loading...';
 
     fetch(url,{method:'get'})
     .then((response) => response.json())
@@ -41,7 +60,7 @@ function onSubmitPress() {
         results.innerHTML+='test';
         for(let i=0; i<movies.length; i++){
             let movie = movies[i];
-            listBody += '<li><a href="https://www.swimcloud.com/">ID: '+movie['id']+', title: '+movie['title']+'</a></li>';
+            listBody += '<li><a href='+movie['link']+'/ target="_blank">ID: '+movie['id']+', title: '+movie['title']+', release date: '+movie['release_date']+'</a></li>';
         }
         results.innerHTML=listBody;
     })

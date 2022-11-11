@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="static/webapp.css" type="text/css" />
     <link rel="icon" href="img/favicon.ico" type="image/png">
     <script type="text/javascript" src="overview.js"></script>
+    <script type="text/javascript" src="static/overview.js"></script>
 </head>
 <body>
     <h1>
@@ -22,29 +23,28 @@
 
     <div id="filter">
         <label for="search">Movie Title:</label>
-        <input name="" type="text" id="search">     
+        <input type="text" id="search_text">     
         <button id="submission">Submit</button> 
     </div>
     <h3 id="title">[movie title]</h3>
 
-    <p>
-        
-        Overview:<br>
-        
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur, officiis!
-    </p>
-    <table>
+    <div id="overview">
+        <p>Overview:<br>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur, officiis!
+        </p>
+    </div>
+    <table id="table">
         <tr>
             <th>Director</th>
-            <td>[insert]</td>
+            <td id="director">[insert]</td>
         </tr>
         <tr>
             <th>Genre</th>
             <td>[insert]</td>
         </tr>
         <tr>
-            <th>Rating</th>
-            <td>[insert]</td>
+            <th>Popularity</th>
+            <td id="popularity">[insert]</td>
         </tr>
         <tr>
             <th>etc....</th>
