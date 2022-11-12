@@ -52,6 +52,17 @@ h3{
     color:rgb(0, 0, 0);
     border:2px solid black;
     padding: 20px;
+    font-size:32px;
+    width:fit-content;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+h3{
+    background-color:rgb(194, 242, 250);
+    color:rgb(0, 0, 0);
+    border:2px solid black;
+    padding: 20px;
     font-size:24px;
     width:fit-content;
     margin-left:auto;
@@ -124,6 +135,15 @@ label{
     border:6px solid black;
     max-height:500px;
     font:16px/26px Georgia, Garamond, Serif;
+    overflow:auto;
+}
+
+#droplist{
+    color:black;
+    background-color:white;
+    border:2px solid black;
+    max-height: 5%;
+    font:4px Georgia, Garamond, Serif;
     overflow:auto;
 }
 

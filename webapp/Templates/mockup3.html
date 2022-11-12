@@ -22,14 +22,30 @@
     <input name="" type="checkbox" id="random_checkbox" onclick="random_filters()">
 
     <div id="filter">
-        <label for="search">Movie Title:</label>
+        <!--<label for="search">Movie Title:</label>
         <input type="text" id="search_text">     
-        <button id="submission">Submit</button> 
+        <button id="submission">Submit</button>-->
+        <label>Movie Title:
+            <input list="droplist" id="search_text" name="searchbar" /></label>
+            <datalist id="droplist">
+              <option value="Chrome">
+              <option value="Firefox">
+              <option value="Internet Explorer">
+              <option value="Opera">
+              <option value="Safari">
+              <option value="Microsoft Edge">
+            </datalist>
+            <button id="submission">Submit</button>
     </div>
     <h3 id="title">[movie title]</h3>
+    <div id="tagline">
+        
+    </div>
+
 
     <div id="overview">
-        <p>Overview:<br>
+        <p>
+            Overview:<br>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur, officiis!
         </p>
     </div>
@@ -39,17 +55,58 @@
             <td id="director">[insert]</td>
         </tr>
         <tr>
-            <th>Genre</th>
-            <td>[insert]</td>
+            <th>Genres</th>
+            <td id="genres">[insert]</td>
         </tr>
         <tr>
             <th>Popularity</th>
             <td id="popularity">[insert]</td>
         </tr>
         <tr>
-            <th>etc....</th>
-            <td>[insert]</td>
+            <th>Link</th>
+            <td id="link">[insert]</td>
         </tr>
+        <tr>
+            <th>Language</th>
+            <td id="language">[insert]</td>
+        </tr>
+        <tr>
+            <th>Production Company</th>
+            <td id="productioncompany">[insert]</td>
+        </tr>
+        <tr>
+            <th>Production Countires</th>
+            <td id="productioncountries">[insert]</td>
+        </tr>
+        <tr>
+            <th>Link</th>
+            <td id="link">[insert]</td>
+        </tr>
+        <tr>
+            <th>Release Date</th>
+            <td id="releasedate">[insert]</td>
+        </tr>
+        <tr>
+            <th>Revenue</th>
+            <td id="revenue">[insert]</td>
+        </tr>
+        <tr>
+            <th>Budget</th>
+            <td id="budget">[insert]</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td id="status">[insert]</td>
+        </tr>
+        <tr>
+            <th>Link</th>
+            <td id="link">[insert]</td>
+        </tr>
+        <tr>
+            <th>Rating</th>
+            <td id="rating">[insert]</td>
+        </tr>
+
     </table>
 
 

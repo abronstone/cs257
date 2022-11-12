@@ -60,7 +60,7 @@ function onSubmitPress() {
         results.innerHTML+='test';
         for(let i=0; i<movies.length; i++){
             let movie = movies[i];
-            listBody += '<li><a href='+movie['link']+'/ target="_blank">ID: '+movie['id']+', title: '+movie['title']+', release date: '+movie['release_date']+'</a></li>';
+            listBody += '<li><a href='+movie['imdb_link']+'/ target="_blank">ID: '+movie['id']+', title: '+movie['title']+', release date: '+movie['release_date']+'</a></li>';
         }
         results.innerHTML=listBody;
     })

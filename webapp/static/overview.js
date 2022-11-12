@@ -30,6 +30,8 @@ function onButtonPress() {
     overview = document.getElementById('overview');
     table = document.getElementById('table');
     popularity = document.getElementById('popularity');
+    tagline = document.getElementById('tagline');
+    rating = document.getElementById('rating');
 
     const tableList = ["collection","director","genre","releasedate"];
 
@@ -43,9 +45,14 @@ function onButtonPress() {
             title.innerHTML=movie['title'];
         }
         */
-       title.innerHTML=movie['title'];
+        title.innerHTML=movie['title'];
+        if(movie['tagline']!=''){
+            tagline.innerHTML='<h4><center>'+movie['tagline']+'</center></h4>';
+        }
+
        overview.innerHTML='<p>'+movie['overview']+'</p>';
        popularity.innerHTML=movie['popularity'];
+       rating.innerHTML=parseFloat(movie['rating']);
 
         //results.innerHTML=listBody;
     })
@@ -53,13 +60,7 @@ function onButtonPress() {
         console.log(error);
     });
 }
-
-function auto(){
-    var title = document.getElementById("title");
-    var input = document.getElementById("search");
-    title.innerHTML=input.value;
-}
-
+/*
 function random_filters(){
     var filter = document.getElementById("filter");
     var randomizer = document.getElementById("random_checkbox");
@@ -76,14 +77,50 @@ function random_filters(){
         filter.innerHTML='<label for="search">Movie Title:</label><input name="" type="text" id="search_text"><button id="submission">Submit</button>';
     }
 }
+*/
+
+function loadlist(){
+    var list = document.getElementById('droplist');
+    let url = getAPIBaseURL()+'/overviewlistload/';
+
+    fetch(url,{method:'get'})
+    .then((response) => response.json())
+    .then(function(movies){
+        let listBody='';
+        for(i=0; i<movies.length; i++){
+            movie=movies[i];
+            listBody+='<option value=\''+movie['title']+'\'>';
+        }
+        list.innerHTML=listBody
+    })
+
+}
 
 function initialize() {
     var button = document.getElementById('submission');
     button.onclick = onButtonPress;
-    var random = document.getElementById('random_checkbox');
-    random.onclick=random_filters;
-    //var search = document.getElementById('search');
-    //search.onkeyup= auto;
+    
+    
+    var list = document.getElementById('droplist');
+    let url = getAPIBaseURL()+'/overviewlistload/';
+
+    fetch(url,{method:'get'})
+    .then((response) => response.json())
+    .then(function(movies){
+        let listBody='';
+        for(i=0; i<movies.length; i++){
+            movie=movies[i];
+            listBody+='<option value=\''+movie['title']+'\'>';
+        }
+        list.innerHTML=listBody
+    })
+    //var list = document.getElementById('droplist');
+    //list.addEventListener('click',loadlist);
+    //list.onclick = loadlist;
+    //var random = document.getElementById('random_checkbox');
+    //random.onclick=random_filters;
+    //var search = document.getElementById('search_text');
+    //search.onkeyup= droplist;
 }
 
 // This causes initialization to wait until after the HTML page and its

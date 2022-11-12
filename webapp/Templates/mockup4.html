@@ -21,7 +21,7 @@
 
     <div id="filter">
         <label for="criteria">Sort...</label>
-        <select>
+        <select id="variable">
             <option value="movies">Movies</option>
             <option value="directors">Directors</option>
             <option value="actors">Actors</option>
@@ -32,23 +32,23 @@
             <option value="">etc.</option>
         </select>
         <label for="value"> by...</label>
-        <select>            <option value="popularity">Popularity</option>
+        <select id="value">            <option value="popularity">Popularity</option>
             <option value="average_rating">Average Rating</option>
             <option value="revenue">Revenue</option>
             <option value="budget">Budget</option>
             <option value="">etc.</option>
         </select><br>
         <label for="quantity">Get first...</label>
-        <input type="number" name="quantity" value="10" min="1" max="100">...values<br>
+        <input type="number" id="quantity" value="10" min="1" max="100">...values<br>
         <label for="Descending?">Descending?</label>
-        <input type="checkbox" class="" id=""><br><br>
+        <input type="checkbox" class="" id="descending"><br><br>
         <button id="submission">Submit</button> 
     </div>
     <h3>
         RESULTS:
     </h3>
     <div id="results" style="margin:20px">
-        <ul>
+        <ul id="results-list">
             <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, fuga?</li>
             <li>Molestiae recusandae eius autem reprehenderit provident id nostrum! Illo, est.</li>
             <li>Laudantium, blanditiis? Debitis vel in deleniti praesentium quam voluptas nemo?</li>

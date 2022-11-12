@@ -26,6 +26,7 @@ def get_connection():
         print(e, file=sys.stderr)
         exit()
 
+
 @api.route('/searchresults/')
 def get_search():
     title=flask.request.args.get('title',default='')
@@ -44,60 +45,128 @@ def get_search():
     adult=flask.request.args.get('adult',default='')
     numParameters = 0
     #Add all other tables after converted
-    query = '''SELECT movie_metadata.id,movie_metadata.title,movie_metadata.imdb_id,movie_metadata.release_date from movie_metadata'''
+    query = ''''''
+    selections = '''SELECT movies.id,movies.title,movies.imdb_link,movies.release_date'''
+    sources = ''' FROM movies'''
     where_clause = ''''''
+    group_by_clause = ''''''
     arguments = []
+    num_params=0
+    print('[',title,']')
     if title != '':
-        where_clause = where_clause + ''' WHERE title ILIKE CONCAT('%%',%s,'%%')'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''title ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(title)
+        num_params+=1
+    #NEED TO IMPLEMENT
     if director != '':
-        where_clause = where_clause + ''' AND director ILIKE CONCAT('%%',%s,'%%')'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''[insert sql query here]'''
         arguments.append(director)
-    #NOT FUNCTIONAL
+        num_params+=1
+    #NEED TO IMPLEMENT
     if keyword != '':
-        where_clause = where_clause + ''' AND movie_social.keywords && '{9715}'::int[]'''
+        sources = sources + ''',movies_keywords,keywords'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''movies.id=movies_keywords.movie_id AND movies_keywords.keyword_id=keywords.id AND keywords.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(keyword)
+        num_params+=1
+    #NEED TO IMPLEMENT
     if collection != '':
-        where_clause = where_clause + ''' AND movie_metadata.id=collections.movie_id AND collection.name ILIKE CONCAT('%%',%s,'%%')'''
+        sources = sources + ''',collections'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''movies.collection_id=collections.collection_id AND collections.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(collection)
-    #NOT FUNCTIONAL
+        num_params+=1
+    #NEED TO IMPLEMENT
     if cast != '':
-        where_clause = where_clause + ''' AND movie_'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''[insert sql query here]'''
         arguments.append(cast)
-    #NOT FUNCTIONAL
+        num_params+=1
+    #NEED TO IMPLEMENT
     if crew != '':
-        where_clause = where_clause + ''' AND '''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''[insert sql query here]'''
         arguments.append(crew)
-    #NOT FUNCTIONAL
+        num_params+=1
     if productioncompany != '':
-        where_clause = where_clause + ''' AND '''
+        sources = sources + ''',movies_companies,production_companies'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''movies.id=movies_companies.movie_id AND movies_companies.production_company_id=production_companies.id AND production_companies.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(productioncompany)
-    #NOT FUNCTIONAL
+        num_params+=1
     if genre != '':
-        where_clause = where_clause + ''' AND movie_metadata.genres && '{9715}'::int[] '''
+        sources = sources+''',movies_genres,genres'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''movies.id=movies_genres.movie_id AND movies_genres.genre_id=genres.id AND genres.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(genre)
-    #NOT FUNCTIONAL
+        num_params+=1
     if language != '':
-        where_clause = where_clause + ''' AND '''
+        sources = sources+''',movies_languages,languages'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''movies.id=movies_languages.movie_id AND movies_languages.language_id=languages.id AND languages.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(language)
-    #NOT FUNCTIONAL
-    #if rating != '':
-        #where_clause = where_clause + ''' AND movie_metadata.id=ratings.movie_id and ratings.rating > %s'''
-        #arguments.append(rating)
-    #NOT FUNCTIONAL
+        num_params+=1
+    #NEED TO IMPLEMENT
+    if rating == 'test':
+        selections = selections + ''',AVG(ratings.rating) as average_rating'''
+        sources = sources + ''',ratings'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''movies.id=ratings.movie_id AND average_rating>%s'''
+        group_by_clause = group_by_clause + ''' GROUP BY title'''
+        arguments.append(rating)
+        num_params+=1
     if country != '':
-        where_clause = where_clause + ''' and movie_metadata.countries && '{9715}'::int[] '''
+        sources = sources + ''',movies_countries,countries'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''movies.id=movies_countries.movie_id AND movies_countries.country_id=countries.id AND countries.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(country)
+        num_params+=1
+    #NEED TO IMPLEMENT
     if releasedate != '':
-        where_clause = where_clause + ''' AND release_date > %s'''
+        if num_params>=1:
+            where_clause = where_clause + ''' AND '''
+        elif num_params==0:
+            where_clause = where_clause + ''' WHERE '''
+        where_clause = where_clause + '''[insert sql query here]'''
         arguments.append(releasedate)
-    #NOT FUNCTIONAL
-    if adult != False:
-        where_clause = where_clause + ''''''
-    #NOT FUNCTIONAL
-    if released != False:
-        where_clause = where_clause + ''''''
-    query = query + where_clause + ''';'''
+        num_params+=1
+    query = selections + sources + where_clause + group_by_clause + ''' ORDER BY movies.title;'''
+    print(arguments)
     
 
         
@@ -119,7 +188,7 @@ def get_search():
         print(cursor.query)
         for row in cursor:
             #print(row[3])
-            movie = {'id':row[0], 'title':row[1], 'link':row[2], 'release_date':str(row[3])[0:4]}
+            movie = {'id':row[0], 'title':row[1], 'imdb_link':row[2], 'release_date':str(row[3])[0:4]}
             movie_list.append(movie)
         cursor.close()
         connection.close()
@@ -130,6 +199,7 @@ def get_search():
 
 @api.route('/overviewresults/')
 def get_overview():
+    print('results')
     search_text = flask.request.args.get('search_text',default='')
     print(type(search_text))
     selector = flask.request.args.get('selector',default='')
@@ -141,7 +211,8 @@ def get_overview():
             query = query + ''' WHERE %s ILIKE CONCAT('%%',%s,'%%');'''
             arguments=[selector,search_text]
     else:
-        query='''SELECT movie_metadata.id,movie_metadata.title,overviews.tagline,overviews.overview,movie_social.popularity FROM movie_metadata,movie_social,overviews where movie_metadata.id=movie_social.id AND movie_metadata.id=overviews.movie_id AND movie_metadata.title ILIKE CONCAT('%%',%s,'%%') ORDER BY movie_social.popularity DESC;'''
+        #query='''SELECT movies.id,movies.title,overviews.tagline,overviews.overview,movies.popularity,movies_ratings.average_rating FROM movies,overviews,movies_ratings where movies.id=movies_ratings.movie_id AND movies.id=overviews.movie_id AND movies.title ILIKE CONCAT('%%',%s,'%%') ORDER BY char_length(title),popularity;'''
+        query = '''SELECT movies.id,movies.title,overviews.tagline,overviews.overview,movies.popularity,movies_ratings.average_rating FROM movies LEFT JOIN overviews ON movies.id=overviews.movie_id LEFT JOIN movies_ratings ON movies.id=movies_ratings.movie_id WHERE movies.title ILIKE CONCAT('%%',%s,'%%') ORDER BY average_rating DESC;'''
         arguments=[search_text]
     movie_list=[]
     try:
@@ -150,7 +221,7 @@ def get_overview():
         cursor.execute(query,arguments)
         print(cursor.query)
         for row in cursor:
-            movie = {'id':row[0], 'title':row[1], 'tagline':row[2], 'overview':row[3], 'popularity':row[4]}
+            movie = {'id':row[0], 'title':row[1], 'tagline':row[2], 'overview':row[3], 'popularity':str(row[4]), 'rating':str(row[5])}
             movie_list.append(movie)
         cursor.close()
         connection.close()
@@ -158,9 +229,30 @@ def get_overview():
         print(e, file=sys.stderr)
     return json.dumps(movie_list)
 
+@api.route('/overviewlistload/')
+def overview_list_load():
+    print('list load')
+    query = '''SELECT title from movies ORDER by title;'''
+    movie_list=[]
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(query)
+        print(cursor.query)
+        for row in cursor:
+            movie = {'title':row[0]}
+            movie_list.append(movie)
+        cursor.close()
+        connection.close()
+    except Exception as e:
+        print(e, file=sys.stderr)
+    return json.dumps(movie_list)
+
+
 @api.route('/popularityresults/')
 def get_popularity():
     query=''''''
+
 
 @api.route('/comparisonresults/')
 def get_comparison():
