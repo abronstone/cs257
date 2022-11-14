@@ -15,6 +15,15 @@
     input{float:right;}
 </style>
 <body>
+    <div class="dropdown">
+        <button class="dropbtn"><strong>Go to...</strong></button>
+        <div class="dropdown-content">
+          <a href="http://127.0.0.1:5000/search">Search</a>
+          <a href="http://127.0.0.1:5000/overviews">Overviews</a>
+          <a href="http://127.0.0.1:5000/popularity">Popularity</a>
+          <a href="http://127.0.0.1:5000/comparison">Comparison</a>
+        </div>
+    </div>
     <h1>
         <a class='main_button' href="http://127.0.0.1:5000/">VIDINFO</a>
     </h1>
@@ -34,7 +43,7 @@
                 <input type="text" id="director" name="Director"><br><br>
 
                 <label for="keyword">Keyword</label>
-                <input type="text" name="Keyword" id="keyword"><br><br>
+                <input type="text" name="Keyword" id="keywords"><br><br>
 
                 <label for="collection">Collection</label>
                 <input type="text" name="Collection" id="collection"><br><br>
@@ -64,14 +73,21 @@
                 </select><br><br>
                 -->
 
-                <label for="language">Language</label>
-                <input type="text" name="Language" id="language"><br><br>
+                <!--<label for="language">Language</label>
+                <input type="text" name="Language" id="language">-->
+
+                <label>Language:
+                    <input list="droplist" id="languagedroplist" name="searchbar" /></label>
+                    <datalist id="droplist">
+                        <option value="item">
+                    </datalist>
+                <br><br>
 
                 <label for="country">Country of origin</label>
                 <input type="text" name="Country of origin" id="country"><br><br>
 
-                <label for="rating">Rating (1-5)</label>
-                <input type="range" id="rating" name="Rating" id="slider" min="1" max="5"><br><br>
+                <label for="rating">Rating at or greater than... (1-5)</label>
+                <input type="range" id="rating" name="Rating" id="slider" min="1" max="5" value="1"><br><br>
 
                 <label for="releasedate">Released after</label>
                 <input type="date" name="Release Date" id="releasedate" min="1900-01-01" max="2016-12-31"><br><br>

@@ -12,28 +12,32 @@
     <script type="text/javascript" src="static/overview.js"></script>
 </head>
 <body>
+    <div class="dropdown">
+        <button class="dropbtn"><strong>Go to...</strong></button>
+        <div class="dropdown-content">
+          <a href="http://127.0.0.1:5000/search">Search</a>
+          <a href="http://127.0.0.1:5000/overviews">Overviews</a>
+          <a href="http://127.0.0.1:5000/popularity">Popularity</a>
+          <a href="http://127.0.0.1:5000/comparison">Comparison</a>
+        </div>
+    </div>
     <h1>
         <a class='main_button' href="http://127.0.0.1:5000">VIDINFO</a>
     </h1>
-
+    
     <h2>OVERVIEWS</h2>
 
-    <label for="randomizer">Get me a random movie!</label>
-    <input name="" type="checkbox" id="random_checkbox" onclick="random_filters()">
+    <!--<label for="randomizer">Get me a random movie!</label>
+    <input name="" type="checkbox" id="random_checkbox" onclick="random_filters()">-->
 
     <div id="filter">
         <!--<label for="search">Movie Title:</label>
         <input type="text" id="search_text">     
         <button id="submission">Submit</button>-->
-        <label>Movie Title:
+        <label>Movie Id/Title:
             <input list="droplist" id="search_text" name="searchbar" /></label>
             <datalist id="droplist">
-              <option value="Chrome">
-              <option value="Firefox">
-              <option value="Internet Explorer">
-              <option value="Opera">
-              <option value="Safari">
-              <option value="Microsoft Edge">
+              <option value="item">
             </datalist>
             <button id="submission">Submit</button>
     </div>
@@ -50,11 +54,14 @@
         </p>
     </div>
     <table id="table">
-        <tr>
+        <tr class="gray">
             <th>Director</th>
             <td id="director">[insert]</td>
         </tr>
-        <tr>
+            <th>Keywords</th>
+            <td id="keywords">[insert]</td>
+        </tr>
+        <tr class="gray">
             <th>Genres</th>
             <td id="genres">[insert]</td>
         </tr>
@@ -62,7 +69,7 @@
             <th>Popularity</th>
             <td id="popularity">[insert]</td>
         </tr>
-        <tr>
+        <tr class="gray">
             <th>Link</th>
             <td id="link">[insert]</td>
         </tr>
@@ -70,19 +77,15 @@
             <th>Language</th>
             <td id="language">[insert]</td>
         </tr>
-        <tr>
+        <tr class="gray">
             <th>Production Company</th>
             <td id="productioncompany">[insert]</td>
         </tr>
         <tr>
-            <th>Production Countires</th>
+            <th>Production Countries</th>
             <td id="productioncountries">[insert]</td>
         </tr>
-        <tr>
-            <th>Link</th>
-            <td id="link">[insert]</td>
-        </tr>
-        <tr>
+        <tr class="gray">
             <th>Release Date</th>
             <td id="releasedate">[insert]</td>
         </tr>
@@ -90,22 +93,27 @@
             <th>Revenue</th>
             <td id="revenue">[insert]</td>
         </tr>
-        <tr>
+        <tr class="gray">
             <th>Budget</th>
             <td id="budget">[insert]</td>
         </tr>
         <tr>
-            <th>Status</th>
+            <th>Status (as of 2017)</th>
             <td id="status">[insert]</td>
         </tr>
-        <tr>
-            <th>Link</th>
-            <td id="link">[insert]</td>
-        </tr>
-        <tr>
+        <tr class="gray">
             <th>Rating</th>
             <td id="rating">[insert]</td>
         </tr>
+        <tr>
+            <th>Cast</th>
+            <td id="cast">[insert]</td>
+        </tr>
+        <tr>
+            <th>Crew</th>
+            <td id="crew">[insert]</td>
+        </tr>
+        <tr>
 
     </table>
 

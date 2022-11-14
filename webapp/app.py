@@ -34,7 +34,7 @@ def search_page():
 def overview_page():
     return render_template('mockup3.html')
 
-@app.route('/popularity')
+@app.route('/generator')
 def popularity_page():
     return render_template('mockup4.html')
 

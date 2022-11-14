@@ -16,22 +16,35 @@ function onButtonPress() {
     if(randomizer){
         var selector = document.getElementById("selector");
         var search_text = document.getElementById("search_text");
-        url+='search_text='+search_text.value+'&';
+        url+='search_text='+encodeURIComponent(search_text.value)+'&';
         url+='randomizer=True&';
         url+='selector=';//+selector.selectedOptions[0].value;
     }else{
         var search_text = document.getElementById("search_text");
-        url+='search_text='+search_text.value+'&';
+        url+='search_text='+encodeURIComponent(search_text.value)+'&';
         url+='randomizer=False&';
         url+='selector=';
     }
 
     title = document.getElementById('title');
     overview = document.getElementById('overview');
-    table = document.getElementById('table');
-    popularity = document.getElementById('popularity');
     tagline = document.getElementById('tagline');
+    //table = document.getElementById('table');
+    director = document.getElementById('director');
+    cast = document.getElementById('cast');
+    popularity = document.getElementById('popularity');
     rating = document.getElementById('rating');
+    genres = document.getElementById('genres');
+    popularity = document.getElementById('popularity');
+    link = document.getElementById('link');
+    language = document.getElementById('language');
+    production_company = document.getElementById('productioncompany');
+    production_countries = document.getElementById('productioncountries');
+    release_date = document.getElementById('releasedate');
+    revenue = document.getElementById('revenue');
+    budget = document.getElementById('budget');
+    movie_status = document.getElementById('status');
+    keywords = document.getElementById('keywords');
 
     const tableList = ["collection","director","genre","releasedate"];
 
@@ -46,13 +59,32 @@ function onButtonPress() {
         }
         */
         title.innerHTML=movie['title'];
-        if(movie['tagline']!=''){
+        //console.log(movie['tagline']);
+        if(movie['tagline']!=null){
             tagline.innerHTML='<h4><center>'+movie['tagline']+'</center></h4>';
+        }else{
+            tagline.innerHTML='';
         }
+        overview.innerHTML='<p>'+movie['overview']+'</p>';
+        director.innerHTML=movie['director'];
+        cast.innerHTML=movie['actors'];
+        production_company.innerHTML=movie['companies'];
+        production_countries.innerHTML=movie['countries'];
+        crew.innerHTML=movie['crew'];
+        keywords.innerHTML=movie['keywords'];
+        genres.innerHTML=movie['genres'];
+        popularity.innerHTML=movie['popularity'];
+        link.innerHTML='<a href="'+movie['link']+'" target="_blank">'+movie['link']+'</a>';
+        language.innerHTML=movie['language'];
+        release_date.innerHTML=movie['release_date'];
 
-       overview.innerHTML='<p>'+movie['overview']+'</p>';
-       popularity.innerHTML=movie['popularity'];
-       rating.innerHTML=parseFloat(movie['rating']);
+        let dollarUSLocale = Intl.NumberFormat('en-US');
+        revenue.innerHTML='$'+dollarUSLocale.format(movie['revenue']);
+        budget.innerHTML='$'+dollarUSLocale.format(movie['budget']);
+        movie_status.innerHTML=movie['status'];
+        rating.innerHTML=parseFloat(movie['rating']);
+
+
 
         //results.innerHTML=listBody;
     })
@@ -78,7 +110,7 @@ function random_filters(){
     }
 }
 */
-
+/*
 function loadlist(){
     var list = document.getElementById('droplist');
     let url = getAPIBaseURL()+'/overviewlistload/';
@@ -95,6 +127,7 @@ function loadlist(){
     })
 
 }
+*/
 
 function initialize() {
     var button = document.getElementById('submission');
@@ -110,7 +143,8 @@ function initialize() {
         let listBody='';
         for(i=0; i<movies.length; i++){
             movie=movies[i];
-            listBody+='<option value=\''+movie['title']+'\'>';
+            //listBody+='<option value=\''+movie['title']+' ('+movie['release_date']+') [id:'+movie['id']+']\'>';
+            listBody+='<option value=\''+movie['id']+'\'>'+movie['title']+' ('+movie['release_date']+')</option>';
         }
         list.innerHTML=listBody
     })

@@ -9,7 +9,8 @@ CREATE TABLE movies(
     popularity DECIMAL,
     revenue BIGINT,
     budget BIGINT,
-    released TEXT);
+    released TEXT
+    adult TEXT);
 
 CREATE TABLE movies_directors(
     movie_id INTEGER,
