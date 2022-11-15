@@ -1,8 +1,8 @@
 README.txt
 
-VIDINFO
+AUTHORS: Aaron Bronstone and Jack Owens
 
-Creators: Aaron Bronstone and Jack Owens
+DATA: A dataset of around 45,000 movies along with lots of specific metadata.
 
 --------------------------------------------------------------------------
 Working features:
