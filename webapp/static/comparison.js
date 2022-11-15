@@ -19,6 +19,8 @@ function onButtonPress(){
     var movie2_revenue = document.getElementById('movie2revenue');
     var movie1_budget = document.getElementById('movie1budget');
     var movie2_budget = document.getElementById('movie2budget');
+    var movie1_runtime = document.getElementById('movie1runtime');
+    var movie2_runtime = document.getElementById('movie2runtime');
 
     let url = getAPIBaseURL()+'/comparisonresults/';
     url+='?';
@@ -31,15 +33,15 @@ function onButtonPress(){
     .then(function(movies){
         firstmoviedata = movies[0];
         secondmoviedata = movies[1];
-        let listBody='';
-        listBody+='<option>'+firstmoviedata['title']+'</option>';
-        movie1_title.innerHTML=listBody;
+        movie1_title.innerHTML='<option>'+firstmoviedata['title']+'</option>';
         movie2_title.innerHTML='<option>'+secondmoviedata['title']+'</option>';
         let dollarUSLocale = Intl.NumberFormat('en-US');
         movie1_revenue.innerHTML = '$'+dollarUSLocale.format(firstmoviedata['revenue']);
         movie2_revenue.innerHTML = '$'+dollarUSLocale.format(secondmoviedata['revenue']);
         movie1_budget.innerHTML = '$'+dollarUSLocale.format(firstmoviedata['budget']);
         movie2_budget.innerHTML = '$'+dollarUSLocale.format(secondmoviedata['budget']);
+        movie1_runtime.innerHTML = firstmoviedata['runtime']+' m';
+        movie2_runtime.innerHTML = secondmoviedata['runtime']+' m';
     })
     .catch(function(error){
         console.log(error);

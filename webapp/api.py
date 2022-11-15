@@ -496,10 +496,11 @@ def get_popularity():
         print(cursor.query)
         for row in cursor:
             if (len(row) > 1):
-                entity = {'title':row[0], 'criteria':int(row[1])}
+                entity = {'title':row[0], 'criteria':str(row[1])}
             else:
                 entity = {'title':row[0]}
-            entity_list.append(entity)
+            if entity['criteria'] != 'None':
+                entity_list.append(entity)
         cursor.close()
         connection.close()
     except Exception as e:
@@ -509,12 +510,11 @@ def get_popularity():
 
 @api.route('/comparisonresults/')
 def get_comparison():
-    print('yes')
     first_movie = flask.request.args.get('firstmovie',default='')
     second_movie = flask.request.args.get('secondmovie',default='')
     arguments =[]
-    query1='SELECT movies.title,movies.revenue,movies.budget FROM movies WHERE movies.title=%s LIMIT 1;'
-    query2='SELECT movies.title,movies.revenue,movies.budget FROM movies WHERE movies.title=%s LIMIT 1;'
+    query1='SELECT movies.title,movies.revenue,movies.budget,movies.runtime FROM movies WHERE movies.title=%s LIMIT 1;'
+    query2='SELECT movies.title,movies.revenue,movies.budget,movies.runtime FROM movies WHERE movies.title=%s LIMIT 1;'
     arguments.append(first_movie)
     movie_list=[]
     try:
@@ -523,7 +523,7 @@ def get_comparison():
         cursor.execute(query1,arguments)
         print(cursor.query)
         for row in cursor:
-            movie = {'title':row[0], 'revenue':row[1], 'budget':row[2]}
+            movie = {'title':row[0], 'revenue':row[1], 'budget':row[2], 'runtime':str(int(row[3]))}
             movie_list.append(movie)
         cursor.close()
         connection.close()
@@ -537,7 +537,7 @@ def get_comparison():
         cursor.execute(query2,arguments)
         print(cursor.query)
         for row in cursor:
-            movie = {'title':row[0], 'revenue':row[1], 'budget':row[2]}
+            movie = {'title':row[0], 'revenue':row[1], 'budget':row[2], 'runtime':str(int(row[3]))}
             movie_list.append(movie)
         cursor.close()
         connection.close()
