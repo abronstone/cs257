@@ -433,41 +433,72 @@ def get_popularity():
     sorted_entity = flask.request.args.get('variable',default='')
     sort_criteria = flask.request.args.get('value',default='')
     descending = flask.request.args.get('descending',default='')
-    arguments=[sort_criteria]
+    query = ''''''
+    sort_string = ''
+    if sort_criteria == 'popularity':
+        sort_string = 'popularity'
+    if sort_criteria == 'release_date':
+        sort_string = 'release_date'
+    if sort_criteria == 'revenue':
+        sort_string = 'revenue'
+    if sort_criteria == 'budget':
+        sort_string = 'budget'
     if sorted_entity == 'movies':
-        query='SELECT title FROM '+sorted_entity+' ORDER BY '+sort_criteria+';'
         if descending!='on':
-            query='SELECT title FROM '+sorted_entity+' ORDER BY '+sort_criteria+' DESC;'
+            query='''SELECT title,'''+sort_string+ ''' FROM movies ORDER BY '''+sort_string+''' DESC;'''
+        else:
+            query='''SELECT title,'''+sort_string+ ''' FROM movies ORDER BY '''+sort_string+''';'''
     elif sorted_entity == 'genre':
         query='SELECT name FROM genres;'
     elif sorted_entity == 'production_company':
         query='SELECT name FROM production_companies;'
+        # if descending!='on':
+        #     query='''SELECT production_companies.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
+        #             LEFT JOIN movies_companies ON movies_companies.movie_id=movies.id
+        #             LEFT JOIN production_companies ON movies_companies.production_company_id=production_companies.id
+        #             GROUP BY production_companies.id,production_companies.name
+        #             ORDER BY avg_popularity desc;'''
     elif sorted_entity == 'production_countries':
         query='SELECT name FROM countries;'
     elif sorted_entity == 'language':
         query='SELECT name FROM languages;'
     elif sorted_entity == 'directors':
         if descending!='on':
-            query = '''SELECT directors.name,directors.id,AVG(movies.popularity) as avg_popularity from movies
+            query = '''SELECT directors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
                     LEFT JOIN movies_directors ON movies_directors.movie_id=movies.id
                     LEFT JOIN directors ON movies_directors.director_id=directors.id
                     GROUP BY directors.id,directors.name
                     ORDER BY avg_popularity desc;'''
         else:
-            query = '''SELECT directors.name,directors.id,AVG(movies.popularity) as avg_popularity from movies
+            query = '''SELECT directors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
                     LEFT JOIN movies_directors ON movies_directors.movie_id=movies.id
                     LEFT JOIN directors ON movies_directors.director_id=directors.id
                     GROUP BY directors.id,directors.name
                     ORDER BY avg_popularity;'''
-    else:
-        query='SELECT name FROM '+sorted_entity+';'
+    elif sorted_entity == 'actors':
+        if descending!='on':
+            query='''SELECT actors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
+                    LEFT JOIN movies_actors ON movies_actors.movie_id=movies.id
+                    LEFT JOIN actors ON movies_actors.actor_id=actors.id
+                    GROUP BY actors.id,actors.name
+                    ORDER BY avg_popularity desc;'''
+        else:
+            query='''SELECT actors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
+                    LEFT JOIN movies_actors ON movies_actors.movie_id=movies.id
+                    LEFT JOIN actors ON movies_actors.actor_id=actors.id
+                    GROUP BY actors.id,actors.name
+                    ORDER BY avg_popularity;'''
     entity_list=[]
     try:
         connection = get_connection()
         cursor = connection.cursor()
-        cursor.execute(query,arguments)
+        cursor.execute(query)
+        print(cursor.query)
         for row in cursor:
-            entity = {'title':row[0]}
+            if (len(row) > 1):
+                entity = {'title':row[0], 'criteria':int(row[1])}
+            else:
+                entity = {'title':row[0]}
             entity_list.append(entity)
         cursor.close()
         connection.close()

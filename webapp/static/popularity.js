@@ -21,6 +21,7 @@ function onButtonPress(){
     if (descending.checked){
         url+=descending.value;
     }
+    let dollarUSLocale = Intl.NumberFormat('en-US');
     results.innerHTML='Loading...';
     fetch(url,{method:'get'})
     .then((response) => response.json())
@@ -28,8 +29,19 @@ function onButtonPress(){
         let listBody='';
         results.innerHTML+='test';
         for(let i=0; i<quantity.value; i++){
+            let listString = '';
             let entity=entities[i];
-            listBody+='<li>'+entity['title']+'</li>';
+            if (entity['criteria']){
+                listString='<li>'+entity['title']+'   '+entity['criteria']+'</li>';
+            }
+            else {
+                listString+='<li>'+entity['title']+'</li>';
+            }
+            if ((val.value.localeCompare('budget') == 0 || val.value.localeCompare('revenue') == 0) && (entity['criteria'])) {
+                listString='<li>'+entity['title']+'  $'+dollarUSLocale.format(entity['criteria'])+'</li>';
+            }
+            listBody+=listString;
+                
         }
         results.innerHTML=listBody;
     })
