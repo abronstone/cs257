@@ -430,7 +430,50 @@ def overview_list_load():
 
 @api.route('/popularityresults/')
 def get_popularity():
-    query=''''''
+    sorted_entity = flask.request.args.get('variable',default='')
+    sort_criteria = flask.request.args.get('value',default='')
+    descending = flask.request.args.get('descending',default='')
+    arguments=[sort_criteria]
+    if sorted_entity == 'movies':
+        query='SELECT title FROM '+sorted_entity+' ORDER BY '+sort_criteria+';'
+        if descending!='on':
+            query='SELECT title FROM '+sorted_entity+' ORDER BY '+sort_criteria+' DESC;'
+    elif sorted_entity == 'genre':
+        query='SELECT name FROM genres;'
+    elif sorted_entity == 'production_company':
+        query='SELECT name FROM production_companies;'
+    elif sorted_entity == 'production_countries':
+        query='SELECT name FROM countries;'
+    elif sorted_entity == 'language':
+        query='SELECT name FROM languages;'
+    elif sorted_entity == 'directors':
+        if descending!='on':
+            query = '''SELECT directors.name,directors.id,AVG(movies.popularity) as avg_popularity from movies
+                    LEFT JOIN movies_directors ON movies_directors.movie_id=movies.id
+                    LEFT JOIN directors ON movies_directors.director_id=directors.id
+                    GROUP BY directors.id,directors.name
+                    ORDER BY avg_popularity desc;'''
+        else:
+            query = '''SELECT directors.name,directors.id,AVG(movies.popularity) as avg_popularity from movies
+                    LEFT JOIN movies_directors ON movies_directors.movie_id=movies.id
+                    LEFT JOIN directors ON movies_directors.director_id=directors.id
+                    GROUP BY directors.id,directors.name
+                    ORDER BY avg_popularity;'''
+    else:
+        query='SELECT name FROM '+sorted_entity+';'
+    entity_list=[]
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(query,arguments)
+        for row in cursor:
+            entity = {'title':row[0]}
+            entity_list.append(entity)
+        cursor.close()
+        connection.close()
+    except Exception as e:
+        print(e, file=sys.stderr)
+    return json.dumps(entity_list)
 
 
 @api.route('/comparisonresults/')
