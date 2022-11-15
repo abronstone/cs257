@@ -3,6 +3,7 @@
 '''
     app.py for Vidinfo
     Jack Owens and Aaron Bronstone
+    Fully commented
 '''
 
 import json
@@ -14,35 +15,51 @@ from flask import Flask,render_template
 app = Flask(__name__,static_folder='static',template_folder='templates')
 app.register_blueprint(api.api, url_prefix='/api')
 
+#Renders the 'index.html' template at https://127.0.0.1/index
 @app.route('/index')
 def index():
     return render_template('index.html')
 
+#Renders the 'main.html' template at https://127.0.0.1/main, used mainly for testing purposes
 @app.route('/main')
 def get_help():
     return 'This is the main page, no html file found here!'
 
+#Renders the 'mockup1.html' 'MAIN PAGE' template at https://127.0.0.1/
 @app.route('/')
 def main_page():
     return render_template('mockup1.html')
 
-@app.route('/search')
+#Renders the 'mockup2.html' 'SEARCH' template at https://127.0.0.1/search
+@app.route('/movies')
 def search_page():
     return render_template('mockup2.html')
 
+#Renders the 'mockup3.html' 'OVERVIEWS' template at https://127.0.0.1/overviews
 @app.route('/overviews')
 def overview_page():
     return render_template('mockup3.html')
 
-@app.route('/generator')
+#Renders the 'mockup4.html' 'POPULARITY' template at https://127.0.0.1/popularity (will be changed to /generator after 'First Draft Review' assignment)
+@app.route('/popularity')
 def popularity_page():
     return render_template('mockup4.html')
 
+#Renders the 'mockup5.html' 'COMPARISON' template at https://127.0.0.1/comparison
 @app.route('/comparison')
 def comparison_page():
     return render_template('mockup5.html')
 
+
+#Switching to using sys.argv on 11/14/22:
 if __name__=='__main__':
     host = 'localhost'
     port = 5000
     app.run(host=host,port=port,debug=True)
+
+'''OLD MAIN VERSION:
+if __name__=='__main__':
+    host = 'localhost'
+    port = 5000
+    app.run(host=host,port=port,debug=True)
+'''

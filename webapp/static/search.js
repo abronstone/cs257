@@ -13,7 +13,7 @@ function getAPIBaseURL(){
 
 
 function onSubmitPress() {
-    const criteria = ["title","director","keyword","collection","cast","crew","productioncompany","genre","languagedroplist","rating","country","releasedate"];
+    const criteria = ["title","director","keyword","collection","cast","crew","productioncompany","genre","languagedroplist","country","releasedate"];
     var results = document.getElementById("result-list");
     let url = getAPIBaseURL() + '/searchresults/';
     //var first = document.getElementById(criteria[0]);
@@ -33,9 +33,16 @@ function onSubmitPress() {
         }
         url+='&';
     }
+    var rating_box = document.querySelector('#rating-box');
+    url+='ratingbox=';
+    if(rating_box.checked){
+        url+=rating_box.value;
+        var rating = document.getElementById('rating');
+        url+='&rating='+rating.value;
+    }
     var released = document.querySelector('#released');
     //results.innerHTML+='<li>Released: '+released.checked+"</li>";
-    url+='released='
+    url+='&released='
     if(released.checked){
         url+=released.value;
     }

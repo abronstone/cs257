@@ -2,7 +2,7 @@ Aaron Bronstone and Jack Owens
 
 ----------------------------------------------------------
 
-REQUEST: /search
+REQUEST: /searchresults
 
 GET parameters:
 	-title (Optional, default='') -- returns movies whose title contains input, case insensitive
@@ -24,7 +24,6 @@ RESPONSE:
 	a JSON list of dictionaries, each representing a movie, each with the following fields:
 	-id number
 	-Movie title
-	-Director
 	-IMDB link
 
 EXAMPLES:
@@ -33,13 +32,10 @@ EXAMPLES:
 	[{'id'=___,'title'=superman'},{},...]	
 
 ------------------------
-REQUEST: /overview
+REQUEST: /overviewresults
 
 GET parameter:
-	-Title (Required) -- returns all movie data for the inputted movie title
-	-Random movie (optional) -- switches the overview page to random movie version
-		-Movie data type (Optional,default="") -- returns random movie based on selected data type
-		-Data type input (Required if previous is chosed,default="") -- returns random movie that follows the selected input
+	-ID (Required) -- returns all movie data for the inputted movie id
 
 RESPONSE:
 	-JSON dictionary with ALL movie metadata:
@@ -60,7 +56,7 @@ EXAMPLE:
 	{False,"{'id': 10194, 'name': 'Toy Story Collection', 'poster_path': '/7G9915LfUQ2lVfwMEEhDsn3kT4B.jpg', 'backdrop_path': '/9FBwqcd9IRruEDUrTdcaafOMKUq.jpg'}",30000000,"[{'id': 16, 'name': 'Animation'}, {'id': 35, 'name': 'Comedy'}, {'id': 10751, 'name': 'Family'}]",http://toystory.disney.com/toy-story,862,tt0114709,en,Toy Story,"Led by Woody, Andy's toys live happily in his room until Andy's birthday brings Buzz Lightyear onto the scene. Afraid of losing his place in Andy's heart, Woody plots against Buzz. But when circumstances separate Buzz and Woody from their owner, the duo eventually learns to put aside their differences.",21.946943,/rhIRbceoE9lR4veEXuwCC2wARtG.jpg,"[{'name': 'Pixar Animation Studios', 'id': 3}]","[{'iso_3166_1': 'US', 'name': 'United States of America'}]",1995-10-30,373554033,81.0,"[{'iso_639_1': 'en', 'name': 'English'}]",Released,,Toy Story,False,7.7,5415}
 
 ------------------------
-REQUEST: /popularity
+REQUEST: /popularityresults
 
 GET parameters:
 	-Object [movies,directors,actors,etc] (Required,default='movies')
@@ -82,7 +78,7 @@ EXAMPLE: /popularity?object=movies&value=popularity
 	]
 
 ------------------------
-REQUEST: /comparison
+REQUEST: /comparisonresults
 
 GET parameters:
 	-Movie 1 (Required)

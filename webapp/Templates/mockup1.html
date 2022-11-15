@@ -12,21 +12,10 @@
 <body>
     <h1>
         <a class='main_button' href="http://127.0.0.1:5000">VIDINFO</a>
-        <!--This is how to make a Stylized Drop Down List.-->
-        <!--
-        <div class="dropdown">
-            <button class="dropbtn">USE!</button>
-            <div class="dropdown-content">
-                <a href="#">SEARCH</a>
-                <a href="#">MOST POPULAR</a>
-                <a href="#">OVERVIEWS</a>
-                <a href="#">COMPARISON</a>
-            </div>
-        </div>
-        -->
     </h1>
+    <br><br>
     <div id="main_buttons">
-        <form action="http://127.0.0.1:5000/search">
+        <form action="http://127.0.0.1:5000/movies">
             <button type='submit' id="button1" class="function_button">SEARCH</button>
         </form>
         <form action="http://127.0.0.1:5000/comparison">
@@ -35,13 +24,16 @@
         <form action="http://127.0.0.1:5000/overviews">
             <button type='submit' id="button3" class="function_button">OVERVIEWS</button>
         </form>
-        <form action="http://127.0.0.1:5000/generator">
+        <form action="http://127.0.0.1:5000/popularity">
             <button type='submit' id="button4" class="function_button">MOST POPULAR</button>
         </form> 
     </div>
-    <p>This is a web application designed by Jack Owens and Aaron Bronstone in CS257: Software Design at Carleton College. This application allows you to do the following:<br><br>
-    1.) Search for movies based on a number of criteria, including title, director, genre, cast, production company, etc.<br>
-    2.) ..........
+    <br><br>
+    <p style="width:90%;margin-right:auto;margin-left:auto;">VIDINFO is a web application designed by Jack Owens and Aaron Bronstone in CS257: Software Design at Carleton College. This application supports the following four pages:<br><br>
+    1.) <strong>SEARCH:</strong> search for movies based on custom filters!<br><br>
+    2.) <strong>OVERVIEWS:</strong> get a detailed overview of a particular movie!<br><br>
+    3.) <strong>POPULARITY:</strong> get a list of the most popular movies, directors, actors, genres, and much more!<br><br>
+    4.) <strong>COMPARISON:</strong> get a comparison of common competitive values between movies, such as rating, popularity, budget and revenue!<br><br>
     </p>
 
     

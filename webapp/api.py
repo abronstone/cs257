@@ -2,6 +2,9 @@
     api.py
     Jack Owens and Aaron Bronstone
     Created 11/07/22
+    Need to comment:
+        get_popularity()
+        get_comparison()
 '''
 import sys
 import flask
@@ -12,6 +15,8 @@ import urllib.request
 
 api=flask.Blueprint('api',__name__)
 
+
+#Returns a psycopg2 connection, using PostgreSQL database login info found in config.py
 def get_connection():
     ''' Returns a database connection object with which you can create cursors,
         issue SQL queries, etc. This function is extremely aggressive about
@@ -27,37 +32,67 @@ def get_connection():
         exit()
 
 def add_where_clauses(where_clause,num_params):
+    '''
+        Updates the inputted where_clause with either 'WHERE' or 'AND', depending on how many SQL parameters are already in the clause.
+
+        @param:
+            -where_clause (current 'WHERE' clause)
+            -num_params (current number of SQL 'WHERE' parameters)
+        @return:
+            -updated 'WHERE' clause string
+
+        CALLER:
+            api.py > get_search()
+    '''
     if num_params>=1:
         where_clause = where_clause + ''' AND '''
     elif num_params==0:
         where_clause = where_clause + ''' WHERE '''
     return where_clause
 
+@api.route('/help/')
+def help():
+    with open('api-design.txt') as f:
+        contents = f.readlines()
+    return contents
+
 @api.route('/searchresults/')
 def get_search():
-    title=flask.request.args.get('title',default='')
-    director=flask.request.args.get('director',default='')
-    keyword=flask.request.args.get('keyword',default='')
-    collection=flask.request.args.get('collection',default='')
-    cast=flask.request.args.get('cast',default='')
-    crew=flask.request.args.get('crew',default='')
-    productioncompany=flask.request.args.get('productioncompany',default='')
-    genre=flask.request.args.get('genre',default='')
-    language=flask.request.args.get('languagedroplist',default='')
-    rating=flask.request.args.get('rating',default='')
-    country=flask.request.args.get('country',default='')
-    releasedate=flask.request.args.get('releasedate',default='')
-    released=flask.request.args.get('released',default='')
-    adult=flask.request.args.get('adult',default='')
-    numParameters = 0
-    #Add all other tables after converted
+    '''
+        This API endpoint goes through the following steps:
+            1.) Uses Flask to get the query parameters from the API url
+            2.) Adds the query parameters to a 'WHERE' clause
+            3.) Formulates an SQL query to select the movie title, movie id, imdb link, and movie release_date
+            4.) Returns a JSON formatted list of movie objects using json.dumps()
+        
+        CALLER:
+            search.js > 'onButtonSubmit'
+    '''
+    title = flask.request.args.get('title',default='')
+    director = flask.request.args.get('director',default='')
+    keyword = flask.request.args.get('keyword',default='')
+    collection = flask.request.args.get('collection',default='')
+    cast = flask.request.args.get('cast',default='')
+    crew = flask.request.args.get('crew',default='')
+    productioncompany = flask.request.args.get('productioncompany',default='')
+    genre = flask.request.args.get('genre',default='')
+    language = flask.request.args.get('languagedroplist',default='')
+    rating_box = flask.request.args.get('ratingbox',default='')
+    rating = flask.request.args.get('rating',default='')
+    country = flask.request.args.get('country',default='')
+    releasedate = flask.request.args.get('releasedate',default='')
+    released = flask.request.args.get('released',default='')
+    adult = flask.request.args.get('adult',default='')
+    
     query = ''''''
     selections = '''SELECT movies.id,movies.title,movies.imdb_link,movies.release_date'''
     sources = ''' FROM movies'''
     where_clause = ''''''
     group_by_clause = ''''''
     arguments = []
-    num_params=0
+    num_params = 0
+
+    #TITLE
     if title != '':
         if num_params>=1:
             where_clause = where_clause + ''' AND '''
@@ -66,6 +101,7 @@ def get_search():
         where_clause = where_clause + '''title ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(title)
         num_params+=1
+    #DIRECTOR
     if director != '':
         sources = sources + ''',movies_directors,directors'''
         if num_params>=1:
@@ -75,6 +111,7 @@ def get_search():
         where_clause = where_clause + '''movies.id=movies_directors.movie_id AND movies_directors.director_id=directors.id AND directors.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(director)
         num_params+=1
+    #KEYWORD
     if keyword != '':
         sources = sources + ''',movies_keywords,keywords'''
         if num_params>=1:
@@ -84,6 +121,7 @@ def get_search():
         where_clause = where_clause + '''movies.id=movies_keywords.movie_id AND movies_keywords.keyword_id=keywords.id AND keywords.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(keyword)
         num_params+=1
+    #COLLECTION
     if collection != '':
         sources = sources + ''',collections'''
         if num_params>=1:
@@ -93,6 +131,7 @@ def get_search():
         where_clause = where_clause + '''movies.collection_id=collections.collection_id AND collections.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(collection)
         num_params+=1
+    #CAST
     if cast != '':
         sources = sources + ''',movies_actors,actors'''
         if num_params>=1:
@@ -102,6 +141,7 @@ def get_search():
         where_clause = where_clause + '''movies.id=movies_actors.movie_id AND movies_actors.actor_id=actors.id AND actors.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(cast)
         num_params+=1
+    #CREW
     if crew != '':
         sources = sources + ''',movies_crew,crew'''
         if num_params>=1:
@@ -111,6 +151,7 @@ def get_search():
         where_clause = where_clause + '''movies.id=movies_crew.movie_id AND movies_crew.crew_id=crew.id AND crew.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(crew)
         num_params+=1
+    #PRODUCTION COMPANY
     if productioncompany != '':
         sources = sources + ''',movies_companies,production_companies'''
         if num_params>=1:
@@ -120,6 +161,7 @@ def get_search():
         where_clause = where_clause + '''movies.id=movies_companies.movie_id AND movies_companies.production_company_id=production_companies.id AND production_companies.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(productioncompany)
         num_params+=1
+    #GENRE
     if genre != '':
         sources = sources+''',movies_genres,genres'''
         if num_params>=1:
@@ -129,6 +171,7 @@ def get_search():
         where_clause = where_clause + '''movies.id=movies_genres.movie_id AND movies_genres.genre_id=genres.id AND genres.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(genre)
         num_params+=1
+    #LANGUAGE
     if language != '':
         sources = sources+''',movies_languages,languages'''
         if num_params>=1:
@@ -138,15 +181,17 @@ def get_search():
         where_clause = where_clause + '''movies.id=movies_languages.movie_id AND movies_languages.language_id=languages.id AND languages.id=%s'''
         arguments.append(language)
         num_params+=1
-    if rating != '':
+    #RATING
+    if rating_box != '':
         sources = sources + ''',movies_ratings'''
         if num_params>=1:
             where_clause = where_clause + ''' AND '''
         elif num_params==0:
             where_clause = where_clause + ''' WHERE '''
-        where_clause = where_clause + '''movies.id=movies_ratings.movie_id AND (movies_ratings.average_rating>%s OR movies_ratings.average_rating IS NULL)'''
+        where_clause = where_clause + '''movies.id=movies_ratings.movie_id AND movies_ratings.average_rating>%s'''
         arguments.append(rating)
         num_params+=1
+    #COUNTRY
     if country != '':
         sources = sources + ''',movies_countries,countries'''
         if num_params>=1:
@@ -156,6 +201,7 @@ def get_search():
         where_clause = where_clause + '''movies.id=movies_countries.movie_id AND movies_countries.country_id=countries.id AND countries.name ILIKE CONCAT('%%',%s,'%%')'''
         arguments.append(country)
         num_params+=1
+    #RELEASE DATE
     if releasedate != '':
         if num_params>=1:
             where_clause = where_clause + ''' AND '''
@@ -164,19 +210,23 @@ def get_search():
         where_clause = where_clause + '''movies.release_date>%s'''
         arguments.append(releasedate)
         num_params+=1
+    #RELEASED
     if released!='on':
         if num_params>=1:
             where_clause = where_clause + ''' AND '''
         elif num_params==0:
             where_clause = where_clause + ''' WHERE ''' 
         where_clause = where_clause + '''movies.released=\'Released\''''
+        num_params+=1
+    #ADULT
     if adult!='on':
         if num_params>=1:
             where_clause = where_clause + ''' AND '''
         elif num_params==0:
             where_clause = where_clause + ''' WHERE ''' 
         where_clause = where_clause + '''movies.adult=\'False\''''
-    query = selections + sources + where_clause + group_by_clause + ''' ORDER BY movies.title;'''
+    
+    query = selections + sources + where_clause + group_by_clause + ''' ORDER BY movies.title,movies.release_date;'''
     
     movie_list=[]
     try:
@@ -196,14 +246,20 @@ def get_search():
 
 @api.route('/searchlanguageload/')
 def get_languages():
-    #print('loading languages')
+    '''
+        This API endpoint submits a query to pull all unique languages from the PSQL database 
+        to be used for the 'language' datalist input
+
+        CALLER: 
+            search.js > 'initialize'
+    '''
     query = '''SELECT id,name from languages;'''
     language_list=[]
     try:
         connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query)
-        print(cursor.query)
+        #print(cursor.query)
         for row in cursor:
             language = {'id':row[0],'name':row[1]}
             language_list.append(language)
@@ -211,18 +267,18 @@ def get_languages():
         connection.close()
     except Exception as e:
         print(e, file=sys.stderr)
-    print(language_list)
     return json.dumps(language_list)
 
 @api.route('/overviewresults/')
 def get_overview():
-    '''print('results')
-    search_text = flask.request.args.get('search_text',default='')
-    id=int(search_text[search_text.find('[id:')+4:-1])
-    search_text=search_text[0:search_text.find('[id:')-8]
-    print('[',search_text,']')
-    print('[',id,']')
-    print(type(search_text))
+    '''
+        This API endpoint performs the following steps:
+            1.) Creates an SQL query that returns most metadata from the selected movie id
+            2.) Formats each metadata to be represented in string format (json.dumps() compatible) and puts it into a movie object
+            2.) Returns the movie object in JSON format
+
+        CALLER:
+            overviews.js > 'onButtonPress'
     '''
     id=flask.request.args.get('search_text',default='')
     selector = flask.request.args.get('selector',default='')
@@ -352,13 +408,16 @@ def get_overview():
 
 @api.route('/overviewlistload/')
 def overview_list_load():
+    '''
+        This API loads the entire list of movie id's and titles from the PSQL database to be used in the 'droplist' input in mockup3.html.
+    '''
     query = '''SELECT title,release_date,id from movies ORDER by popularity DESC;'''
     movie_list=[]
     try:
         connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query)
-        print(cursor.query)
+        #print(cursor.query)
         for row in cursor:
             movie = {'title':row[0],'release_date':str(row[1])[0:4],'id':row[2]}
             movie_list.append(movie)

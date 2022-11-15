@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="webapp.css" type="text/css" />
     <link rel="stylesheet" href="static/webapp.css" type="text/css" />
     <link rel="icon" href="img/favicon.ico" type="image/png">
-    <script type="text/javascript" src="popularity.js"></script>
+    <script type="text/javascript" src="static/popularity.js"></script>
 </head>
 <body>
     <div class="dropdown">
-        <button class="dropbtn"><strong>Go to...</strong></button>
+        <button class="dropbtn"><strong>POPULARITY</strong></button>
         <div class="dropdown-content">
-          <a href="http://127.0.0.1:5000/search">Search</a>
+          <a href="http://127.0.0.1:5000/movies">Search</a>
           <a href="http://127.0.0.1:5000/overviews">Overviews</a>
           <a href="http://127.0.0.1:5000/popularity">Popularity</a>
           <a href="http://127.0.0.1:5000/comparison">Comparison</a>
@@ -24,10 +24,7 @@
         <a class='main_button' href="http://127.0.0.1:5000">VIDINFO</a>
     </h1>
     
-
-    <h2>
-        POPULARITY:
-    </h2>
+    <br><br><br>
 
     <div id="filter">
         <label for="criteria">Sort...</label>
@@ -54,10 +51,8 @@
         <input type="checkbox" class="" id="descending"><br><br>
         <button id="submission">Submit</button> 
     </div>
-    <h3>
-        RESULTS:
-    </h3>
     <div id="results" style="margin:20px">
+        <br><strong style="padding:10px;">RESULTS:</strong><br>
         <ul id="results-list">
             <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, fuga?</li>
             <li>Molestiae recusandae eius autem reprehenderit provident id nostrum! Illo, est.</li>

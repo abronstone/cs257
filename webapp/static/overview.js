@@ -25,26 +25,7 @@ function onButtonPress() {
         url+='randomizer=False&';
         url+='selector=';
     }
-
-    title = document.getElementById('title');
-    overview = document.getElementById('overview');
-    tagline = document.getElementById('tagline');
-    //table = document.getElementById('table');
-    director = document.getElementById('director');
-    cast = document.getElementById('cast');
-    popularity = document.getElementById('popularity');
-    rating = document.getElementById('rating');
-    genres = document.getElementById('genres');
-    popularity = document.getElementById('popularity');
-    link = document.getElementById('link');
-    language = document.getElementById('language');
-    production_company = document.getElementById('productioncompany');
-    production_countries = document.getElementById('productioncountries');
-    release_date = document.getElementById('releasedate');
-    revenue = document.getElementById('revenue');
-    budget = document.getElementById('budget');
-    movie_status = document.getElementById('status');
-    keywords = document.getElementById('keywords');
+    
 
     const tableList = ["collection","director","genre","releasedate"];
 
@@ -58,30 +39,63 @@ function onButtonPress() {
             title.innerHTML=movie['title'];
         }
         */
+        title = document.getElementById('title');
         title.innerHTML=movie['title'];
         //console.log(movie['tagline']);
+        tagline = document.getElementById('tagline');
         if(movie['tagline']!=null){
             tagline.innerHTML='<h4><center>'+movie['tagline']+'</center></h4>';
         }else{
             tagline.innerHTML='';
         }
-        overview.innerHTML='<p>'+movie['overview']+'</p>';
-        director.innerHTML=movie['director'];
-        cast.innerHTML=movie['actors'];
-        production_company.innerHTML=movie['companies'];
-        production_countries.innerHTML=movie['countries'];
-        crew.innerHTML=movie['crew'];
-        keywords.innerHTML=movie['keywords'];
-        genres.innerHTML=movie['genres'];
-        popularity.innerHTML=movie['popularity'];
-        link.innerHTML='<a href="'+movie['link']+'" target="_blank">'+movie['link']+'</a>';
-        language.innerHTML=movie['language'];
-        release_date.innerHTML=movie['release_date'];
 
+        overview = document.getElementById('overview');
+        overview.innerHTML = '<p>'+movie['overview']+'</p>';
+
+        director = document.getElementById('director');
+        director.innerHTML = movie['director'];
+
+        cast = document.getElementById('cast');
+        cast.innerHTML = movie['actors'];
+
+        popularity = document.getElementById('popularity');
+        popularity.innerHTML = movie['popularity'];
+
+        production_company = document.getElementById('productioncompany');
+        production_company.innerHTML = movie['companies'];
+
+        production_countries = document.getElementById('productioncountries');
+        production_countries.innerHTML = movie['countries'];
+
+        crew = document.getElementById('crew');
+        crew.innerHTML = movie['crew'];
+
+        keywords = document.getElementById('keywords');
+        keywords.innerHTML = movie['keywords'];
+
+        genres = document.getElementById('genres');
+        genres.innerHTML = movie['genres'];
+
+        link = document.getElementById('link');
+        link.innerHTML = '<a href="'+movie['link']+'" target="_blank">'+movie['link']+'</a>';
+
+        language = document.getElementById('language');
+        language.innerHTML = movie['language'];
+
+        release_date = document.getElementById('releasedate');
+        release_date.innerHTML = movie['release_date'];
+
+        revenue = document.getElementById('revenue');
         let dollarUSLocale = Intl.NumberFormat('en-US');
         revenue.innerHTML='$'+dollarUSLocale.format(movie['revenue']);
+
+        budget = document.getElementById('budget');
         budget.innerHTML='$'+dollarUSLocale.format(movie['budget']);
+
+        movie_status = document.getElementById('status');
         movie_status.innerHTML=movie['status'];
+
+        rating = document.getElementById('rating');
         rating.innerHTML=parseFloat(movie['rating']);
 
 
@@ -92,42 +106,6 @@ function onButtonPress() {
         console.log(error);
     });
 }
-/*
-function random_filters(){
-    var filter = document.getElementById("filter");
-    var randomizer = document.getElementById("random_checkbox");
-    if(randomizer.checked==true){
-        filter.innerHTML= '<label for="object">Get me a random movie with...</label><br><select id="selector"><option></option><option>language</option></selector><input type="text" id="random_input"><button id="submission">Submit</button> ';
-        //<option>director</option></select><input type="text" id="random_input">';
-        var random_input = document.getElementById("random_input");
-        var inputType = "";
-        if(random_input.value=="Director"){
-            inputType="date";
-        }
-        random_input.setAttribute("type",inputType);
-    }else{
-        filter.innerHTML='<label for="search">Movie Title:</label><input name="" type="text" id="search_text"><button id="submission">Submit</button>';
-    }
-}
-*/
-/*
-function loadlist(){
-    var list = document.getElementById('droplist');
-    let url = getAPIBaseURL()+'/overviewlistload/';
-
-    fetch(url,{method:'get'})
-    .then((response) => response.json())
-    .then(function(movies){
-        let listBody='';
-        for(i=0; i<movies.length; i++){
-            movie=movies[i];
-            listBody+='<option value=\''+movie['title']+'\'>';
-        }
-        list.innerHTML=listBody
-    })
-
-}
-*/
 
 function initialize() {
     var button = document.getElementById('submission');

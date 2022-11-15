@@ -16,26 +16,25 @@
 </style>
 <body>
     <div class="dropdown">
-        <button class="dropbtn"><strong>Go to...</strong></button>
+        <button class="dropbtn"><strong>SEARCH</strong></button>
         <div class="dropdown-content">
-          <a href="http://127.0.0.1:5000/search">Search</a>
+          <a href="http://127.0.0.1:5000/movies">Search</a>
           <a href="http://127.0.0.1:5000/overviews">Overviews</a>
           <a href="http://127.0.0.1:5000/popularity">Popularity</a>
           <a href="http://127.0.0.1:5000/comparison">Comparison</a>
         </div>
     </div>
+    
     <h1>
         <a class='main_button' href="http://127.0.0.1:5000/">VIDINFO</a>
     </h1>
-    <h2>
-        SEARCH FOR MOVIES:
-    </h2>
+    <br><br>
     <div class="row">
         <div class="column">
-            <h3>
-                FILTERS:
-            </h3>
             <div id='filter'>
+                <strong>FILTERS:</strong>
+                <button id="submission" style="float:right;">Submit</button><br><br><br>
+
                 <label for="title">Title</label>
                 <input type="text" id="title" name="Movie Title"><br><br>
 
@@ -43,7 +42,7 @@
                 <input type="text" id="director" name="Director"><br><br>
 
                 <label for="keyword">Keyword</label>
-                <input type="text" name="Keyword" id="keywords"><br><br>
+                <input type="text" name="Keyword" id="keyword"><br><br>
 
                 <label for="collection">Collection</label>
                 <input type="text" name="Collection" id="collection"><br><br>
@@ -54,7 +53,7 @@
                 <label for="crew">Crew</label>
                 <input type="text" name="Crew" id="crew"><br><br>
 
-                <label for="productioncompany">Production pompany</label>
+                <label for="productioncompany">Production Company</label>
                 <input type="text" name="Production Company" id="productioncompany"><br><br>
 
                 <label for="genre">Genre</label>
@@ -86,7 +85,8 @@
                 <label for="country">Country of origin</label>
                 <input type="text" name="Country of origin" id="country"><br><br>
 
-                <label for="rating">Rating at or greater than... (1-5)</label>
+                <label for="rating">Rating> (1-5)</label>
+                <input type="checkbox" id="rating-box" name="Rating">
                 <input type="range" id="rating" name="Rating" id="slider" min="1" max="5" value="1"><br><br>
 
                 <label for="releasedate">Released after</label>
@@ -97,16 +97,12 @@
 
                 <label for="adult">Filter adult movies</label>
                 <input type="checkbox" name="Adult" id="adult"><br><br>
-
-                <button id="submission">Submit</button>
                 <!--<input type="submit" value="Submit" id="submit"><br>-->
             </div>
         </div>
         <div class="column">
-            <h3>
-                RESULTS:
-            </h3>
             <div id="results">
+                <strong style="padding:10px;">RESULTS:</strong><br>
                 <ul id="result-list">
                     <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, fuga?</li>
                     <li>Molestiae recusandae eius autem reprehenderit provident id nostrum! Illo, est.</li>
