@@ -9,6 +9,7 @@
 import json
 import sys
 import api
+import argparse
 
 from flask import Flask,render_template
 
@@ -53,9 +54,13 @@ def comparison_page():
 
 #Switching to using sys.argv on 11/14/22:
 if __name__=='__main__':
-    host = 'localhost'
-    port = 5000
-    app.run(host=host,port=port,debug=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('host', help='the host server for the web page')
+    parser.add_argument('port', help='the port the server runs on')
+    #host = 'localhost'
+    #port = 5000
+    arguments = parser.parse_args()
+    app.run(host=arguments.host,port=arguments.port,debug=True)
 
 '''OLD MAIN VERSION:
 if __name__=='__main__':
