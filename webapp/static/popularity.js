@@ -13,23 +13,26 @@ function onButtonPress(){
     variable = document.getElementById('variable');
     val = document.getElementById('value');
     quantity = document.getElementById('quantity');
-    descending = document.getElementById('descending');
-    results = document.getElementById('results-list');
-
+    var descending = document.querySelector('#descending');
+    var results = document.getElementById('results-list');
     let url = getAPIBaseURL()+'/popularityresults/';
+    results.innerHTML = 'Loading...'
     url+='?';
-    url+='variable='+variable.value+'&value='+val.value+'&quantity='+quantity.value+'&descending='+descending.value;
-
+    url+='variable='+variable.value+'&value='+val.value+'&quantity='+quantity.value+'&descending=';
+    if (descending.checked){
+        url+=descending.value;
+    }
+    results.innerHTML='Loading...'
     fetch(url,{method:'get'})
     .then((response) => response.json())
-    .then(function(movies){
+    .then(function(entities){
         let listBody='';
         results.innerHTML+='test';
-        for(let i=0; i<movies.length; i++){
-            let movie=movies[i];
-            listBody+='<li><a href='+movie['imdb_link']+'/ target="_blank">ID: '+movie['id']+', title: '+movie['title']+', release date: '+movie['release_date']+'</a></li>';
+        for(let i=0; i<quantity.value; i++){
+            let entity=entities[i];
+            listBody+='<li>'+entity['title']+'</li>';
         }
-        results.innerHTML+=listBody;
+        results.innerHTML=listBody;
     })
     .catch(function(error){
         console.log(error);
