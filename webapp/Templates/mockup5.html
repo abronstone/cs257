@@ -27,10 +27,10 @@
     <br><br><br>
     
     <div id="filter">
-        <label for="movie1">Movie #1:</label>
-        <input type="text" name="movie1" id="movie1">
-        <input style="float:right;" type="text" name="movie2" id="movie2">
-        <label style="margin-top:6px;float:right;" for="movie2">Movie #2:</label><br>
+        <label for="firstmovie">Movie #1:</label>
+        <input type="text" name="firstmovie" id="firstmovie">
+        <input style="float:right;" type="text" name="secondmovie" id="secondmovie">
+        <label style="margin-top:6px;float:right;" for="secondmovie">Movie #2:</label><br>
         <label for="">Detailed comparison:</label>
         <input type="checkbox" name="popularity" id="detailed"><br><br>
 
@@ -39,23 +39,18 @@
     <table>
         <tr>
             <th></th>
-            <th>Movie 1</th>
-            <th>Movie 2</th>
+            <th id="movie1title">Movie 1</th>
+            <th id="movie2title">Movie 2</th>
         </tr>
         <tr>
-            <th>Criteria 1</th>
-            <td id="criteria1a">...</td>
-            <td id="criteria1b">...</td>
+            <th>Revenue</th>
+            <td id="movie1revenue">...</td>
+            <td id="movie2revenue">...</td>
         </tr>
         <tr>
-            <th>Criteria 2</th>
-            <td id="criteria2a">...</td>
-            <td id="criteria2b">...</td>
-        </tr>
-        <tr>
-            <th>Criteria 3</th>
-            <td id="criteria3a">...</td>
-            <td id="criteria3b">...</td>
+            <th>Budget</th>
+            <td id="movie1budget">...</td>
+            <td id="movie2budget">...</td>
         </tr>
     </table>
 

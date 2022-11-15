@@ -478,4 +478,38 @@ def get_popularity():
 
 @api.route('/comparisonresults/')
 def get_comparison():
-    query=''''''
+    print('yes')
+    first_movie = flask.request.args.get('firstmovie',default='')
+    second_movie = flask.request.args.get('secondmovie',default='')
+    arguments =[]
+    query1='SELECT movies.title,movies.revenue,movies.budget FROM movies WHERE movies.title=%s LIMIT 1;'
+    query2='SELECT movies.title,movies.revenue,movies.budget FROM movies WHERE movies.title=%s LIMIT 1;'
+    arguments.append(first_movie)
+    movie_list=[]
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(query1,arguments)
+        print(cursor.query)
+        for row in cursor:
+            movie = {'title':row[0], 'revenue':row[1], 'budget':row[2]}
+            movie_list.append(movie)
+        cursor.close()
+        connection.close()
+    except Exception as e:
+        print(e, file=sys.stderr)
+    arguments =[]
+    arguments.append(second_movie)
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(query2,arguments)
+        print(cursor.query)
+        for row in cursor:
+            movie = {'title':row[0], 'revenue':row[1], 'budget':row[2]}
+            movie_list.append(movie)
+        cursor.close()
+        connection.close()
+    except Exception as e:
+        print(e, file=sys.stderr)    
+    return json.dumps(movie_list)

@@ -9,15 +9,15 @@ Working features:
 
 	-Main page (navigates to any of the four data pages)
 	-Search page (all filters should work, results are displayed with ID's (for testing purposes)
-	-Popularity ()
-	-Comparison
+	-Popularity (sort-by criteria working for movies)
+	-Comparison (non-detailled option displays budget and revenue)
 
 --------------------------------------------------------------------------
 What needs to be done:
 	
 	-Need to add help hover buttons for all pages
 	-Need to rework Popularity page completely, we are turning it into a random movie generator
-	-Comparison needs datalists for both inputs
+	-Comparison needs datalists for both inputs and more comparative criteria
 	-Popularity needs proper queries for other metadata besides movies
 
 --------------------------------------------------------------------------

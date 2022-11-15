@@ -10,33 +10,40 @@ function getAPIBaseURL(){
 }
 
 function onButtonPress(){
-    first_movie = document.getElementById('movie1');
-    second_movie = document.getElementById('movie2');
+    first_movie = document.getElementById('firstmovie');
+    second_movie = document.getElementById('secondmovie');
     // var detailed = document.querySelector('#detailed');
-    var results = document.getElementById('criteria1a');
+    var movie1_title = document.getElementById('movie1title');
+    var movie2_title = document.getElementById('movie2title');
+    var movie1_revenue = document.getElementById('movie1revenue');
+    var movie2_revenue = document.getElementById('movie2revenue');
+    var movie1_budget = document.getElementById('movie1budget');
+    var movie2_budget = document.getElementById('movie2budget');
 
-    let url = getAPIBaseURL()+'/popularityresults/';
-    results.innerHTML = 'Loading...'
+    let url = getAPIBaseURL()+'/comparisonresults/';
     url+='?';
     url+='firstmovie='+first_movie.value+'&secondmovie='+second_movie.value+'&detailed=';
     if (detailed.checked){
         url+=detailed.value;
     }
-    results.innerHTML='Loading...'
-    // fetch(url,{method:'get'})
-    // .then((response) => response.json())
-    // .then(function(entities){
-    //     let listBody='';
-    //     results.innerHTML+='test';
-    //     for(let i=0; i<quantity.value; i++){
-    //         let entity=entities[i];
-    //         listBody+='<li>'+entity['title']+'</li>';
-    //     }
-    //     results.innerHTML=listBody;
-    // })
-    // .catch(function(error){
-    //     console.log(error);
-    // })
+    fetch(url,{method:'get'})
+    .then((response) => response.json())
+    .then(function(movies){
+        firstmoviedata = movies[0];
+        secondmoviedata = movies[1];
+        let listBody='';
+        listBody+='<option>'+firstmoviedata['title']+'</option>';
+        movie1_title.innerHTML=listBody;
+        movie2_title.innerHTML='<option>'+secondmoviedata['title']+'</option>';
+        let dollarUSLocale = Intl.NumberFormat('en-US');
+        movie1_revenue.innerHTML = '$'+dollarUSLocale.format(firstmoviedata['revenue']);
+        movie2_revenue.innerHTML = '$'+dollarUSLocale.format(secondmoviedata['revenue']);
+        movie1_budget.innerHTML = '$'+dollarUSLocale.format(firstmoviedata['budget']);
+        movie2_budget.innerHTML = '$'+dollarUSLocale.format(secondmoviedata['budget']);
+    })
+    .catch(function(error){
+        console.log(error);
+    })
 }
 
 function initialize(){

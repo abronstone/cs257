@@ -16,13 +16,12 @@ function onButtonPress(){
     var descending = document.querySelector('#descending');
     var results = document.getElementById('results-list');
     let url = getAPIBaseURL()+'/popularityresults/';
-    results.innerHTML = 'Loading...'
     url+='?';
     url+='variable='+variable.value+'&value='+val.value+'&quantity='+quantity.value+'&descending=';
     if (descending.checked){
         url+=descending.value;
     }
-    results.innerHTML='Loading...'
+    results.innerHTML='Loading...';
     fetch(url,{method:'get'})
     .then((response) => response.json())
     .then(function(entities){
