@@ -10,44 +10,87 @@ function getAPIBaseURL(){
 }
 
 function onButtonPress(){
-    variable = document.getElementById('variable');
-    val = document.getElementById('value');
-    quantity = document.getElementById('quantity');
-    var descending = document.querySelector('#descending');
-    var results = document.getElementById('results-list');
+    
+
+
     let url = getAPIBaseURL()+'/popularityresults/';
-    url+='?';
-    url+='variable='+variable.value+'&value='+val.value+'&quantity='+quantity.value+'&descending=';
-    if (descending.checked){
-        url+=descending.value;
-    }
-    let dollarUSLocale = Intl.NumberFormat('en-US');
-    results.innerHTML='Loading...';
+
     fetch(url,{method:'get'})
     .then((response) => response.json())
-    .then(function(entities){
-        let listBody='';
-        results.innerHTML+='test';
-        for(let i=0; i<quantity.value; i++){
-            let listString = '';
-            let entity=entities[i];
-            if (entity['criteria']){
-                listString='<li>'+entity['title']+'   '+entity['criteria']+'</li>';
-            }
-            else {
-                listString+='<li>'+entity['title']+'</li>';
-            }
-            if ((val.value.localeCompare('budget') == 0 || val.value.localeCompare('revenue') == 0) && (entity['criteria'])) {
-                listString='<li>'+entity['title']+'  $'+dollarUSLocale.format(entity['criteria'])+'</li>';
-            }
-            listBody+=listString;
-                
+    .then(function(movies){
+        let listBody = '';
+        movie=movies[0];
+        /*for(let i=0; i<movies.length; i++){
+            let movie = movies[i];
+            title.innerHTML=movie['title'];
         }
-        results.innerHTML=listBody;
+        */
+        title = document.getElementById('title');
+        title.innerHTML=movie['title'];
+        //console.log(movie['tagline']);
+        tagline = document.getElementById('tagline');
+        if(movie['tagline']!=null){
+            tagline.innerHTML='<h4><center>'+movie['tagline']+'</center></h4>';
+        }else{
+            tagline.innerHTML='';
+        }
+
+        description = document.getElementById('description');
+        description.innerHTML = '<p>'+movie['overview']+'</p>';
+
+        director = document.getElementById('director');
+        director.innerHTML = movie['director'];
+
+        cast = document.getElementById('cast');
+        cast.innerHTML = movie['actors'];
+
+        popularity = document.getElementById('popularity');
+        popularity.innerHTML = movie['popularity'];
+
+        production_company = document.getElementById('productioncompany');
+        production_company.innerHTML = movie['companies'];
+
+        production_countries = document.getElementById('productioncountries');
+        production_countries.innerHTML = movie['countries'];
+
+        crew = document.getElementById('crew');
+        crew.innerHTML = movie['crew'];
+
+        keywords = document.getElementById('keywords');
+        keywords.innerHTML = movie['keywords'];
+
+        genres = document.getElementById('genres');
+        genres.innerHTML = movie['genres'];
+
+        link = document.getElementById('link');
+        link.innerHTML = '<a href="'+movie['link']+'" target="_blank">'+movie['link']+'</a>';
+
+        language = document.getElementById('language');
+        language.innerHTML = movie['language'];
+
+        release_date = document.getElementById('releasedate');
+        release_date.innerHTML = movie['release_date'];
+
+        revenue = document.getElementById('revenue');
+        let dollarUSLocale = Intl.NumberFormat('en-US');
+        revenue.innerHTML='$'+dollarUSLocale.format(movie['revenue']);
+
+        budget = document.getElementById('budget');
+        budget.innerHTML='$'+dollarUSLocale.format(movie['budget']);
+
+        movie_status = document.getElementById('status');
+        movie_status.innerHTML=movie['status'];
+
+        rating = document.getElementById('rating');
+        rating.innerHTML=parseFloat(movie['rating']);
+
+
+
+        //results.innerHTML=listBody;
     })
-    .catch(function(error){
+    .catch(function(error) {
         console.log(error);
-    })
+    });
 }
 
 function initialize(){

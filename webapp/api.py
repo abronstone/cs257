@@ -406,7 +406,7 @@ def get_overview():
         print(e, file=sys.stderr)
     return json.dumps(movie_list)
 
-@api.route('/overviewlistload/')
+@api.route('/listload/')
 def overview_list_load():
     '''
         This API loads the entire list of movie id's and titles from the PSQL database to be used in the 'droplist' input in mockup3.html.
@@ -427,85 +427,208 @@ def overview_list_load():
         print(e, file=sys.stderr)
     return json.dumps(movie_list)
 
-
 @api.route('/popularityresults/')
-def get_popularity():
-    sorted_entity = flask.request.args.get('variable',default='')
-    sort_criteria = flask.request.args.get('value',default='')
-    descending = flask.request.args.get('descending',default='')
-    query = ''''''
-    sort_string = ''
-    if sort_criteria == 'popularity':
-        sort_string = 'popularity'
-    if sort_criteria == 'release_date':
-        sort_string = 'release_date'
-    if sort_criteria == 'revenue':
-        sort_string = 'revenue'
-    if sort_criteria == 'budget':
-        sort_string = 'budget'
-    if sorted_entity == 'movies':
-        if descending!='on':
-            query='''SELECT title,'''+sort_string+ ''' FROM movies ORDER BY '''+sort_string+''' DESC;'''
-        else:
-            query='''SELECT title,'''+sort_string+ ''' FROM movies ORDER BY '''+sort_string+''';'''
-    elif sorted_entity == 'genre':
-        query='SELECT name FROM genres;'
-    elif sorted_entity == 'production_company':
-        query='SELECT name FROM production_companies;'
-        # if descending!='on':
-        #     query='''SELECT production_companies.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
-        #             LEFT JOIN movies_companies ON movies_companies.movie_id=movies.id
-        #             LEFT JOIN production_companies ON movies_companies.production_company_id=production_companies.id
-        #             GROUP BY production_companies.id,production_companies.name
-        #             ORDER BY avg_popularity desc;'''
-    elif sorted_entity == 'production_countries':
-        query='SELECT name FROM countries;'
-    elif sorted_entity == 'language':
-        query='SELECT name FROM languages;'
-    elif sorted_entity == 'directors':
-        if descending!='on':
-            query = '''SELECT directors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
-                    LEFT JOIN movies_directors ON movies_directors.movie_id=movies.id
-                    LEFT JOIN directors ON movies_directors.director_id=directors.id
-                    GROUP BY directors.id,directors.name
-                    ORDER BY avg_popularity desc;'''
-        else:
-            query = '''SELECT directors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
-                    LEFT JOIN movies_directors ON movies_directors.movie_id=movies.id
-                    LEFT JOIN directors ON movies_directors.director_id=directors.id
-                    GROUP BY directors.id,directors.name
-                    ORDER BY avg_popularity;'''
-    elif sorted_entity == 'actors':
-        if descending!='on':
-            query='''SELECT actors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
-                    LEFT JOIN movies_actors ON movies_actors.movie_id=movies.id
-                    LEFT JOIN actors ON movies_actors.actor_id=actors.id
-                    GROUP BY actors.id,actors.name
-                    ORDER BY avg_popularity desc;'''
-        else:
-            query='''SELECT actors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
-                    LEFT JOIN movies_actors ON movies_actors.movie_id=movies.id
-                    LEFT JOIN actors ON movies_actors.actor_id=actors.id
-                    GROUP BY actors.id,actors.name
-                    ORDER BY avg_popularity;'''
-    entity_list=[]
+def generator_list_load():
+    id=''
+    main_query = '''SELECT 
+    movies.id,
+    movies.title,
+    overviews.tagline,
+    overviews.overview,
+    movies.popularity,
+    movies_ratings.average_rating,
+    directors.name,
+    movies.imdb_link,
+    languages.name,
+    movies.release_date,
+    movies.revenue,
+    movies.budget,
+    movies.released
+    FROM movies LEFT JOIN overviews ON movies.id=overviews.movie_id 
+    LEFT JOIN movies_ratings ON movies.id=movies_ratings.movie_id 
+    LEFT JOIN movies_directors ON movies.id=movies_directors.movie_id
+    LEFT JOIN directors ON directors.id=movies_directors.director_id
+    LEFT JOIN movies_languages ON movies_languages.movie_id=movies.id
+    LEFT JOIN languages ON languages.id=movies_languages.language_id
+    WHERE movies.id=%s ORDER BY title,release_date DESC;'''
+    genres_query = '''SELECT genres.name from movies_genres
+    LEFT JOIN genres ON movies_genres.genre_id=genres.id
+    WHERE movies_genres.movie_id=%s;'''
+    actors_query = '''SELECT actors.name,movies_actors.character from movies_actors
+    LEFT JOIN actors ON movies_actors.actor_id=actors.id
+    WHERE movies_actors.movie_id=%s ORDER BY movies_actors.character;'''
+    #actor_query = '''SELECT actors.name,movies_actors.character,AVG(popularity) as actor_popularity from movies
+    #FULL OUTER JOIN movies_actors ON movies_actors.movie_id=movies.id
+    #LEFT JOIN actors ON movies_actors.actor_id=actors.id
+    #WHERE movies.id=%s GROUP BY actors.name,movies_actors.character ORDER by actor_popularity;'''
+    crew_query = '''SELECT crew.name,movies_crew.role FROM movies_crew
+    LEFT JOIN crew ON movies_crew.crew_id=crew.id
+    WHERE movies_crew.movie_id=%s ORDER BY movies_crew.role'''
+    keywords_query = '''SELECT keywords.name from movies_keywords
+    LEFT JOIN keywords ON movies_keywords.keyword_id=keywords.id
+    WHERE movies_keywords.movie_id=%s ORDER BY keywords.name;'''
+    companies_query = '''SELECT production_companies.name from movies_companies
+    LEFT JOIN production_companies ON movies_companies.production_company_id=production_companies.id
+    WHERE movies_companies.movie_id=%s ORDER BY production_companies.name;'''
+    countries_query = '''SELECT countries.name from movies_countries
+    LEFT JOIN countries ON movies_countries.country_id=countries.id
+    WHERE movies_countries.movie_id=%s ORDER BY countries.name;'''
+    id_query = '''SELECT id FROM movies ORDER BY random() LIMIT 1;'''
+    movie_list=[]
     try:
         connection = get_connection()
-        cursor = connection.cursor()
-        cursor.execute(query)
-        print(cursor.query)
-        for row in cursor:
-            if (len(row) > 1):
-                entity = {'title':row[0], 'criteria':str(row[1])}
+        id_cursor = connection.cursor()
+        id_cursor.execute(id_query)
+        for row in id_cursor:
+            id = row[0]
+        arguments=[id]
+        main_cursor = connection.cursor()
+        main_cursor.execute(main_query,arguments)
+        genres_cursor = connection.cursor()
+        genres_cursor.execute(genres_query,arguments)
+        actors_cursor = connection.cursor()
+        actors_cursor.execute(actors_query,arguments)
+        keywords_cursor = connection.cursor()
+        keywords_cursor.execute(keywords_query,arguments)
+        companies_cursor = connection.cursor()
+        companies_cursor.execute(companies_query,arguments)
+        countries_cursor = connection.cursor()
+        countries_cursor.execute(countries_query,arguments)
+        crew_cursor= connection.cursor()
+        crew_cursor.execute(crew_query,arguments)
+        #print(main_cursor.query)
+        for row in main_cursor:
+            genres=''
+            actors=''
+            keywords=''
+            companies=''
+            countries=''
+            crew=''
+            for genre in genres_cursor:
+                if genre[0]!=None:
+                    genres+=genre[0]+','
+            genres=genres[:-1]
+            for actor in actors_cursor:
+                if actor[0]!=None and actor[1]!=None:
+                    actors+=actor[0]+' as <strong>"'+actor[1]+'"</strong><br>'
+            actors=actors[:-2]
+            print('keywords:'+keywords)
+            for keyword in keywords_cursor:
+                if keyword[0]!=None:
+                    keywords+=keyword[0]+', '
+            keywords=keywords[:-2]
+            print('keywords new:'+keywords)
+            crew_roles={}
+            all_roles=[]
+            for crewmate in crew_cursor:
+                if crewmate[0]!=None:
+                    if crewmate[1] not in all_roles:
+                        all_roles.append(crewmate[1])
+                        crew_roles[crewmate[1]]=crewmate[0]
+                    else:
+                        crew_roles[crewmate[1]]='{multiple}'
+            for crewmate in crew_roles:
+                crew+=crew_roles[crewmate]+" : <strong>"+crewmate+"</strong><br>"
+            for company in companies_cursor:
+                if company[0]!=None:
+                    companies+=company[0]+', '
+            companies=companies[:-2]
+            for country in countries_cursor:
+                if country[0]!=None:
+                    countries+=country[0]+', '
+            countries=countries[:-2]
+            rating = row[5]
+            if rating!=None:
+                rating=round(rating,2)
             else:
-                entity = {'title':row[0]}
-            if entity['criteria'] != 'None':
-                entity_list.append(entity)
-        cursor.close()
+                rating="[no rating available]"
+            print('keywordsl:'+keywords)
+            movie = {'id':row[0], 'title':row[1], 'tagline':row[2], 'overview':row[3], 'popularity':str(row[4]), 'rating':str(rating), 'director':str(row[6]), 'genres':genres, 'link':row[7], 'language':row[8], 'release_date':str(row[9]), 'revenue':row[10], 'budget':row[11], 'status':row[12], 'actors':actors, 'keywords':keywords, 'companies':companies, 'countries':countries, 'crew':crew}
+            movie_list.append(movie)
+        main_cursor.close()
         connection.close()
     except Exception as e:
         print(e, file=sys.stderr)
-    return json.dumps(entity_list)
+    return json.dumps(movie_list)
+
+# @api.route('/popularityresults/')
+# def get_popularity():
+#     sorted_entity = flask.request.args.get('variable',default='')
+#     sort_criteria = flask.request.args.get('value',default='')
+#     descending = flask.request.args.get('descending',default='')
+#     query = ''''''
+#     sort_string = ''
+#     if sort_criteria == 'popularity':
+#         sort_string = 'popularity'
+#     if sort_criteria == 'release_date':
+#         sort_string = 'release_date'
+#     if sort_criteria == 'revenue':
+#         sort_string = 'revenue'
+#     if sort_criteria == 'budget':
+#         sort_string = 'budget'
+#     if sorted_entity == 'movies':
+#         if descending!='on':
+#             query='''SELECT title,'''+sort_string+ ''' FROM movies ORDER BY '''+sort_string+''' DESC;'''
+#         else:
+#             query='''SELECT title,'''+sort_string+ ''' FROM movies ORDER BY '''+sort_string+''';'''
+#     elif sorted_entity == 'genre':
+#         query='SELECT name FROM genres;'
+#     elif sorted_entity == 'production_company':
+#         query='SELECT name FROM production_companies;'
+#         # if descending!='on':
+#         #     query='''SELECT production_companies.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
+#         #             LEFT JOIN movies_companies ON movies_companies.movie_id=movies.id
+#         #             LEFT JOIN production_companies ON movies_companies.production_company_id=production_companies.id
+#         #             GROUP BY production_companies.id,production_companies.name
+#         #             ORDER BY avg_popularity desc;'''
+#     elif sorted_entity == 'production_countries':
+#         query='SELECT name FROM countries;'
+#     elif sorted_entity == 'language':
+#         query='SELECT name FROM languages;'
+#     elif sorted_entity == 'directors':
+#         if descending!='on':
+#             query = '''SELECT directors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
+#                     LEFT JOIN movies_directors ON movies_directors.movie_id=movies.id
+#                     LEFT JOIN directors ON movies_directors.director_id=directors.id
+#                     GROUP BY directors.id,directors.name
+#                     ORDER BY avg_popularity desc;'''
+#         else:
+#             query = '''SELECT directors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
+#                     LEFT JOIN movies_directors ON movies_directors.movie_id=movies.id
+#                     LEFT JOIN directors ON movies_directors.director_id=directors.id
+#                     GROUP BY directors.id,directors.name
+#                     ORDER BY avg_popularity;'''
+#     elif sorted_entity == 'actors':
+#         if descending!='on':
+#             query='''SELECT actors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
+#                     LEFT JOIN movies_actors ON movies_actors.movie_id=movies.id
+#                     LEFT JOIN actors ON movies_actors.actor_id=actors.id
+#                     GROUP BY actors.id,actors.name
+#                     ORDER BY avg_popularity desc;'''
+#         else:
+#             query='''SELECT actors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
+#                     LEFT JOIN movies_actors ON movies_actors.movie_id=movies.id
+#                     LEFT JOIN actors ON movies_actors.actor_id=actors.id
+#                     GROUP BY actors.id,actors.name
+#                     ORDER BY avg_popularity;'''
+#     entity_list=[]
+#     try:
+#         connection = get_connection()
+#         cursor = connection.cursor()
+#         cursor.execute(query)
+#         print(cursor.query)
+#         for row in cursor:
+#             if (len(row) > 1):
+#                 entity = {'title':row[0], 'criteria':str(row[1])}
+#             else:
+#                 entity = {'title':row[0]}
+#             if entity['criteria'] != 'None':
+#                 entity_list.append(entity)
+#         cursor.close()
+#         connection.close()
+#     except Exception as e:
+#         print(e, file=sys.stderr)
+#     return json.dumps(entity_list)
 
 
 @api.route('/comparisonresults/')

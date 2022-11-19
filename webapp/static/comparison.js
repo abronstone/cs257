@@ -54,7 +54,7 @@ function initialize(){
 
     var list1 = document.getElementById('firstmoviedroplist');
     var list2 = document.getElementById('secondmoviedroplist');
-    let url = getAPIBaseURL()+'/overviewlistload/';
+    let url = getAPIBaseURL()+'/listload/';
 
     fetch(url,{method:'get'})
     .then((response) => response.json())
