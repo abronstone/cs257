@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebApp-Popularity</title>
+    <title>WebApp: Generator</title>
     <link rel="stylesheet" href="webapp.css" type="text/css" />
     <link rel="stylesheet" href="static/webapp.css" type="text/css" />
     <link rel="icon" href="img/favicon.ico" type="image/png">
@@ -12,11 +12,11 @@
 </head>
 <body>
     <div class="dropdown">
-        <button class="dropbtn"><strong>POPULARITY</strong></button>
+        <button class="dropbtn"><strong>RANDOM MOVIE GENERATOR</strong></button>
         <div class="dropdown-content">
           <a href="http://127.0.0.1:5000/movies">Search</a>
           <a href="http://127.0.0.1:5000/overviews">Overviews</a>
-          <a href="http://127.0.0.1:5000/popularity">Popularity</a>
+          <a href="http://127.0.0.1:5000/popularity">Random Movie Generator</a>
           <a href="http://127.0.0.1:5000/comparison">Comparison</a>
         </div>
     </div>
@@ -26,53 +26,93 @@
     
     <br><br><br>
 
+    <!--<label for="randomizer">Get me a random movie!</label>
+    <input name="" type="checkbox" id="random_checkbox" onclick="random_filters()">-->
+
     <div id="filter">
-        <label for="criteria">Sort...</label>
-        <select id="variable">
-            <option value="movies">Movies</option>
-            <option value="directors">Directors</option>
-            <option value="actors">Actors</option>
-            <option value="genre">Genres</option>
-            <option value="production_company">Production Companies</option>
-            <option value="production_countries">Production Countries</option>
-            <option value="language">Language</option>
-        </select>
-        <label for="value"> by...</label>
-        <select id="value">            <option value="popularity">Popularity</option>
-            <option value="release_date">Release Date</option>
-            <option value="revenue">Revenue</option>
-            <option value="budget">Budget</option>
-        </select><br>
-        <label for="quantity">Get first...</label>
-        <input type="number" id="quantity" value="10" min="1" max="100">...values<br>
-        <label for="Descending?">Descending?</label>
-        <input type="checkbox" class="" id="descending"><br><br>
-        <button id="submission">Submit</button> 
+        <!--<label for="search">Movie Title:</label>
+        <input type="text" id="search_text">     
+        <button id="submission">Submit</button>-->
+        <label>Get a Movie: </label>
+            <button id="submission">Submit</button>
     </div>
-    <div id="results" style="margin:20px">
-        <br><strong style="padding:10px;">RESULTS:</strong><br>
-        <ul id="results-list">
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab, fuga?</li>
-            <li>Molestiae recusandae eius autem reprehenderit provident id nostrum! Illo, est.</li>
-            <li>Laudantium, blanditiis? Debitis vel in deleniti praesentium quam voluptas nemo?</li>
-            <li>Nihil ducimus ad quos autem neque, consectetur quasi ipsum provident?</li>
-            <li>Eaque earum reprehenderit quos maxime, unde maiores officiis necessitatibus incidunt?</li>
-            <li>Ducimus officiis, dicta quidem est quisquam animi soluta quo! Ut!</li>
-            <li>Accusantium porro quod iusto ducimus modi quibusdam laudantium unde eos?</li>
-            <li>Aliquam consectetur nam velit ducimus, corporis odio nesciunt culpa at!</li>
-            <li>Accusantium cumque maiores ipsum voluptates dignissimos commodi inventore, vitae suscipit.</li>
-            <li>Rem impedit ab eius neque soluta nemo aliquid accusamus iusto.</li>
-            <li>Eveniet consequatur ratione harum nobis dicta optio perspiciatis, voluptatum enim!</li>
-            <li>Repellendus, at suscipit! Harum est illo quia, dolorum delectus aut.</li>
-            <li>Reiciendis, dolores at iste mollitia quis maiores itaque consequuntur aspernatur.</li>
-            <li>Voluptatibus ab placeat, quos quam nam quasi sunt debitis quisquam!</li>
-            <li>Assumenda quisquam, officiis quas vero accusamus ex nihil voluptate pariatur?</li>
-            <li>Ad asperiores perspiciatis aperiam dicta, suscipit quae architecto maxime maiores.</li>
-            <li>Reiciendis tempora facilis soluta accusamus quos enim cum ut reprehenderit!</li>
-            <li>Explicabo doloribus impedit iure atque facilis commodi, corrupti soluta unde!</li>
-            <li>Commodi iste illum sed quam hic tenetur ad dolorum cum!</li>
-            <li>Porro facilis dolor dicta, fugit consectetur id? Ad, quam provident.</li>
-        </ul>
+    <h3 id="title" style="background-color:deepskyblue;font-size:30px;">[movie title]</h3>
+    <div id="tagline">
+        
     </div>
+
+
+    <div id="description">
+        <p>
+            Description:<br>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur, officiis!
+        </p>
+    </div>
+    <table id="table">
+        <tr class="gray">
+            <th>Director</th>
+            <td id="director">[insert]</td>
+        </tr>
+            <th>Keywords</th>
+            <td id="keywords">[insert]</td>
+        </tr>
+        <tr class="gray">
+            <th>Genres</th>
+            <td id="genres">[insert]</td>
+        </tr>
+        <tr>
+            <th>Popularity</th>
+            <td id="popularity">[insert]</td>
+        </tr>
+        <tr class="gray">
+            <th>Link</th>
+            <td id="link">[insert]</td>
+        </tr>
+        <tr>
+            <th>Language</th>
+            <td id="language">[insert]</td>
+        </tr>
+        <tr class="gray">
+            <th>Production Company</th>
+            <td id="productioncompany">[insert]</td>
+        </tr>
+        <tr>
+            <th>Production Countries</th>
+            <td id="productioncountries">[insert]</td>
+        </tr>
+        <tr class="gray">
+            <th>Release Date</th>
+            <td id="releasedate">[insert]</td>
+        </tr>
+        <tr>
+            <th>Revenue</th>
+            <td id="revenue">[insert]</td>
+        </tr>
+        <tr class="gray">
+            <th>Budget</th>
+            <td id="budget">[insert]</td>
+        </tr>
+        <tr>
+            <th>Status (as of 2017)</th>
+            <td id="status">[insert]</td>
+        </tr>
+        <tr class="gray">
+            <th>Rating</th>
+            <td id="rating">[insert]</td>
+        </tr>
+        <tr>
+            <th>Cast</th>
+            <td id="cast">[insert]</td>
+        </tr>
+        <tr>
+            <th>Crew</th>
+            <td id="crew">[insert]</td>
+        </tr>
+        <tr>
+
+    </table>
+
+
+    
 </body>
 </html>
