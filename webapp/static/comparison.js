@@ -51,6 +51,23 @@ function onButtonPress(){
 function initialize(){
     var button = document.getElementById('submission');
     button.onclick = onButtonPress;
+
+    var list1 = document.getElementById('firstmoviedroplist');
+    var list2 = document.getElementById('secondmoviedroplist');
+    let url = getAPIBaseURL()+'/overviewlistload/';
+
+    fetch(url,{method:'get'})
+    .then((response) => response.json())
+    .then(function(movies){
+        let listBody='';
+        for(i=0; i<movies.length; i++){
+            movie=movies[i];
+            //listBody+='<option value=\''+movie['title']+' ('+movie['release_date']+') [id:'+movie['id']+']\'>';
+            listBody+='<option value=\''+movie['title']+'\'>'+' ('+movie['release_date']+')</option>';
+        }
+        list1.innerHTML=listBody;
+        list2.innerHTML=listBody;
+    })
 }
 
 window.onload=initialize;

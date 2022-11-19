@@ -28,8 +28,14 @@
     
     <div id="filter">
         <label for="firstmovie">Movie #1:</label>
-        <input type="text" name="firstmovie" id="firstmovie">
-        <input style="float:right;" type="text" name="secondmovie" id="secondmovie">
+        <input list="firstmoviedroplist" id="firstmovie" name="firstmovie" /></label>
+            <datalist id="firstmoviedroplist">
+              <option value="item">
+            </datalist>
+        <input style="float:right;" list="secondmoviedroplist" id="secondmovie" name="secondmovie" /></label>
+            <datalist id="secondmoviedroplist">
+              <option value="item">
+            </datalist>
         <label style="margin-top:6px;float:right;" for="secondmovie">Movie #2:</label><br>
         <label for="">Detailed comparison:</label>
         <input type="checkbox" name="popularity" id="detailed"><br><br>
