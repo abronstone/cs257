@@ -1,5 +1,5 @@
 /* 
-    popularity.js
+    generator.js
     Aaron Bronstone/Jack Owens
     For CS257 Software Design, Carleton College Fall 2022
 */
@@ -13,7 +13,7 @@ function onButtonPress(){
     
 
 
-    let url = getAPIBaseURL()+'/popularityresults/';
+    let url = getAPIBaseURL()+'/generatorresults/';
 
     fetch(url,{method:'get'})
     .then((response) => response.json())

@@ -16,7 +16,7 @@
         <div class="dropdown-content">
           <a href="http://127.0.0.1:5000/movies">Search</a>
           <a href="http://127.0.0.1:5000/overviews">Overviews</a>
-          <a href="http://127.0.0.1:5000/popularity">Random Movie Generator</a>
+          <a href="http://127.0.0.1:5000/generator">Random Movie Generator</a>
           <a href="http://127.0.0.1:5000/comparison">Comparison</a>
         </div>
     </div>
@@ -37,8 +37,6 @@
               <option value="item">
             </datalist>
         <label style="margin-top:6px;float:right;" for="secondmovie">Movie #2:</label><br>
-        <label for="">Detailed comparison:</label>
-        <input type="checkbox" name="popularity" id="detailed"><br><br>
 
         <button id="submission">Submit</button> 
     </div>
@@ -47,6 +45,11 @@
             <th></th>
             <th id="movie1title">Movie 1</th>
             <th id="movie2title">Movie 2</th>
+        </tr>
+        <tr>
+            <th>Director</th>
+            <td id="movie1director">...</td>
+            <td id="movie2director">...</td>
         </tr>
         <tr>
             <th>Revenue</th>
@@ -62,6 +65,26 @@
             <th>Runtime</th>
             <td id="movie1runtime">...</td>
             <td id="movie2runtime">...</td>
+        </tr>
+        <tr>
+            <th>Release Date</th>
+            <td id="movie1releasedate">...</td>
+            <td id="movie2releasedate">...</td>
+        </tr>
+        <tr>
+            <th>Language</th>
+            <td id="movie1language">...</td>
+            <td id="movie2language">...</td>
+        </tr>
+        <tr>
+            <th>Popularity</th>
+            <td id="movie1popularity">...</td>
+            <td id="movie2popularity">...</td>
+        </tr>
+        <tr>
+            <th>Rating</th>
+            <td id="movie1rating">...</td>
+            <td id="movie2rating">...</td>
         </tr>
     </table>
 

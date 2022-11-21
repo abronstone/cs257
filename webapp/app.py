@@ -41,9 +41,9 @@ def search_page():
 def overview_page():
     return render_template('mockup3.html')
 
-#Renders the 'mockup4.html' 'POPULARITY' template at https://127.0.0.1/popularity (will be changed to /generator after 'First Draft Review' assignment)
-@app.route('/popularity')
-def popularity_page():
+#Renders the 'mockup4.html' 'RANDOM MOVIE GENERATOR' template at https://127.0.0.1/generator (will be changed to /generator after 'First Draft Review' assignment)
+@app.route('/generator')
+def generator_page():
     return render_template('mockup4.html')
 
 #Renders the 'mockup5.html' 'COMPARISON' template at https://127.0.0.1/comparison

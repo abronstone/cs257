@@ -233,9 +233,8 @@ def get_search():
         connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query,arguments)
-        print(cursor.query)
+        # print(cursor.query)
         for row in cursor:
-            #print(row[3])
             movie = {'id':row[0], 'title':row[1], 'imdb_link':row[2], 'release_date':str(row[3])[0:4]}
             movie_list.append(movie)
         cursor.close()
@@ -367,12 +366,10 @@ def get_overview():
                 if actor[0]!=None and actor[1]!=None:
                     actors+=actor[0]+' as <strong>"'+actor[1]+'"</strong><br>'
             actors=actors[:-2]
-            print('keywords:'+keywords)
             for keyword in keywords_cursor:
                 if keyword[0]!=None:
                     keywords+=keyword[0]+', '
             keywords=keywords[:-2]
-            print('keywords new:'+keywords)
             crew_roles={}
             all_roles=[]
             for crewmate in crew_cursor:
@@ -397,7 +394,6 @@ def get_overview():
                 rating=round(rating,2)
             else:
                 rating="[no rating available]"
-            print('keywordsl:'+keywords)
             movie = {'id':row[0], 'title':row[1], 'tagline':row[2], 'overview':row[3], 'popularity':str(row[4]), 'rating':str(rating), 'director':str(row[6]), 'genres':genres, 'link':row[7], 'language':row[8], 'release_date':str(row[9]), 'revenue':row[10], 'budget':row[11], 'status':row[12], 'actors':actors, 'keywords':keywords, 'companies':companies, 'countries':countries, 'crew':crew}
             movie_list.append(movie)
         main_cursor.close()
@@ -427,7 +423,7 @@ def overview_list_load():
         print(e, file=sys.stderr)
     return json.dumps(movie_list)
 
-@api.route('/popularityresults/')
+@api.route('/generatorresults/')
 def generator_list_load():
     id=''
     main_query = '''SELECT 
@@ -512,12 +508,10 @@ def generator_list_load():
                 if actor[0]!=None and actor[1]!=None:
                     actors+=actor[0]+' as <strong>"'+actor[1]+'"</strong><br>'
             actors=actors[:-2]
-            print('keywords:'+keywords)
             for keyword in keywords_cursor:
                 if keyword[0]!=None:
                     keywords+=keyword[0]+', '
             keywords=keywords[:-2]
-            print('keywords new:'+keywords)
             crew_roles={}
             all_roles=[]
             for crewmate in crew_cursor:
@@ -542,7 +536,6 @@ def generator_list_load():
                 rating=round(rating,2)
             else:
                 rating="[no rating available]"
-            print('keywordsl:'+keywords)
             movie = {'id':row[0], 'title':row[1], 'tagline':row[2], 'overview':row[3], 'popularity':str(row[4]), 'rating':str(rating), 'director':str(row[6]), 'genres':genres, 'link':row[7], 'language':row[8], 'release_date':str(row[9]), 'revenue':row[10], 'budget':row[11], 'status':row[12], 'actors':actors, 'keywords':keywords, 'companies':companies, 'countries':countries, 'crew':crew}
             movie_list.append(movie)
         main_cursor.close()
@@ -551,102 +544,34 @@ def generator_list_load():
         print(e, file=sys.stderr)
     return json.dumps(movie_list)
 
-# @api.route('/popularityresults/')
-# def get_popularity():
-#     sorted_entity = flask.request.args.get('variable',default='')
-#     sort_criteria = flask.request.args.get('value',default='')
-#     descending = flask.request.args.get('descending',default='')
-#     query = ''''''
-#     sort_string = ''
-#     if sort_criteria == 'popularity':
-#         sort_string = 'popularity'
-#     if sort_criteria == 'release_date':
-#         sort_string = 'release_date'
-#     if sort_criteria == 'revenue':
-#         sort_string = 'revenue'
-#     if sort_criteria == 'budget':
-#         sort_string = 'budget'
-#     if sorted_entity == 'movies':
-#         if descending!='on':
-#             query='''SELECT title,'''+sort_string+ ''' FROM movies ORDER BY '''+sort_string+''' DESC;'''
-#         else:
-#             query='''SELECT title,'''+sort_string+ ''' FROM movies ORDER BY '''+sort_string+''';'''
-#     elif sorted_entity == 'genre':
-#         query='SELECT name FROM genres;'
-#     elif sorted_entity == 'production_company':
-#         query='SELECT name FROM production_companies;'
-#         # if descending!='on':
-#         #     query='''SELECT production_companies.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
-#         #             LEFT JOIN movies_companies ON movies_companies.movie_id=movies.id
-#         #             LEFT JOIN production_companies ON movies_companies.production_company_id=production_companies.id
-#         #             GROUP BY production_companies.id,production_companies.name
-#         #             ORDER BY avg_popularity desc;'''
-#     elif sorted_entity == 'production_countries':
-#         query='SELECT name FROM countries;'
-#     elif sorted_entity == 'language':
-#         query='SELECT name FROM languages;'
-#     elif sorted_entity == 'directors':
-#         if descending!='on':
-#             query = '''SELECT directors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
-#                     LEFT JOIN movies_directors ON movies_directors.movie_id=movies.id
-#                     LEFT JOIN directors ON movies_directors.director_id=directors.id
-#                     GROUP BY directors.id,directors.name
-#                     ORDER BY avg_popularity desc;'''
-#         else:
-#             query = '''SELECT directors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
-#                     LEFT JOIN movies_directors ON movies_directors.movie_id=movies.id
-#                     LEFT JOIN directors ON movies_directors.director_id=directors.id
-#                     GROUP BY directors.id,directors.name
-#                     ORDER BY avg_popularity;'''
-#     elif sorted_entity == 'actors':
-#         if descending!='on':
-#             query='''SELECT actors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
-#                     LEFT JOIN movies_actors ON movies_actors.movie_id=movies.id
-#                     LEFT JOIN actors ON movies_actors.actor_id=actors.id
-#                     GROUP BY actors.id,actors.name
-#                     ORDER BY avg_popularity desc;'''
-#         else:
-#             query='''SELECT actors.name,AVG(movies.'''+sort_string+''') as avg_popularity from movies
-#                     LEFT JOIN movies_actors ON movies_actors.movie_id=movies.id
-#                     LEFT JOIN actors ON movies_actors.actor_id=actors.id
-#                     GROUP BY actors.id,actors.name
-#                     ORDER BY avg_popularity;'''
-#     entity_list=[]
-#     try:
-#         connection = get_connection()
-#         cursor = connection.cursor()
-#         cursor.execute(query)
-#         print(cursor.query)
-#         for row in cursor:
-#             if (len(row) > 1):
-#                 entity = {'title':row[0], 'criteria':str(row[1])}
-#             else:
-#                 entity = {'title':row[0]}
-#             if entity['criteria'] != 'None':
-#                 entity_list.append(entity)
-#         cursor.close()
-#         connection.close()
-#     except Exception as e:
-#         print(e, file=sys.stderr)
-#     return json.dumps(entity_list)
-
-
 @api.route('/comparisonresults/')
 def get_comparison():
     first_movie = flask.request.args.get('firstmovie',default='')
     second_movie = flask.request.args.get('secondmovie',default='')
     arguments =[]
-    query1='SELECT movies.title,movies.revenue,movies.budget,movies.runtime FROM movies WHERE movies.title=%s LIMIT 1;'
-    query2='SELECT movies.title,movies.revenue,movies.budget,movies.runtime FROM movies WHERE movies.title=%s LIMIT 1;'
+    query1='''SELECT movies.id,movies.title,movies.revenue,movies.budget,movies.runtime,movies.popularity,movies.release_date,movies_ratings.average_rating,directors.name,languages.name 
+    FROM movies LEFT JOIN movies_ratings ON movies.id=movies_ratings.movie_id 
+    LEFT JOIN movies_directors ON movies.id=movies_directors.movie_id
+    LEFT JOIN directors ON directors.id=movies_directors.director_id
+    LEFT JOIN movies_languages ON movies_languages.movie_id=movies.id
+    LEFT JOIN languages ON languages.id=movies_languages.language_id
+    WHERE movies.id=%s LIMIT 1;'''
+    query2='''SELECT movies.id,movies.title,movies.revenue,movies.budget,movies.runtime,movies.popularity,movies.release_date,movies_ratings.average_rating,directors.name,languages.name
+    FROM movies LEFT JOIN movies_ratings ON movies.id=movies_ratings.movie_id 
+    LEFT JOIN movies_directors ON movies.id=movies_directors.movie_id
+    LEFT JOIN directors ON directors.id=movies_directors.director_id 
+    LEFT JOIN movies_languages ON movies_languages.movie_id=movies.id
+    LEFT JOIN languages ON languages.id=movies_languages.language_id
+    WHERE movies.id=%s LIMIT 1;'''
     arguments.append(first_movie)
     movie_list=[]
     try:
         connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query1,arguments)
-        print(cursor.query)
+        # print(cursor.query)
         for row in cursor:
-            movie = {'title':row[0], 'revenue':row[1], 'budget':row[2], 'runtime':str(int(row[3]))}
+            movie = {'title':row[1], 'revenue':row[2], 'budget':row[3], 'runtime':str(int(row[4])), 'popularity':str(row[5]), 'release_date':str(row[6]), 'rating':str(row[7]), 'director':str(row[8]), 'language':str(row[9])}
             movie_list.append(movie)
         cursor.close()
         connection.close()
@@ -658,9 +583,9 @@ def get_comparison():
         connection = get_connection()
         cursor = connection.cursor()
         cursor.execute(query2,arguments)
-        print(cursor.query)
+        # print(cursor.query)
         for row in cursor:
-            movie = {'title':row[0], 'revenue':row[1], 'budget':row[2], 'runtime':str(int(row[3]))}
+            movie = {'title':row[1], 'revenue':row[2], 'budget':row[3], 'runtime':str(int(row[4])), 'popularity':str(row[5]), 'release_date':str(row[6]), 'rating':str(row[7]), 'director':str(row[8]), 'language':str(row[9])}
             movie_list.append(movie)
         cursor.close()
         connection.close()
