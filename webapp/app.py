@@ -3,7 +3,6 @@
 '''
     app.py for Vidinfo
     Jack Owens and Aaron Bronstone
-    Fully commented
 '''
 
 import json
@@ -41,9 +40,9 @@ def search_page():
 def overview_page():
     return render_template('mockup3.html')
 
-#Renders the 'mockup4.html' 'RANDOM MOVIE GENERATOR' template at https://127.0.0.1/generator (will be changed to /generator after 'First Draft Review' assignment)
+#Renders the 'mockup4.html' 'GENERATOR' template at https://127.0.0.1/generator (changed from /popularity after 'First Draft Review' assignment)
 @app.route('/generator')
-def generator_page():
+def popularity_page():
     return render_template('mockup4.html')
 
 #Renders the 'mockup5.html' 'COMPARISON' template at https://127.0.0.1/comparison
@@ -51,20 +50,9 @@ def generator_page():
 def comparison_page():
     return render_template('mockup5.html')
 
-
-#Switching to using sys.argv on 11/14/22:
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('host', help='the host server for the web page')
     parser.add_argument('port', help='the port the server runs on')
-    #host = 'localhost'
-    #port = 5000
     arguments = parser.parse_args()
     app.run(host=arguments.host,port=arguments.port,debug=True)
-
-'''OLD MAIN VERSION:
-if __name__=='__main__':
-    host = 'localhost'
-    port = 5000
-    app.run(host=host,port=port,debug=True)
-'''

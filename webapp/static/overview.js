@@ -10,38 +10,45 @@ function getAPIBaseURL(){
 }
 
 function onButtonPress() {
+    /*
+        Submits the following URL to the API:
+            getAPIBaseURL()+'/overviewresults/?id={movie id}'
+        
+        Updates each result element with its corresponding value returned by the API JSON object, including:
+            -Movie Title (large display)
+            -Tagline (displayed under title)
+            -Overview (displayed in colored paragraph)
+            -Director (table)
+            -Collection (table, not available for some)
+            -Keywords (table)
+            -Genres (table)
+            -Popularity (table)
+            -Link (table)
+            -Language (table)
+            -Production Company (table)
+            -Production Countries (table)
+            -Release Date (table)
+            -Revenue (table)
+            -Budget (table)
+            -Status (table)
+            -Rating (table, not available for some)
+            -Cast (table)
+            -Crew (table)
+            
+    */
     let url = getAPIBaseURL()+'/overviewresults/';
-    var randomizer = document.getElementById("random_checkbox");
     url+='?';
-    if(randomizer){
-        var selector = document.getElementById("selector");
-        var search_text = document.getElementById("search_text");
-        url+='search_text='+encodeURIComponent(search_text.value)+'&';
-        url+='randomizer=True&';
-        url+='selector=';//+selector.selectedOptions[0].value;
-    }else{
-        var search_text = document.getElementById("search_text");
-        url+='search_text='+encodeURIComponent(search_text.value)+'&';
-        url+='randomizer=False&';
-        url+='selector=';
-    }
-    
-
-    const tableList = ["collection","director","genre","releasedate"];
+    var id = document.getElementById("search_text");
+    url+='id='+encodeURIComponent(id.value);
 
     fetch(url,{method:'get'})
     .then((response) => response.json())
     .then(function(movies){
-        let listBody = '';
         movie=movies[0];
-        /*for(let i=0; i<movies.length; i++){
-            let movie = movies[i];
-            title.innerHTML=movie['title'];
-        }
-        */
+
         title = document.getElementById('title');
         title.innerHTML=movie['title'];
-        //console.log(movie['tagline']);
+
         tagline = document.getElementById('tagline');
         if(movie['tagline']!=null){
             tagline.innerHTML='<h4><center>'+movie['tagline']+'</center></h4>';
@@ -54,6 +61,9 @@ function onButtonPress() {
 
         director = document.getElementById('director');
         director.innerHTML = movie['director'];
+
+        collection = document.getElementById('collection');
+        collection.innerHTML = movie['collection'];
 
         cast = document.getElementById('cast');
         cast.innerHTML = movie['actors'];
@@ -97,23 +107,20 @@ function onButtonPress() {
 
         rating = document.getElementById('rating');
         rating.innerHTML=parseFloat(movie['rating']);
-
-
-
-        //results.innerHTML=listBody;
     })
     .catch(function(error) {
         console.log(error);
     });
 }
 
-function initialize() {
-    var button = document.getElementById('submission');
-    button.onclick = onButtonPress;
-    
-    
+function updateList(){
+     /*
+        Calls to API endpoint '/listload/' to dynamically update the datalist for the input
+    */
     var list = document.getElementById('droplist');
-    let url = getAPIBaseURL()+'/overviewlistload/';
+    var input = document.getElementById('search_text');
+    let url = getAPIBaseURL()+'/listload/';
+    url+='?title='+input.value
 
     fetch(url,{method:'get'})
     .then((response) => response.json())
@@ -121,18 +128,19 @@ function initialize() {
         let listBody='';
         for(i=0; i<movies.length; i++){
             movie=movies[i];
-            //listBody+='<option value=\''+movie['title']+' ('+movie['release_date']+') [id:'+movie['id']+']\'>';
             listBody+='<option value=\''+movie['id']+'\'>'+movie['title']+' ('+movie['release_date']+')</option>';
         }
         list.innerHTML=listBody
     })
-    //var list = document.getElementById('droplist');
-    //list.addEventListener('click',loadlist);
-    //list.onclick = loadlist;
-    //var random = document.getElementById('random_checkbox');
-    //random.onclick=random_filters;
-    //var search = document.getElementById('search_text');
-    //search.onkeyup= droplist;
+}
+
+function initialize() {
+    var button = document.getElementById('submission');
+    button.onclick = onButtonPress;
+
+    //Each time a key is released in either input, the corresponding datalist is updated
+    var input = document.getElementById('search_text');
+    input.onkeyup = updateList;
 }
 
 // This causes initialization to wait until after the HTML page and its

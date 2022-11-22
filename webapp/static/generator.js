@@ -1,5 +1,5 @@
 /* 
-    generator.js
+    popularity.js
     Aaron Bronstone/Jack Owens
     For CS257 Software Design, Carleton College Fall 2022
 */
@@ -10,24 +10,51 @@ function getAPIBaseURL(){
 }
 
 function onButtonPress(){
-    
+    /*
+         Submits the following URL to the API:
+            getAPIBaseURL()+'/generatorresults/?filterOne=&inputOne=&filterTwo=&inputTwo=&filterThree=&inputThree=&previoustitle='
 
-
+        Updates each result element with its corresponding value returned by the API JSON object, including:
+            -Movie Title (large display)
+            -Tagline (displayed under title)
+            -Overview (displayed in colored paragraph)
+            -Director (table)
+            -Collection (table, not available for some)
+            -Keywords (table)
+            -Genres (table)
+            -Popularity (table)
+            -Link (table)
+            -Language (table)
+            -Production Company (table)
+            -Production Countries (table)
+            -Release Date (table)
+            -Revenue (table)
+            -Budget (table)
+            -Status (table)
+            -Rating (table, not available for some)
+            -Cast (table)
+            -Crew (table)
+    */
     let url = getAPIBaseURL()+'/generatorresults/';
+    let filterOne = document.getElementById('filterone').value;
+    let inputOne = document.getElementById('firstinput').value;
+    let filterTwo = document.getElementById('filtertwo').value;
+    let inputTwo = document.getElementById('secondinput').value;
+    let filterThree = document.getElementById('filterthree').value;
+    let inputThree = document.getElementById('thirdinput').value;
+
+    previousTitle = document.getElementById('title');
+
+    url+='?';
+    url+='filterOne='+filterOne+'&inputOne='+inputOne+'&filterTwo='+filterTwo+'&inputTwo='+inputTwo+'&filterThree='+filterThree+'&inputThree='+inputThree+'&previoustitle='+previousTitle.innerHTML;
 
     fetch(url,{method:'get'})
     .then((response) => response.json())
     .then(function(movies){
-        let listBody = '';
         movie=movies[0];
-        /*for(let i=0; i<movies.length; i++){
-            let movie = movies[i];
-            title.innerHTML=movie['title'];
-        }
-        */
         title = document.getElementById('title');
         title.innerHTML=movie['title'];
-        //console.log(movie['tagline']);
+        
         tagline = document.getElementById('tagline');
         if(movie['tagline']!=null){
             tagline.innerHTML='<h4><center>'+movie['tagline']+'</center></h4>';
@@ -40,6 +67,9 @@ function onButtonPress(){
 
         director = document.getElementById('director');
         director.innerHTML = movie['director'];
+
+        collection = document.getElementById('collection');
+        collection.innerHTML = movie['collection'];
 
         cast = document.getElementById('cast');
         cast.innerHTML = movie['actors'];
@@ -83,10 +113,6 @@ function onButtonPress(){
 
         rating = document.getElementById('rating');
         rating.innerHTML=parseFloat(movie['rating']);
-
-
-
-        //results.innerHTML=listBody;
     })
     .catch(function(error) {
         console.log(error);

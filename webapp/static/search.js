@@ -13,23 +13,23 @@ function getAPIBaseURL(){
 
 
 function onSubmitPress() {
-    const criteria = ["title","director","keyword","collection","cast","crew","productioncompany","genre","languagedroplist","country","releasedate"];
+    /*
+        Submits the following URL to the API:
+            getAPIBaseURL()+'/searchresults/?title=&director=&keyword=&collection=&cast=&crew=&productioncompany=&genre=&languagedroplist=&country=&release-date-before=&release-date-after=&ratingbox=&released=&adult='
+
+        Updates the 'results' HTML element with a list of IMDB links, with text changed to the movie title and release year, all of which returned by the API.
+    */
+    const criteria = ["title","director","keyword","collection","cast","crew","productioncompany","genre","languagedroplist","country","release-date-before","release-date-after"];
     var results = document.getElementById("result-list");
     let url = getAPIBaseURL() + '/searchresults/';
-    //var first = document.getElementById(criteria[0]);
-    //results.innerHTML=criteria[1];
     results.innerHTML='';
     url+='?';
     for(let i=0; i<criteria.length; i++){
-        var current = document.getElementById(criteria[i]);
-        /*var name = current.getAttribute("name");
-        if(current.value!=""){
-            results.innerHTML+='<li>'+name+": "+current.value+'</li>\n';
-        }
-        */
+        var currentCriteria = document.getElementById(criteria[i]);
+        
         url+=criteria[i]+'=';
-        if(current){
-            url+=current.value;
+        if(currentCriteria){
+            url+=currentCriteria.value;
         }
         url+='&';
     }
@@ -41,7 +41,6 @@ function onSubmitPress() {
         url+='&rating='+rating.value;
     }
     var released = document.querySelector('#released');
-    //results.innerHTML+='<li>Released: '+released.checked+"</li>";
     url+='&released='
     if(released.checked){
         url+=released.value;
@@ -51,15 +50,6 @@ function onSubmitPress() {
     if(adult.checked){
         url+=adult.value;
     }
-    //results.innerHTML+='<li>Adult: '+adult.checked+"</li>";
-
-
-
-    /*var title = document.getElementById('title')
-    if(title){
-        url+='?title='+title.value;
-    }
-    */
    results.innerHTML='Loading...';
 
     fetch(url,{method:'get'})
@@ -69,9 +59,7 @@ function onSubmitPress() {
         results.innerHTML+='test';
         for(let i=0; i<movies.length; i++){
             let movie = movies[i];
-            //let url = 'http://127.0.0.1/api/overviewresults?search_text='+movie['id']+'&randomizer=False&selector=';
-            listBody += '<li><a href='+movie['imdb_link']+'/ target="_blank">'+movie['title']+'....ID: '+movie['id']+', release year: '+movie['release_date']+'</a></li>';
-            //listBody += '<li><a href="'+url+'" target="_blank">ID: '+movie['id']+', title: '+movie['title']+', release date: '+movie['release_date']+'</a></li>';
+            listBody += '<li><a href='+movie['imdb_link']+'/ target="_blank">'+movie['title']+' ('+movie['release_date']+')</a></li>';
         }
         results.innerHTML=listBody;
     })
@@ -84,6 +72,10 @@ function initialize() {
     var button = document.getElementById('submission');
     button.onclick = onSubmitPress;
 
+    /*
+        The languages provided in the original dataset are only two letters long. Therefore, we thought it would be best to have a droplist of every language
+        so the user does not type the full language name 
+    */
     var list = document.getElementById('droplist');
         let url = getAPIBaseURL()+'/searchlanguageload/';
 
@@ -93,8 +85,7 @@ function initialize() {
             let listBody='';
             for(i=0; i<languages.length; i++){
                 language=languages[i];
-                //listBody+='<option value=\''+movie['title']+' ('+movie['release_date']+') [id:'+movie['id']+']\'>';
-                listBody+='<option value=\''+language['id']+'\'>'+language['name']+'</option>';
+                listBody+='<option value=\''+language['name']+'\'>'+language['name']+'</option>';
             }
             list.innerHTML=listBody
         })

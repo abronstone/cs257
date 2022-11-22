@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebApp: Generator</title>
-    <link rel="stylesheet" href="webapp.css" type="text/css" />
+    <title>GENERATOR: InfoVideo</title>
     <link rel="stylesheet" href="static/webapp.css" type="text/css" />
-    <link rel="icon" href="img/favicon.ico" type="image/png">
+    <link rel="icon" href="static/slate.png" type="image/png">
     <script type="text/javascript" src="static/generator.js"></script>
 </head>
 <body>
     <div class="dropdown">
-        <button class="dropbtn"><strong>RANDOM MOVIE GENERATOR</strong></button>
+        <button class="dropbtn"><strong>MOVIE GENERATOR</strong></button>
         <div class="dropdown-content">
           <a href="http://127.0.0.1:5000/movies">Search</a>
           <a href="http://127.0.0.1:5000/overviews">Overviews</a>
-          <a href="http://127.0.0.1:5000/generator">Random Movie Generator</a>
+          <a href="http://127.0.0.1:5000/generators">Movie Generator</a>
           <a href="http://127.0.0.1:5000/comparison">Comparison</a>
         </div>
     </div>
@@ -25,13 +24,54 @@
     </h1>
     
     <br><br><br>
-
-    <!--<label for="randomizer">Get me a random movie!</label>
-    <input name="" type="checkbox" id="random_checkbox" onclick="random_filters()">-->
+    <div class="description"><strong>Generate a random movie!</strong><br><br>Select out any of the <u>optional</u> filters below, and press submit to generator a random movie!</div>
 
     <div id="filter">
-        <label>Get a Movie: </label>
+        <label>Get a movie: </label>
             <button id="submission">Submit</button>
+        <br><br>
+        <label>Filter #1: </label>
+        <select id="filterone">
+            <option value=""></option>
+            <option value="keywords">Keyword</option>
+            <option value="directors">Director</option>
+            <option value="collections">Collection</option>
+            <option value="genres">Genre</option>
+            <option value="languages">Language (two letter)</option>
+            <option value="production_companies">Prod.Company</option>
+            <option value="countries">Prod.Country</option>
+            <option value="actors">Actor</option>
+            <option value="crew">Crew</option>
+        </select>
+        <input id="firstinput" type="text">
+        <br><br>
+        <label>Filter #2: </label>
+        <select id="filtertwo">
+            <option value=""></option>
+            <option value="keywords">Keyword</option>
+            <option value="directors">Director</option>
+            <option value="languages">Language (two letter)</option>
+            <option value="genres">Genre</option>
+            <option value="production_companies">Prod.Company</option>
+            <option value="countries">Prod.Country</option>
+            <option value="actors">Actor</option>
+            <option value="crew">Crew</option>
+        </select>
+        <input id="secondinput" type="text">
+        <br><br>
+        <label>Filter #3: </label>
+        <select id="filterthree">
+            <option value=""></option>
+            <option value="keywords">Keyword</option>
+            <option value="directors">Director</option>
+            <option value="languages">Language (two letter)</option>
+            <option value="genres">Genre</option>
+            <option value="production_companies">Prod.Company</option>
+            <option value="countries">Prod.Country</option>
+            <option value="actors">Actor</option>
+            <option value="crew">Crew</option>
+        </select>
+        <input id="thirdinput" type="text">
     </div>
     <h3 id="title" style="background-color:deepskyblue;font-size:30px;">[movie title]</h3>
     <div id="tagline">
@@ -46,10 +86,15 @@
         </p>
     </div>
     <table id="table">
-        <tr class="gray">
+        <tr class="white">
             <th>Director</th>
             <td id="director">[insert]</td>
         </tr>
+        <tr class="gray">
+            <th>Collection</th>
+            <td id="collection">[insert]</td>
+        </tr>
+        <tr class="white">
             <th>Keywords</th>
             <td id="keywords">[insert]</td>
         </tr>
@@ -57,7 +102,7 @@
             <th>Genres</th>
             <td id="genres">[insert]</td>
         </tr>
-        <tr>
+        <tr class="white">
             <th>Popularity</th>
             <td id="popularity">[insert]</td>
         </tr>
@@ -65,7 +110,7 @@
             <th>Link</th>
             <td id="link">[insert]</td>
         </tr>
-        <tr>
+        <tr class="white">
             <th>Language</th>
             <td id="language">[insert]</td>
         </tr>
@@ -73,7 +118,7 @@
             <th>Production Company</th>
             <td id="productioncompany">[insert]</td>
         </tr>
-        <tr>
+        <tr class="white">
             <th>Production Countries</th>
             <td id="productioncountries">[insert]</td>
         </tr>
@@ -81,7 +126,7 @@
             <th>Release Date</th>
             <td id="releasedate">[insert]</td>
         </tr>
-        <tr>
+        <tr class="white">
             <th>Revenue</th>
             <td id="revenue">[insert]</td>
         </tr>
@@ -89,7 +134,7 @@
             <th>Budget</th>
             <td id="budget">[insert]</td>
         </tr>
-        <tr>
+        <tr class="white">
             <th>Status (as of 2017)</th>
             <td id="status">[insert]</td>
         </tr>
@@ -97,17 +142,21 @@
             <th>Rating</th>
             <td id="rating">[insert]</td>
         </tr>
-        <tr>
+        <tr class="white">
             <th>Cast</th>
             <td id="cast">[insert]</td>
         </tr>
-        <tr>
+        <tr class="gray">
             <th>Crew</th>
             <td id="crew">[insert]</td>
         </tr>
         <tr>
 
     </table>
+    <br>
+    <div class="designers">
+        Aaron Bronstone and Jack Owens
+    </div>
 
 
     

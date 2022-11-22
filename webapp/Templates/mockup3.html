@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebApp:Overviews</title>
+    <title>OVERVIEWS: InfoVideo</title>
     <link rel="stylesheet" href="webapp.css" type="text/css" />
     <link rel="stylesheet" href="static/webapp.css" type="text/css" />
-    <link rel="icon" href="img/favicon.ico" type="image/png">
+    <link rel="icon" href="static/slate.png" type="image/png">
     <script type="text/javascript" src="overview.js"></script>
     <script type="text/javascript" src="static/overview.js"></script>
 </head>
@@ -17,7 +17,7 @@
         <div class="dropdown-content">
           <a href="http://127.0.0.1:5000/movies">Search</a>
           <a href="http://127.0.0.1:5000/overviews">Overviews</a>
-          <a href="http://127.0.0.1:5000/generator">Random Movie Generator</a>
+          <a href="http://127.0.0.1:5000/generator">Movie Generator</a>
           <a href="http://127.0.0.1:5000/comparison">Comparison</a>
         </div>
     </div>
@@ -26,18 +26,14 @@
     </h1>
     
     <br><br><br>
-
-    <!--<label for="randomizer">Get me a random movie!</label>
-    <input name="" type="checkbox" id="random_checkbox" onclick="random_filters()">-->
-
+    <div class="description"><strong>Get an overview!</strong><br><br>Input a movie name, select from the dropdown list, and get a detailed overview!<br><br>
+    <div style="font-size:15px"><strong>Note:</strong> the <u>ID</u> displayed above each movie in the dropdown is used for the input. <br>After typing, please click on your desired movie from the dropdown list to get the correct input</div>
+    </div>
     <div id="filter">
-        <!--<label for="search">Movie Title:</label>
-        <input type="text" id="search_text">     
-        <button id="submission">Submit</button>-->
         <label>Movie Id/Title:
             <input list="droplist" id="search_text" name="searchbar" /></label>
             <datalist id="droplist">
-              <option value="item">
+              
             </datalist>
             <button id="submission">Submit</button>
     </div>
@@ -54,10 +50,15 @@
         </p>
     </div>
     <table id="table">
-        <tr class="gray">
+        <tr>
             <th>Director</th>
             <td id="director">[insert]</td>
         </tr>
+        <tr class="gray">
+            <th>Collection</th>
+            <td id="collection">[insert]</td>
+        </tr>
+        <tr>
             <th>Keywords</th>
             <td id="keywords">[insert]</td>
         </tr>
@@ -107,15 +108,19 @@
         </tr>
         <tr>
             <th>Cast</th>
-            <td id="cast">[insert]</td>
+            <td id="cast" style="text-align:left; padding-left:5%;padding-right:5%">[insert]</td>
         </tr>
-        <tr>
+        <tr class="gray">
             <th>Crew</th>
-            <td id="crew">[insert]</td>
+            <td id="crew" style="text-align:left; padding-left:5%;padding-right:5%">[insert]</td>
         </tr>
         <tr>
 
     </table>
+    <br>
+    <div class="designers">
+        Aaron Bronstone and Jack Owens
+    </div>
 
 
     

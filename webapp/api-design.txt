@@ -1,6 +1,11 @@
 Aaron Bronstone and Jack Owens
+api-design.txt
 
-----------------------------------------------------------
+
+------------------------
+------------------------
+------------------------
+
 
 REQUEST: /searchresults
 
@@ -16,7 +21,8 @@ GET parameters:
 	-language (Optional, default='') -- returns movies whose original language contains input, case insensitive
 	-country_of_origin (Optional, default='') -- returns movies whose country of origin contains input, case insensitive
 	-rating (Optional?, default=3) -- returns movies whose rating contains input, case insensitive
-	-release_date (Optinal, default='') -- returns movies whose release date matches input, case insensitive
+	-release_date_before (Optinal, default='') -- returns movies whose release date matches input, case insensitive
+	-release_date_after (Optinal, default='') -- returns movies whose release date matches input, case insensitive
 	-show_unreleased (Optional,default=false) -- shows unreleased as well as released movies
 	-filter_adult (Optional,default=false) -- shows adult movies as well as non-adult movies
 
@@ -25,13 +31,18 @@ RESPONSE:
 	-id number
 	-Movie title
 	-IMDB link
+	-release year
 
 EXAMPLES:
-	/authors?title=Man&genre=action&keyword=superhero
+	/searchresults/?title=Man&genre=action&keyword=superhero
 
 	[{'id'=___,'title'=superman'},{},...]	
 
+
 ------------------------
+------------------------
+------------------------
+
 
 REQUEST: /searchlanguageload/
 
@@ -40,8 +51,13 @@ GET parameters: none
 RESPONSE:
 	A JSON list of dictionaries with language ID's and language names/abbreviations. Used just for loading the list of languages for the 'Language' datalist filter
 
+
 ------------------------
-REQUEST: /overviewresults
+------------------------
+------------------------
+
+
+REQUEST: /overviewresults/
 
 GET parameter:
 	-ID (Required) -- returns all movie data for the inputted movie id
@@ -59,55 +75,77 @@ RESPONSE:
 		-etc...
 
 EXAMPLE:
-	-http://videoapp/overview?title=Toy-Story
-	-http://videoapp/overview?randomizer=true&data_type=keyword&input=toy
+	-/overviewresults/?id=862
 
 	{False,"{'id': 10194, 'name': 'Toy Story Collection', 'poster_path': '/7G9915LfUQ2lVfwMEEhDsn3kT4B.jpg', 'backdrop_path': '/9FBwqcd9IRruEDUrTdcaafOMKUq.jpg'}",30000000,"[{'id': 16, 'name': 'Animation'}, {'id': 35, 'name': 'Comedy'}, {'id': 10751, 'name': 'Family'}]",http://toystory.disney.com/toy-story,862,tt0114709,en,Toy Story,"Led by Woody, Andy's toys live happily in his room until Andy's birthday brings Buzz Lightyear onto the scene. Afraid of losing his place in Andy's heart, Woody plots against Buzz. But when circumstances separate Buzz and Woody from their owner, the duo eventually learns to put aside their differences.",21.946943,/rhIRbceoE9lR4veEXuwCC2wARtG.jpg,"[{'name': 'Pixar Animation Studios', 'id': 3}]","[{'iso_3166_1': 'US', 'name': 'United States of America'}]",1995-10-30,373554033,81.0,"[{'iso_639_1': 'en', 'name': 'English'}]",Released,,Toy Story,False,7.7,5415}
 
+
+------------------------
+------------------------
 ------------------------
 
-REQUEST: /overviewlistload/
 
-GET parameters: none
+REQUEST: /listload/
+
+GET parameters: 
+	-input (current)
 
 RESPONSE:
-	A JSON list of dictionaries with movie ID's, movie names, and release years. Used just for loading the list of movies for the 'search_text' datalist filter
+	A JSON list of dictionaries with movie ID's, movie names, and release years. Used just for dynamically updating the list of movies displayed under any datalists used in OVERVIEWS and COMPARISON
+
 
 ------------------------
+------------------------
+------------------------
 
-REQUEST: /popularityresults
+
+REQUEST: /generatorresults/
 
 GET parameters:
-	-Object [movies,directors,actors,etc] (Required,default='movies')
-	-Sorting value [revenue,budget,popularity,average rating] (Required,default='popularity')
-	-First __ Values (Optional,default='10')
-	-Descending (Optional,default='true')
+	-filterOne (Optional,default='')
+	-inputOne (Optional,default='')
+	-filterTwo (Optional,default='')
+	-inputTwo (Optional,default='')
+	-filterThree (Optional,default='')
+	-inputThree (Optional,default='')
+	-previousTitle (Required,default='')
 
 RESPONSE:
-	A JSON list of dictionaries, containing the input object and the sorting value
+	-A JSON dictionary with ALL movie metadata:
+		-movie id
+		-movie title
+		-overview
+		-genre
+		-director
+		-rating
+		-popularity
+		-language
+		-etc...
 
-EXAMPLE: /popularity?object=movies&value=popularity
+
+EXAMPLE: /api/generatorresults/?filterOne=keywords&inputOne=space&filterTwo=production_companies&inputTwo=marvel&filterThree=actors&inputThree=chris&previoustitle=Guardians%20of%20the%20Galaxy
 
 	[
-		{"title":"Minions","popularity":547.48},
-		{"title":"Wonder Woman","popularity":294.36},
-		{"title":"Beauty and the Beast","popularity":287.03},
-		{"title":"Baby Driver","popularity":228}
-		...
+		{'id':283995,'title':'Guardians of the Galaxy Vol.2','overview':......}
 	]
 
+
 ------------------------
-REQUEST: /comparisonresults
+------------------------
+------------------------
+
+
+REQUEST: /comparisonresults/
 
 GET parameters:
-	-Movie 1 (Required)
-	-Movie 2 (Required)
-	-Include metadata (Optional,default=false)
+	-firstmovie (Required)
+	-secondmovie (Required)
+	-detailed (Optional,default=false)
 
 RESPONSE:
-	Two JSON dictionaries, containing the id, title and valued metadata for both movies (popularity,revenue,budget,rating). If the 'detailed comparison' box is checked, then all the other data for the movies will be included.
+	Two JSON dictionaries, containing the id, title and valued metadata for both movies (popularity,revenue,budget,rating). If the 'detailed comparison' box is checked, then other data for the movies will be included.
 
-EXAMPLE: /comparison?movie1=toy-story&movie2=minions
+EXAMPLE: /comparisonesults/?movie1=toy-story&movie2=minions
 
 	[
 		{'id':862,'name':"Toy Story",'Popularity':21.94,'Revenue':3.74E+8,'Budget':3.0E+7,'Rating':___},
