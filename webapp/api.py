@@ -410,12 +410,15 @@ def create_random_id(previous_title,filters,inputs):
         x=f
         if f=='production_companies':
             x='companies'
+        else:
+            x='movies_'+f
         if f!='':
             if f=='collections':
-                selector_clause = selector_clause + ''','''+x
+                selector_clause = selector_clause + ''','''+f
+                where_clause = where_clause + ''' AND movies.collection_id=collections.collection_id AND collections.name ILIKE CONCAT('%%',%s,'%%')'''
             else:
-                selector_clause = selector_clause + ''',movies_'''+x+''','''+f
-            where_clause = where_clause + ''' AND movies.id=movies_'''+x+'''.movie_id AND movies_'''+x+'''.''' + table_linking_id_name[f] + '''='''+f+'''.id AND '''+f+'''.name ILIKE CONCAT('%%',%s,'%%')'''
+                selector_clause = selector_clause + ''','''+x+''','''+f
+                where_clause = where_clause + ''' AND movies.id='''+x+'''.movie_id AND '''+x+'''.''' + table_linking_id_name[f] + '''='''+f+'''.id AND '''+f+'''.name ILIKE CONCAT('%%',%s,'%%')'''
             arguments.append(inputs[num_clauses])
             num_clauses+=1
     query = '''SELECT movies.id FROM ''' + selector_clause + where_clause + ''' ORDER BY random() LIMIT 1;'''
